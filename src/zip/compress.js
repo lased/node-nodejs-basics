@@ -1,3 +1,12 @@
+import { createReadStream, createWriteStream } from "fs";
+import { createGzip } from "zlib";
+
 export const compress = async () => {
-    // Write your code here 
+  const filename = "./files/fileToCompress.txt";
+  const gzipFilename = "./files/archive.gz";
+  const writeStream = createWriteStream(gzipFilename);
+  const readStream = createReadStream(filename);
+  const gzip = createGzip();
+
+  readStream.pipe(gzip).pipe(writeStream);
 };
