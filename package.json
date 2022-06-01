@@ -12,7 +12,8 @@
     "streams:read": "node src/streams/index.js read ",
     "hash": "node src/hash/index.js",
     "zip": "node src/zip/index.js",
-    "fs": "node src/fs/index.js"
+    "fs": "node src/fs/index.js",
+    "cp": "node src/cp/index.js"
   },
   "repository": {
     "type": "git",
