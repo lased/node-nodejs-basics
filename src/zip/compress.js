@@ -12,7 +12,7 @@ export const compress = async () => {
   const readStream = createReadStream(join(__dirname, filename));
   const gzip = createGzip();
 
-  return pipeline(readStream, gzip, writeStream)
+  pipeline(readStream, gzip, writeStream)
     .then(() => {
       console.log(`\x1b[1;32mSuccess compress\x1b[0m`);
     })
