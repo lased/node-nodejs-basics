@@ -10,6 +10,6 @@ export const list = async () => {
     await access(pathToDIr, constants.F_OK);
     console.log(await readdir(pathToDIr));
   } catch {
-    throw new Error("FS operation failed");
+    console.log(new Error("FS operation failed"));
   }
 };

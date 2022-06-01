@@ -13,6 +13,6 @@ export const read = async () => {
     await access(pathToFile, constants.F_OK);
     console.log(await readFile(pathToFile, { encoding: "utf-8" }));
   } catch {
-    throw new Error("FS operation failed");
+    console.log(new Error("FS operation failed"));
   }
 };

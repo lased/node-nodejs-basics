@@ -19,5 +19,5 @@ export const copy = async () => {
     return cp(pathToFiles, pathToCopyFiles, { recursive: true });
   }
 
-  throw new Error("FS operation failed");
+  console.log(new Error("FS operation failed"));
 };

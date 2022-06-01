@@ -16,5 +16,5 @@ export const create = async () => {
     return writeFile(pathToFile, content);
   }
 
-  throw new Error("FS operation failed");
+  console.log(new Error("FS operation failed"));
 };

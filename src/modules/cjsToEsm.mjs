@@ -1,22 +1,23 @@
 // Можно JSON импортировать используя --experimental-json-modules или через readFile
 import { createServer as createServerHttp } from "http";
+import { createRequire } from "module";
 import { release, version } from "os";
 import { fileURLToPath } from "url";
-import { readFileSync } from "fs";
 import * as path from "path";
 
 import "./files/c.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
 const random = Math.random();
 
 let unknownObject;
 
 if (random > 0.5) {
-  unknownObject = JSON.parse(readFileSync("./files/a.json"));
+  unknownObject = require("./files/a.json");
 } else {
-  unknownObject = JSON.parse(readFileSync("./files/b.json"));
+  unknownObject = require("./files/b.json");
 }
 
 console.log(`Release ${release()}`);

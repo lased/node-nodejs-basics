@@ -11,7 +11,7 @@ export const rename = async () => {
   try {
     await access(pathToFile, constants.F_OK);
   } catch {
-    throw new Error("FS operation failed");
+    console.log(new Error("FS operation failed"));
   }
   try {
     await access(newPathToFile, constants.F_OK);
@@ -19,5 +19,5 @@ export const rename = async () => {
     return renameFile(pathToFile, newPathToFile);
   }
 
-  throw new Error("FS operation failed");
+  console.log(new Error("FS operation failed"));
 };

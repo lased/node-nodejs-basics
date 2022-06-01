@@ -13,6 +13,6 @@ export const remove = async () => {
     await access(pathToFile, constants.F_OK);
     await unlink(pathToFile);
   } catch {
-    throw new Error("FS operation failed");
+    console.log(new Error("FS operation failed"));
   }
 };
