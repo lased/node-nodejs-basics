@@ -12,9 +12,11 @@ export const transform = async () => {
         .slice(1)
         .join("");
 
-      callback(null, Buffer.from(reverseChunk + "\n"));
+      console.log("\x1b[1;33mReverse input:\x1b[0m");
+      callback(null, Buffer.from(reverseChunk + "\n\n"));
     },
   });
 
+  console.log("\x1b[1;34mStart your input:\x1b[0m");
   stdin.pipe(transform).pipe(stdout);
 };

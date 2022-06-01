@@ -7,7 +7,14 @@ export const read = async () => {
   const __filename = "files/fileToRead.txt";
   const readStream = createReadStream(join(__dirname, __filename));
 
-  readStream.on("data", (chunk) => {
-    process.stdout.write(chunk);
+  return new Promise((res) => {
+    readStream
+      .on("data", (chunk) => {
+        process.stdout.write(chunk);
+      })
+      .on("close", () => res())
+      .on("error", (error) => {
+        console.log(`\x1b[1;31m${error.message}\x1b[0m`);
+      });
   });
 };
