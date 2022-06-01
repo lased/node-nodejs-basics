@@ -9,15 +9,13 @@ export const rename = async () => {
   const newPathToFile = join(currentDir, "files/properFilename.md");
 
   try {
-    await access(pathToFile, constants.F_OK);
-  } catch {
-    console.log(new Error("FS operation failed"));
-  }
-  try {
     await access(newPathToFile, constants.F_OK);
+    console.log(new Error("FS operation failed"));
   } catch {
-    return renameFile(pathToFile, newPathToFile);
+    try {
+      await renameFile(pathToFile, newPathToFile);
+    } catch (error) {
+      console.log(new Error("FS operation failed"));
+    }
   }
-
-  console.log(new Error("FS operation failed"));
 };

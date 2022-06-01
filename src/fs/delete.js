@@ -1,16 +1,12 @@
-import { unlink, access } from "fs/promises";
+import { unlink } from "fs/promises";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import { constants } from "fs";
 
 export const remove = async () => {
-  const pathToFile = join(
-    dirname(fileURLToPath(import.meta.url)),
-    "files/fileToRemove.txt"
-  );
+  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const pathToFile = join(__dirname, "files/fileToRemove.txt");
 
   try {
-    await access(pathToFile, constants.F_OK);
     await unlink(pathToFile);
   } catch {
     console.log(new Error("FS operation failed"));

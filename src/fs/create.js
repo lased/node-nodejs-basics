@@ -4,10 +4,8 @@ import { fileURLToPath } from "url";
 import { constants } from "fs";
 
 export const create = async () => {
-  const pathToFile = join(
-    dirname(fileURLToPath(import.meta.url)),
-    "files/fresh.txt"
-  );
+  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const pathToFile = join(__dirname, "files/fresh.txt");
   const content = "I am fresh and young";
 
   try {
