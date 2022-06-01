@@ -1,4 +1,3 @@
-// Можно JSON импортировать используя --experimental-json-modules или через readFile
 import { createServer as createServerHttp } from "http";
 import { createRequire } from "module";
 import { release, version } from "os";
