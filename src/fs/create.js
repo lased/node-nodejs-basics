@@ -1,7 +1,6 @@
-import { writeFile, access } from "fs/promises";
+import { writeFile } from "fs/promises";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import { constants } from "fs";
 
 export const create = async () => {
   const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -9,10 +8,8 @@ export const create = async () => {
   const content = "I am fresh and young";
 
   try {
-    await access(pathToFile, constants.F_OK);
+    await writeFile(pathToFile, content, { flag: "wx" });
   } catch {
-    return writeFile(pathToFile, content);
+    console.log(new Error("FS operation failed"));
   }
-
-  console.log(new Error("FS operation failed"));
 };

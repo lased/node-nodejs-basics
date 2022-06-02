@@ -12,7 +12,7 @@ export const decompress = async () => {
   const writeStream = createWriteStream(join(__dirname, filename));
   const ungzip = createGunzip();
 
-  pipeline(readStream, ungzip, writeStream)
+  return pipeline(readStream, ungzip, writeStream)
     .then(() => {
       console.log(`\x1b[1;32mSuccess decompress\x1b[0m`);
     })

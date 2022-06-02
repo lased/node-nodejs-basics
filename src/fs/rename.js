@@ -1,21 +1,23 @@
-import { rename as renameFile, access } from "fs/promises";
+import { rename as renameFile, readdir } from "fs/promises";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import { constants } from "fs";
 
 export const rename = async () => {
-  const currentDir = dirname(fileURLToPath(import.meta.url));
-  const pathToFile = join(currentDir, "files/wrongFilename.txt");
-  const newPathToFile = join(currentDir, "files/properFilename.md");
+  const filesDir = join(dirname(fileURLToPath(import.meta.url)), "files");
+  const filenameFrom = "wrongFilename.txt";
+  const filenameTo = "properFilename.md";
+  const newPathToFile = join(filesDir, filenameTo);
+  const pathToFile = join(filesDir, filenameFrom);
 
   try {
-    await access(newPathToFile, constants.F_OK);
-    console.log(new Error("FS operation failed"));
-  } catch {
-    try {
-      await renameFile(pathToFile, newPathToFile);
-    } catch (error) {
-      console.log(new Error("FS operation failed"));
+    const files = await readdir(filesDir);
+
+    if (files.includes(filenameFrom) && !files.includes(filenameTo)) {
+      return renameFile(pathToFile, newPathToFile);
     }
+
+    throw new Error("Oops");
+  } catch {
+    console.log(new Error("FS operation failed"));
   }
 };
