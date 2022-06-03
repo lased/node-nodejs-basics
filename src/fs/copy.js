@@ -1,7 +1,7 @@
 import { mkdir, stat, readdir, copyFile } from "fs/promises";
 import { join } from "path";
 
-import { exists, pathToDir } from "./shared.js";
+import { exists, pathToDir } from "../shared.js";
 
 const recursiveCopy = async (pathToSource, pathToDest) => {
   const files = await readdir(pathToSource);

@@ -1,14 +1,12 @@
 import { rename as renameFile } from "fs/promises";
 import { join } from "path";
 
-import { exists, pathToDir } from "./shared.js";
+import { exists, pathToDir } from "../shared.js";
 
 export const rename = async () => {
   const filesDir = join(pathToDir(import.meta.url), "files");
-  const filenameFrom = "wrongFilename.txt";
-  const filenameTo = "properFilename.md";
-  const newPathToFile = join(filesDir, filenameTo);
-  const pathToFile = join(filesDir, filenameFrom);
+  const newPathToFile = join(filesDir, "properFilename.md");
+  const pathToFile = join(filesDir, "wrongFilename.txt");
 
   try {
     const isNewPathToFile = await exists(newPathToFile);

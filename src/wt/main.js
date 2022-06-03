@@ -1,11 +1,12 @@
 import { Worker } from "worker_threads";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { join } from "path";
 import { cpus } from "os";
+
+import { pathToDir } from "../shared.js";
 
 const workerPromise = (index, workerData) => () =>
   new Promise((resolve) => {
-    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const __dirname = pathToDir(import.meta.url);
     const worker = new Worker(join(__dirname, "./worker.js"), {
       workerData,
     });
@@ -18,8 +19,8 @@ const workerPromise = (index, workerData) => () =>
         }mWorker #${index}\x1b[0m is online with data: ${workerData}`
       );
     });
-    worker.on("error", () => {
-      console.log(`${workerId} error calculate data: ${workerData}`);
+    worker.on("error", (error) => {
+      console.log(`${workerId}\x1b[31m error: ${error.message}\x1b[0m`);
       resolve({ data: null, status: "error" });
     });
     worker.on("message", (result) => {

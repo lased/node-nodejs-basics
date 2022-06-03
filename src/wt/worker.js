@@ -7,7 +7,7 @@ export const nthFibonacci = (n) =>
 export const sendResult = (number) => {
   const result = nthFibonacci(number);
 
-  if (workerData === 11) throw new Error();
+  if (workerData === 11) throw new Error('Oops, i am an error in 2 thread)))');
 
   return result;
 };

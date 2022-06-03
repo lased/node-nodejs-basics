@@ -1,7 +1,7 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 
-import { pathToDir, exists } from "./shared.js";
+import { pathToDir, exists } from "../shared.js";
 
 export const read = async () => {
   const pathToFile = join(pathToDir(import.meta.url), "files/fileToRead.txt");
@@ -13,7 +13,7 @@ export const read = async () => {
       throw new Error("FS operation failed");
     }
 
-    return readFile(pathToFile, { encoding: "utf-8" });
+    return await readFile(pathToFile, { encoding: "utf-8" });
   } catch (error) {
     console.error(error.message);
   }

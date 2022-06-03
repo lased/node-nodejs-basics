@@ -1,5 +1,4 @@
 import { Transform } from "stream";
-import { Buffer } from "buffer";
 
 export const transform = async () => {
   const { stdin, stdout } = process;
@@ -13,7 +12,7 @@ export const transform = async () => {
         .join("");
 
       console.log("\x1b[1;33mReverse input:\x1b[0m");
-      callback(null, Buffer.from(reverseChunk + "\n\n"));
+      callback(null, reverseChunk + "\n\n");
     },
   });
 

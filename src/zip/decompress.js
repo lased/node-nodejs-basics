@@ -1,11 +1,12 @@
 import { createReadStream, createWriteStream } from "fs";
 import { pipeline } from "stream/promises";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
 import { createGunzip } from "zlib";
+import { join } from "path";
+
+import { pathToDir } from "../shared.js";
 
 export const decompress = async () => {
-  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const __dirname = pathToDir(import.meta.url);
   const filename = "files/fileToCompress.txt";
   const gzipFilename = "files/archive.gz";
   const readStream = createReadStream(join(__dirname, gzipFilename));

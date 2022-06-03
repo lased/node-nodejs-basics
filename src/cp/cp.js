@@ -1,12 +1,10 @@
 import { fork } from "child_process";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { join } from "path";
+
+import { pathToDir } from "../shared.js";
 
 export const spawnChildProcess = async (args) => {
-  const pathToScript = join(
-    dirname(fileURLToPath(import.meta.url)),
-    "files/script.js"
-  );
+  const pathToScript = join(pathToDir(import.meta.url), "files/script.js");
   const childProcess = fork(pathToScript, args, { silent: true });
 
   childProcess
@@ -23,7 +21,7 @@ export const spawnChildProcess = async (args) => {
   childProcess.stdout.pipe(process.stdout);
   childProcess.stdout.on("data", (chunk) => {
     console.log(
-      `\x1b[1;32m(Master)\x1b[0m Message from child process: \x1b[0m${chunk}\x1b[0m`
+      `\x1b[1;32m(Master)\x1b[0m Message from child process: ${chunk}`
     );
   });
   process.stdin.pipe(childProcess.stdin);

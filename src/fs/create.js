@@ -1,7 +1,7 @@
 import { writeFile } from "fs/promises";
 import { join } from "path";
 
-import { exists, pathToDir } from "./shared.js";
+import { exists, pathToDir } from "../shared.js";
 
 export const create = async () => {
   const __dirname = pathToDir(import.meta.url);
