@@ -1,13 +1,20 @@
 import { readdir } from "fs/promises";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { join } from "path";
+
+import { exists, pathToDir } from "./shared.js";
 
 export const list = async () => {
-  const pathToDir = join(dirname(fileURLToPath(import.meta.url)), "files");
+  const pathToFilesDir = join(pathToDir(import.meta.url), "files");
 
   try {
-    console.log(await readdir(pathToDir));
-  } catch {
-    console.log(new Error("FS operation failed"));
+    const isPathToFilesDir = await exists(pathToFilesDir);
+
+    if (!isPathToFilesDir) {
+      throw new Error("FS operation failed");
+    }
+
+    return readdir(pathToFilesDir);
+  } catch (error) {
+    console.error(error.message);
   }
 };

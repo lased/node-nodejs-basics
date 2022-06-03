@@ -1,15 +1,22 @@
 import { writeFile } from "fs/promises";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { join } from "path";
+
+import { exists, pathToDir } from "./shared.js";
 
 export const create = async () => {
-  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const __dirname = pathToDir(import.meta.url);
   const pathToFile = join(__dirname, "files/fresh.txt");
   const content = "I am fresh and young";
 
   try {
-    await writeFile(pathToFile, content, { flag: "wx" });
-  } catch {
-    console.log(new Error("FS operation failed"));
+    const isPathToFile = await exists(pathToFile);
+
+    if (isPathToFile) {
+      throw new Error("FS operation failed");
+    }
+
+    await writeFile(pathToFile, content);
+  } catch (error) {
+    console.error(error.message);
   }
 };

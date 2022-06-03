@@ -22,9 +22,9 @@ await copy();
 console.log("\x1b[1;33mFinish copy.js...\x1b[0m\n");
 
 console.log("\x1b[1;33mStart list.js...\x1b[0m");
-await list();
+console.log(await list());
 console.log("\x1b[1;33mFinish list.js...\x1b[0m\n");
 
 console.log("\x1b[1;33mStart read.js...\x1b[0m");
-await read();
+console.log(await read());
 console.log("\x1b[1;33mFinish read.js...\x1b[0m\n");

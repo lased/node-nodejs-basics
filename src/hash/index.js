@@ -1,3 +1,3 @@
 import { calculateHash } from "./calcHash.js";
 
-await calculateHash();
+console.log(await calculateHash());

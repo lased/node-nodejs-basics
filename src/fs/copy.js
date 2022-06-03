@@ -1,6 +1,7 @@
-import { mkdir, stat, readdir, copyFile, access } from "fs/promises";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { mkdir, stat, readdir, copyFile } from "fs/promises";
+import { join } from "path";
+
+import { exists, pathToDir } from "./shared.js";
 
 const recursiveCopy = async (pathToSource, pathToDest) => {
   const files = await readdir(pathToSource);
@@ -20,15 +21,21 @@ const recursiveCopy = async (pathToSource, pathToDest) => {
 };
 
 export const copy = async () => {
-  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const __dirname = pathToDir(import.meta.url);
   const pathToDest = join(__dirname, "files_copy");
   const pathToSource = join(__dirname, "files");
 
   try {
-    await access(pathToSource);
+    const isPathToDest = await exists(pathToDest);
+    const isPathToSource = await exists(pathToSource);
+
+    if (!isPathToSource || isPathToDest) {
+      throw new Error("FS operation failed");
+    }
+
     await mkdir(pathToDest);
     await recursiveCopy(pathToSource, pathToDest);
-  } catch {
-    console.log(new Error("FS operation failed"));
+  } catch (error) {
+    console.error(error.message);
   }
 };
