@@ -10,6 +10,14 @@ export const error = (text) => {
   return getColoredText(text, TERMINAL_COLOR.RED, TERMINAL_STYLE.BOLD);
 };
 
+export const success = (text) => {
+  return getColoredText(text, TERMINAL_COLOR.GREEN, TERMINAL_STYLE.BOLD);
+};
+
+export const warning = (text) => {
+  return getColoredText(text, TERMINAL_COLOR.YELLOW, TERMINAL_STYLE.BOLD);
+};
+
 export const TERMINAL_STYLE = {
   NORMAL: 0,
   BOLD: 1,
