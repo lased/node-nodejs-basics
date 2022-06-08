@@ -1,3 +1,5 @@
+import { EOL } from "node:os";
+
 import { initialization } from "./commands/index.js";
 import { info, error } from "./color.js";
 import { parserArgv } from "./parser.js";
@@ -12,7 +14,7 @@ try {
   console.info(info(`Welcome to the File Manager, ${username}!`));
   process.on("SIGINT", () => process.exit());
   process.on("exit", () => {
-    console.info(info(`Thank you for using File Manager, ${username}!`));
+    console.info(info(`${EOL}Thank you for using File Manager, ${username}!`));
   });
   initialization();
 } catch (err) {

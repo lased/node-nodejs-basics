@@ -1,11 +1,17 @@
 import { createInterface } from "node:readline";
 import { EOL, homedir } from "node:os";
 
-import { error, getColoredText, TERMINAL_COLOR, warning } from "../color.js";
-import { pathToDir } from "../utils/index.js";
+import {
+  error,
+  getColoredText,
+  TERMINAL_COLOR,
+  TERMINAL_STYLE,
+  warning,
+} from "../color.js";
 import nwd from "./nwd/index.js";
+import os from "./os/index.js";
 
-const commands = { ...nwd };
+const commands = { ...nwd, ...os };
 
 const readline = createInterface({
   input: process.stdin,
@@ -17,7 +23,8 @@ export const initialization = () => {
   readline.question(
     warning("You are currently in ") +
       getColoredText(pathToWorkdir, TERMINAL_COLOR.GREEN) +
-      warning(`, enter your command:${EOL}`),
+      warning(`, enter your command:${EOL}`) +
+      getColoredText("> ", TERMINAL_COLOR.WHITE, TERMINAL_STYLE.BOLD),
     async (command) => {
       command = command.trim();
 
@@ -38,7 +45,7 @@ export const initialization = () => {
           pathToWorkdir = result.workdir;
         }
 
-        if (result.data) {
+        if (result?.data) {
           console[result.outputType || "info"](result.data);
         }
       } catch (err) {

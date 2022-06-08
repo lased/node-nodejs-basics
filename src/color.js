@@ -1,5 +1,5 @@
 export const getColoredText = (text, color, style = 0) => {
-  return `\x1b[${style};${color}m${text}\x1b[0m`;
+  return `\x1B[${style};${color}m${text}\x1B[0m`;
 };
 
 export const info = (text) => {
