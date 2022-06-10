@@ -1,8 +1,8 @@
 import { EOL } from "node:os";
 
 import { initialization } from "./commands/index.js";
-import { info, error } from "./color.js";
-import { parserArgv } from "./parser.js";
+import { info, error } from "./utils/color.js";
+import { parserArgv } from "./utils/parser.js";
 
 try {
   const { username } = parserArgv();

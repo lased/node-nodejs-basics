@@ -1,23 +1,14 @@
-import { join, isAbsolute, dirname } from "node:path";
-import { stat, access } from "node:fs/promises";
+import { access } from "node:fs/promises";
+
+import { unionPath } from "../../utils/fs.js";
 
 export const cd = async (workdir, [pathToDir]) => {
   try {
-    if (isAbsolute(pathToDir)) {
-      const isDir = (await stat(pathToDir)).isDirectory();
-
-      if (!isDir) {
-        pathToDir = dirname(pathToDir);
-      } else {
-        workdir = pathToDir;
-      }
-    } else {
-      workdir = join(workdir, pathToDir);
-    }
+    workdir = await unionPath(workdir, pathToDir);
 
     await access(workdir);
   } catch {
-    throw new Error("Operation failed");
+    throw new Error("cd: Operation failed");
   }
 
   return { workdir };

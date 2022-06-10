@@ -25,7 +25,7 @@ export const ls = async (workdir) => {
 
     data.push(...mapData.filter((item) => item));
   } catch {
-    throw new Error("Operation failed");
+    throw new Error("ls: Operation failed");
   }
 
   return { data, outputType: "table" };

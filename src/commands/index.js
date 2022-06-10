@@ -7,11 +7,12 @@ import {
   TERMINAL_COLOR,
   TERMINAL_STYLE,
   warning,
-} from "../color.js";
+} from "../utils/color.js";
 import nwd from "./nwd/index.js";
 import os from "./os/index.js";
+import fs from "./fs/index.js";
 
-const commands = { ...nwd, ...os };
+const commands = { ...nwd, ...os, ...fs };
 
 const readline = createInterface({
   input: process.stdin,
@@ -33,7 +34,9 @@ export const initialization = () => {
       }
 
       try {
-        const [operation, ...args] = command.split(" ");
+        const [operation, ...args] = command
+          .split(" ")
+          .map((arg) => arg.trim());
 
         if (!commands[operation]) {
           throw new Error("Invalid input");
