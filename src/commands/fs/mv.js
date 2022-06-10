@@ -20,6 +20,8 @@ export const mv = async (workdir, [filename, dirname]) => {
       throw error;
     }
 
-    throw new Error(`mv: An error occurred while moving file "${filename}"`);
+    throw new Error(
+      `mv: An error occurred while moving file "${filename || ""}"`
+    );
   }
 };

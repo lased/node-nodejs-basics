@@ -12,7 +12,9 @@ export const add = (workdir, [newFilename]) =>
     });
     stream.on("error", () => {
       reject(
-        new Error(`add: An error occurred while writing file "${newFilename}"`)
+        new Error(
+          `add: An error occurred while writing file "${newFilename || ""}"`
+        )
       );
     });
     stream.close();

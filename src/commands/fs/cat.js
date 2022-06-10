@@ -13,7 +13,9 @@ export const cat = (workdir, [pathToFile]) =>
     });
     stream.on("error", () => {
       reject(
-        new Error(`cat: An error occurred while reading file "${pathToFile}"`)
+        new Error(
+          `cat: An error occurred while reading file "${pathToFile || ""}"`
+        )
       );
     });
   });

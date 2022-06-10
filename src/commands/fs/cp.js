@@ -19,6 +19,8 @@ export const cp = async (workdir, [filename, dirname]) => {
       throw error;
     }
     console.log(error.message);
-    throw new Error(`cp: An error occurred while copying file "${filename}"`);
+    throw new Error(
+      `cp: An error occurred while copying file "${filename || ""}"`
+    );
   }
 };

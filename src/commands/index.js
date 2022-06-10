@@ -11,8 +11,9 @@ import {
 import nwd from "./nwd/index.js";
 import os from "./os/index.js";
 import fs from "./fs/index.js";
+import hash from "./hash/index.js";
 
-const commands = { ...nwd, ...os, ...fs };
+const commands = { ...nwd, ...os, ...fs, ...hash };
 
 const readline = createInterface({
   input: process.stdin,

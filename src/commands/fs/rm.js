@@ -16,6 +16,8 @@ export const rm = async (workdir, [filename]) => {
       throw error;
     }
 
-    throw new Error(`rm: An error occurred while remove file "${filename}"`);
+    throw new Error(
+      `rm: An error occurred while remove file "${filename || ""}"`
+    );
   }
 };

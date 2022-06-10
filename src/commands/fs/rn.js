@@ -19,7 +19,7 @@ export const rn = async (workdir, [sourceFilename, destFilename]) => {
     }
 
     throw new Error(
-      `rn: An error occurred while rename file "${sourceFilename}"`
+      `rn: An error occurred while rename file "${sourceFilename || ""}"`
     );
   }
 };
