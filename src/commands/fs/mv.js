@@ -5,7 +5,7 @@ import { rm } from "node:fs/promises";
 
 import { concatPath } from "../../utils/fs.js";
 
-export const mv = async (workdir, [pathToFile, pathToNewDir]) => {
+export const mv = async (workdir, pathToFile, pathToNewDir) => {
   try {
     pathToNewDir = concatPath(workdir, pathToNewDir);
     pathToFile = concatPath(workdir, pathToFile);

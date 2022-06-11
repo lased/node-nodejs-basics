@@ -12,7 +12,7 @@ try {
   }
 
   console.info(info(`Welcome to the File Manager, ${username}!`));
-  process.on("SIGINT", () => process.exit());
+  process.on("SIGINT", process.exit);
   process.on("exit", () => {
     console.info(info(`${EOL}Thank you for using File Manager, ${username}!`));
   });

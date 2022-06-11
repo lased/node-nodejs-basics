@@ -1,7 +1,7 @@
 import { createWriteStream } from "node:fs";
 import { join } from "node:path";
 
-export const add = async (workdir, [newFilename]) =>
+export const add = async (workdir, newFilename) =>
   new Promise((resolve, reject) => {
     const pathToFile = join(workdir, newFilename);
     const stream = createWriteStream(pathToFile, {

@@ -2,7 +2,7 @@ import { stat } from "node:fs/promises";
 
 import { concatPath } from "../../utils/fs.js";
 
-export const cd = async (workdir, [pathToDir]) => {
+export const cd = async (workdir, pathToDir) => {
   try {
     workdir = concatPath(workdir, pathToDir);
 

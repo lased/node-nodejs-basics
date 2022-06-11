@@ -4,7 +4,7 @@ import { basename, join } from "node:path";
 
 import { concatPath } from "../../utils/fs.js";
 
-export const cp = async (workdir, [pathToFile, pathToNewDir]) => {
+export const cp = async (workdir, pathToFile, pathToNewDir) => {
   try {
     pathToNewDir = concatPath(workdir, pathToNewDir);
     pathToFile = concatPath(workdir, pathToFile);

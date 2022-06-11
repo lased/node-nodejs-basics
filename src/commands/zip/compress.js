@@ -4,7 +4,7 @@ import { pipeline } from "node:stream/promises";
 
 import { concatPath } from "../../utils/fs.js";
 
-export const compress = async (workdir, [pathToFile, pathToDest]) => {
+export const compress = async (workdir, pathToFile, pathToDest) => {
   try {
     pathToFile = concatPath(workdir, pathToFile);
     pathToDest = concatPath(workdir, pathToDest);

@@ -8,7 +8,7 @@ const params = {
   "--architecture": arch,
 };
 
-export const os = (_, [param]) => {
+export const os = (_, param) => {
   const data = params[param]?.();
 
   if (!data) {

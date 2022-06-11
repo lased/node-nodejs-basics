@@ -5,7 +5,7 @@ import { createHash } from "node:crypto";
 import { concatPath } from "../../utils/fs.js";
 import { info } from "../../utils/color.js";
 
-const hash = async (workdir, [pathToFile]) => {
+const hash = async (workdir, pathToFile) => {
   try {
     pathToFile = concatPath(workdir, pathToFile);
 

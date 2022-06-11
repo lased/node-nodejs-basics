@@ -40,11 +40,14 @@ export const initCommands = () => {
           .split(" ")
           .map((arg) => arg.trim());
 
-        if (!commands[operation]) {
+        if (
+          commands[operation].length !== args.length + 1 ||
+          !commands[operation]
+        ) {
           throw new Error("Invalid input");
         }
 
-        const result = await commands[operation](pathToWorkdir, args);
+        const result = await commands[operation](pathToWorkdir, ...args);
 
         if (result && result.workdir !== pathToWorkdir && result.workdir) {
           pathToWorkdir = result.workdir;

@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 
 import { concatPath, isAccess } from "../../utils/fs.js";
 
-export const rn = async (workdir, [pathToFile, newFilename]) => {
+export const rn = async (workdir, pathToFile, newFilename) => {
   try {
     pathToFile = concatPath(workdir, pathToFile);
 
