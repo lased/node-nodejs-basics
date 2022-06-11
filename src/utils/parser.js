@@ -1,4 +1,4 @@
-export const parserArgv = () => {
+export const parseProcessArgv = () => {
   const commands = process.argv.slice(2);
   const commandsObj = {};
 

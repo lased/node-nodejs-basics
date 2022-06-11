@@ -1,23 +1,12 @@
-import { rm as remove, stat } from "node:fs/promises";
-import { join } from "node:path";
+import { rm as remove } from "node:fs/promises";
 
-export const rm = async (workdir, [filename]) => {
+import { concatPath } from "../../utils/fs.js";
+
+export const rm = async (workdir, [pathToFile]) => {
   try {
-    const pathToFile = join(workdir, filename);
-    const isFile = (await stat(pathToFile)).isFile();
-
-    if (!isFile) {
-      throw new Error(`rm: "${filename}" is't file`);
-    }
-
+    pathToFile = concatPath(workdir, pathToFile);
     await remove(pathToFile);
-  } catch (error) {
-    if (error.message.startsWith("rm:")) {
-      throw error;
-    }
-
-    throw new Error(
-      `rm: An error occurred while remove file "${filename || ""}"`
-    );
+  } catch {
+    throw new Error("Operation failed");
   }
 };

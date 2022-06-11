@@ -1,25 +1,22 @@
 import { rename } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 
-import { isAccess } from "../../utils/fs.js";
+import { concatPath, isAccess } from "../../utils/fs.js";
 
-export const rn = async (workdir, [sourceFilename, destFilename]) => {
+export const rn = async (workdir, [pathToFile, newFilename]) => {
   try {
-    const pathToSource = join(workdir, sourceFilename);
-    const pathToDest = join(workdir, destFilename);
+    pathToFile = concatPath(workdir, pathToFile);
 
-    if (await isAccess(pathToDest)) {
-      throw new Error(`rn: File already exists "${destFilename}"`);
+    const pathToDir = dirname(pathToFile);
+    const pathToNewFile = join(pathToDir, newFilename);
+    const isAccessToNewFile = await isAccess(pathToNewFile);
+
+    if (isAccessToNewFile) {
+      throw new Error();
     }
 
-    await rename(pathToSource, pathToDest);
-  } catch (error) {
-    if (error.message.startsWith("rn:")) {
-      throw error;
-    }
-
-    throw new Error(
-      `rn: An error occurred while rename file "${sourceFilename || ""}"`
-    );
+    await rename(pathToFile, pathToNewFile);
+  } catch {
+    throw new Error("Operation failed");
   }
 };

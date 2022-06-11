@@ -1,26 +1,21 @@
-import { copyFile, stat } from "node:fs/promises";
-import { join } from "node:path";
+import { createReadStream, createWriteStream } from "node:fs";
+import { pipeline } from "node:stream/promises";
+import { basename, join } from "node:path";
 
-import { unionPath } from "../../utils/fs.js";
+import { concatPath } from "../../utils/fs.js";
 
-export const cp = async (workdir, [filename, dirname]) => {
+export const cp = async (workdir, [pathToFile, pathToNewDir]) => {
   try {
-    const newPath = await unionPath(workdir, dirname);
-    const pathToFile = join(workdir, filename);
-    const isFile = (await stat(pathToFile)).isFile();
+    pathToNewDir = concatPath(workdir, pathToNewDir);
+    pathToFile = concatPath(workdir, pathToFile);
 
-    if (!isFile) {
-      throw new Error(`cp: "${filename}" is't file`);
-    }
+    const filename = basename(pathToFile);
+    const pathToNewFile = join(pathToNewDir, filename);
+    const readStream = createReadStream(pathToFile);
+    const writeStream = createWriteStream(pathToNewFile, { flags: "wx" });
 
-    await copyFile(pathToFile, join(newPath, filename));
-  } catch (error) {
-    if (error.message.startsWith("cp:")) {
-      throw error;
-    }
-    console.log(error.message);
-    throw new Error(
-      `cp: An error occurred while copying file "${filename || ""}"`
-    );
+    await pipeline(readStream, writeStream);
+  } catch {
+    throw new Error("Operation failed");
   }
 };

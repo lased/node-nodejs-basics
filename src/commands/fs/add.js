@@ -1,21 +1,16 @@
 import { createWriteStream } from "node:fs";
 import { join } from "node:path";
 
-export const add = (workdir, [newFilename]) =>
+export const add = async (workdir, [newFilename]) =>
   new Promise((resolve, reject) => {
-    const stream = createWriteStream(join(workdir, newFilename), {
+    const pathToFile = join(workdir, newFilename);
+    const stream = createWriteStream(pathToFile, {
       flags: "wx",
     });
 
-    stream.on("close", () => {
-      resolve();
-    });
+    stream.on("close", resolve);
     stream.on("error", () => {
-      reject(
-        new Error(
-          `add: An error occurred while writing file "${newFilename || ""}"`
-        )
-      );
+      reject(new Error("Operation failed"));
     });
     stream.close();
   });

@@ -1,6 +1,11 @@
 import { createInterface } from "node:readline";
 import { EOL, homedir } from "node:os";
 
+import hash from "./hash/index.js";
+import nwd from "./nwd/index.js";
+import zip from "./zip/index.js";
+import os from "./os/index.js";
+import fs from "./fs/index.js";
 import {
   error,
   getColoredText,
@@ -8,11 +13,6 @@ import {
   TERMINAL_STYLE,
   warning,
 } from "../utils/color.js";
-import hash from "./hash/index.js";
-import nwd from "./nwd/index.js";
-import zip from "./zip/index.js";
-import os from "./os/index.js";
-import fs from "./fs/index.js";
 
 const commands = { ...nwd, ...os, ...fs, ...hash, ...zip };
 
@@ -22,7 +22,7 @@ const readline = createInterface({
 });
 let pathToWorkdir = homedir();
 
-export const initialization = () => {
+export const initCommands = () => {
   readline.question(
     warning("You are currently in ") +
       getColoredText(pathToWorkdir, TERMINAL_COLOR.GREEN) +
@@ -57,7 +57,7 @@ export const initialization = () => {
         console.error(error(err.message));
       }
 
-      initialization();
+      initCommands();
     }
   );
 };

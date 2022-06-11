@@ -1,11 +1,11 @@
 import { EOL } from "node:os";
 
-import { initialization } from "./commands/index.js";
+import { parseProcessArgv } from "./utils/parser.js";
+import { initCommands } from "./commands/index.js";
 import { info, error } from "./utils/color.js";
-import { parserArgv } from "./utils/parser.js";
 
 try {
-  const { username } = parserArgv();
+  const { username } = parseProcessArgv();
 
   if (!username) {
     throw new Error('Property "--username" is empty');
@@ -16,7 +16,7 @@ try {
   process.on("exit", () => {
     console.info(info(`${EOL}Thank you for using File Manager, ${username}!`));
   });
-  initialization();
+  initCommands();
 } catch (err) {
   console.error(error(err.message));
 }

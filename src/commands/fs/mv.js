@@ -1,27 +1,23 @@
-import { copyFile, rm, stat } from "node:fs/promises";
-import { join } from "node:path";
+import { createReadStream, createWriteStream } from "node:fs";
+import { pipeline } from "node:stream/promises";
+import { basename, join } from "node:path";
+import { rm } from "node:fs/promises";
 
-import { unionPath } from "../../utils/fs.js";
+import { concatPath } from "../../utils/fs.js";
 
-export const mv = async (workdir, [filename, dirname]) => {
+export const mv = async (workdir, [pathToFile, pathToNewDir]) => {
   try {
-    const newPath = await unionPath(workdir, dirname);
-    const pathToFile = join(workdir, filename);
-    const isFile = (await stat(pathToFile)).isFile();
+    pathToNewDir = concatPath(workdir, pathToNewDir);
+    pathToFile = concatPath(workdir, pathToFile);
 
-    if (!isFile) {
-      throw new Error(`mv: "${filename}" is't file`);
-    }
+    const filename = basename(pathToFile);
+    const pathToNewFile = join(pathToNewDir, filename);
+    const readStream = createReadStream(pathToFile);
+    const writeStream = createWriteStream(pathToNewFile, { flags: "wx" });
 
-    await copyFile(pathToFile, join(newPath, filename));
+    await pipeline(readStream, writeStream);
     await rm(pathToFile);
-  } catch (error) {
-    if (error.message.startsWith("mv:")) {
-      throw error;
-    }
-
-    throw new Error(
-      `mv: An error occurred while moving file "${filename || ""}"`
-    );
+  } catch {
+    throw new Error("Operation failed");
   }
 };

@@ -1,10 +1,10 @@
 import { stat } from "node:fs/promises";
 
-import { unionPath } from "../../utils/fs.js";
+import { concatPath } from "../../utils/fs.js";
 
 export const cd = async (workdir, [pathToDir]) => {
   try {
-    workdir = unionPath(workdir, pathToDir);
+    workdir = concatPath(workdir, pathToDir);
 
     const isDir = (await stat(workdir)).isDirectory();
 

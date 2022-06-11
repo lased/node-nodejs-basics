@@ -2,12 +2,12 @@ import { createReadStream, createWriteStream } from "node:fs";
 import { createBrotliCompress } from "node:zlib";
 import { pipeline } from "node:stream/promises";
 
-import { unionPath } from "../../utils/fs.js";
+import { concatPath } from "../../utils/fs.js";
 
 export const compress = async (workdir, [pathToFile, pathToDest]) => {
   try {
-    pathToFile = unionPath(workdir, pathToFile);
-    pathToDest = unionPath(workdir, pathToDest);
+    pathToFile = concatPath(workdir, pathToFile);
+    pathToDest = concatPath(workdir, pathToDest);
 
     const writeStream = createWriteStream(pathToDest, { flags: "wx" });
     const readStream = createReadStream(pathToFile);

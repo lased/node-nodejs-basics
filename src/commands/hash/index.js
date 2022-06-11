@@ -1,39 +1,23 @@
-import { join, resolve } from "node:path";
-import { createHash } from "node:crypto";
+import { pipeline } from "node:stream/promises";
 import { createReadStream } from "node:fs";
-import { stat } from "node:fs/promises";
+import { createHash } from "node:crypto";
 
+import { concatPath } from "../../utils/fs.js";
 import { info } from "../../utils/color.js";
 
-const hash = (workdir, [filename]) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const pathToFile = join(workdir, filename);
-      const isFile = (await stat(pathToFile)).isFile();
+const hash = async (workdir, [pathToFile]) => {
+  try {
+    pathToFile = concatPath(workdir, pathToFile);
 
-      if (!isFile) {
-        throw new Error(`hash: "${filename}" is't file`);
-      }
+    const readStream = createReadStream(pathToFile);
+    const hashStream = createHash("sha256");
 
-      const readStream = createReadStream(pathToFile);
-      const hash = createHash("sha256");
+    await pipeline(readStream, hashStream);
 
-      readStream.on("data", hash.update);
-      readStream.on("close", () => {
-        console.info(info(hash.digest("hex")));
-        resolve();
-      });
-    } catch (error) {
-      if (error.message.startsWith("hash:")) {
-        reject(error);
-      }
-
-      reject(
-        new Error(
-          `hash: An error occurred while hashing file "${filename || ""}"`
-        )
-      );
-    }
-  });
+    return { data: info(hashStream.digest("hex")) };
+  } catch {
+    throw new Error("Operation failed");
+  }
+};
 
 export default { hash };
