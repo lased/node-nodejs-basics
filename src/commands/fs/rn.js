@@ -11,7 +11,7 @@ export const rn = async (workdir, pathToFile, newFilename) => {
     const pathToNewFile = join(pathToDir, newFilename);
     const isAccessToNewFile = await isAccess(pathToNewFile);
 
-    if (isAccessToNewFile) {
+    if (isAccessToNewFile || dirname(pathToNewFile) !== pathToDir) {
       throw new Error();
     }
 

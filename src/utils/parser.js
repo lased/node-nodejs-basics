@@ -15,30 +15,31 @@ export const parseProcessArgv = () => {
   return commandsObj;
 };
 export const parseCommand = (string) => {
-  const [command, ...otherParams] = string.trim().split(" ");
-  const opened = [];
-  const args = otherParams
-    .join("\n")
+  const formatString = string.trim().replaceAll("'", '"');
+  const countQuotes = formatString
     .split("")
-    .map((char) => {
-      if (char === "'" || char === '"') {
-        if (char === opened[opened.length - 1]) {
-          opened.pop();
-        } else {
-          opened.push(char);
-        }
+    .reduce((acc, char) => acc + +(char === '"'), 0);
 
-        return "";
-      }
-      if (char === "\n" && opened.length) {
-        return " ";
-      }
+  if (countQuotes % 2) return [];
 
-      return char;
-    })
-    .join("")
-    .split("\n")
-    .filter((arg) => !!arg);
+  const result = [];
+  let quote = false;
+  let start = 0;
 
-  return [command, ...args];
+  for (let index = 0; index < formatString.length; index++) {
+    const char = formatString[index];
+    const isLastChar = index === formatString.length - 1;
+
+    if (char === '"') {
+      quote = !quote;
+    }
+    if ((char === " " || isLastChar) && !quote) {
+      result.push(
+        formatString.slice(start, index + +isLastChar).replaceAll('"', "")
+      );
+      start = index + 1;
+    }
+  }
+
+  return result;
 };
