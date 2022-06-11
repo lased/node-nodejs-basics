@@ -10,7 +10,7 @@ export const cat = (workdir, pathToFile) =>
       encoding: "utf-8",
     });
 
-    stream.pipe(process.stdout);
+    stream.on("data", console.info);
     stream.on("close", resolve);
     stream.on("error", () => {
       reject(new Error("Operation failed"));

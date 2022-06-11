@@ -1,6 +1,7 @@
 import { createInterface } from "node:readline";
 import { EOL, homedir } from "node:os";
 
+import { parseCommand } from "../utils/parser.js";
 import hash from "./hash/index.js";
 import nwd from "./nwd/index.js";
 import zip from "./zip/index.js";
@@ -36,13 +37,11 @@ export const initCommands = () => {
       }
 
       try {
-        const [operation, ...args] = command
-          .split(" ")
-          .map((arg) => arg.trim());
+        const [operation, ...args] = parseCommand(command);
 
         if (
-          commands[operation].length !== args.length + 1 ||
-          !commands[operation]
+          !commands[operation] ||
+          commands[operation]?.length !== args.length + 1
         ) {
           throw new Error("Invalid input");
         }

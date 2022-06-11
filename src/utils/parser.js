@@ -14,3 +14,31 @@ export const parseProcessArgv = () => {
 
   return commandsObj;
 };
+export const parseCommand = (string) => {
+  const [command, ...otherParams] = string.trim().split(" ");
+  const opened = [];
+  const args = otherParams
+    .join("\n")
+    .split("")
+    .map((char) => {
+      if (char === "'" || char === '"') {
+        if (char === opened[opened.length - 1]) {
+          opened.pop();
+        } else {
+          opened.push(char);
+        }
+
+        return "";
+      }
+      if (char === "\n" && opened.length) {
+        return " ";
+      }
+
+      return char;
+    })
+    .join("")
+    .split("\n")
+    .filter((arg) => !!arg);
+
+  return [command, ...args];
+};

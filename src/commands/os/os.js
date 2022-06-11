@@ -1,5 +1,7 @@
 import { EOL, cpus, homedir, userInfo, arch } from "node:os";
 
+import { info } from "../../utils/color.js";
+
 const params = {
   "--EOL": () => JSON.stringify(EOL),
   "--cpus": cpus,
@@ -12,7 +14,7 @@ export const os = (_, param) => {
   const data = params[param]?.();
 
   if (!data) {
-    throw new Error(`Invalid flag ${(param && `"${param}"`) || ""}`);
+    throw new Error("Operation failed");
   }
   if (param === "--cpus") {
     return {
@@ -24,5 +26,5 @@ export const os = (_, param) => {
     };
   }
 
-  return { data };
+  return { data: info(data) };
 };
