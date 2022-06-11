@@ -1,38 +1,35 @@
-# Node.js basics
+# File Manager
 
-## File system (src/fs)
+Run script `npm run start -- --username=your_username`
 
-Enter this command `npm run fs` to run the script.
+## Navigation & working directory (nwd)
 
-## Command line interface(src/cli)
+- Go upper from current directory: `up`;
+- Go to dedicated folder from current directory: `cd ./folder`, `cd "d:/Document and Settings"`;
+- List all files and folder in current directory: `ls`.
 
-- Enter this command `npm run cli:win` to run the script on Windows.
-- Enter this command `npm run cli:lin` to run the script on Linux.
+## Basic operations with files
 
-## Modules(src/modules)
+- Read file and print it's content in console: `cat file.txt`, `cat d:/file.txt`;
+- Create empty file in current working directory: `add file.txt`, `add "file with space.txt"`;
+- Rename file: `rn d:/file.txt newFile.txt`;
+- Copy file: `cp d:/file.txt c:/users/user`, `cp file.txt c:/users/user`;
+- Move file: `mv d:/file.txt c:/users/user`, `mv file.txt ./folder`;
+- Delete file: `rm d:/file.txt`, `rm file.txt`.
 
-Enter this command `npm run modules` to run the script.
+## Operating system info
 
-## Hash (src/hash)
+- Get EOL (default system End-Of-Line): `os --EOL`;
+- Get host machine CPUs info: `os --cpus`;
+- Get home directory: `os --homedir`;
+- Get current system user name: `os --username`;
+- Get CPU architecture for which Node.js binary has compiled^ `os --architecture`.
 
-Enter this command `npm run hash` to run the script.
+## Hash calculation
 
-## Streams (src/streams)
+- Calculate hash for file and print it into console: `hash d:/file.txt`, `hash file.txt`.
 
-- Enter this command `npm run streams:transform` to run transform stream.
-- Enter this command `npm run streams:write` to run write stream.
-- Enter this command `npm run streams:read` to run read stream.
+## Compress and decompress operations
 
-## Zlib (src/zip)
-
-Enter this command `npm run zip` to run the script.
-
-## Worker Threads (src/wt)
-
-Enter this command `npm run wt` to run the script.
-
-> 2 thread is an error for the test.
-
-## Child Processes (src/cp)
-
-Enter this command `npm run cp` to run the script.
+- Compress file (using Brotli algorithm): `compress d:/file.txt file.br`;
+- Decompress file (using Brotli algorithm): `decompress file.br d:/file.txt`.

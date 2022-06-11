@@ -19,4 +19,5 @@ try {
   initCommands();
 } catch (err) {
   console.error(error(err.message));
+  process.exit(0);
 }

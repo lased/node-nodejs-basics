@@ -20,7 +20,7 @@ export const os = (_, param) => {
     return {
       data: data.map((core) => ({
         model: core.model,
-        speed: core.speed,
+        speed: `${(core.speed / 1000).toFixed(1)} GHz`,
       })),
       outputType: "table",
     };
