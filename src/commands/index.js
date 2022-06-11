@@ -8,12 +8,13 @@ import {
   TERMINAL_STYLE,
   warning,
 } from "../utils/color.js";
+import hash from "./hash/index.js";
 import nwd from "./nwd/index.js";
+import zip from "./zip/index.js";
 import os from "./os/index.js";
 import fs from "./fs/index.js";
-import hash from "./hash/index.js";
 
-const commands = { ...nwd, ...os, ...fs, ...hash };
+const commands = { ...nwd, ...os, ...fs, ...hash, ...zip };
 
 const readline = createInterface({
   input: process.stdin,

@@ -12,20 +12,10 @@ export const isAccess = async (path) => {
     return false;
   }
 };
-export const unionPath = async (source, dest) => {
-  try {
-    if (isAbsolute(dest)) {
-      const isDir = (await stat(dest)).isDirectory();
-
-      if (!isDir) {
-        return dirname(dest);
-      } else {
-        return dest;
-      }
-    } else {
-      return join(source, dest);
-    }
-  } catch (error) {
-    throw error;
+export const unionPath = (source, dest) => {
+  if (isAbsolute(dest)) {
+    return dest;
   }
+
+  return join(source, dest);
 };
