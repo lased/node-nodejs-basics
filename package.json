@@ -2,9 +2,20 @@
   "name": "node-nodejs-basics",
   "version": "1.0.0",
   "description": "This repository is the part of nodejs-assignments https://github.com/AlreadyBored/nodejs-assignments",
-  "type": "module",
   "scripts": {
-    "start": "node src/index.js"
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js",
+    "serve": "nodemon src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.42",
+    "jest": "^28.1.1",
+    "nodemon": "^2.0.16",
+    "typescript": "^4.7.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "uuid": "^8.3.2"
   },
   "repository": {
     "type": "git",
