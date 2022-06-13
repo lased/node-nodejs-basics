@@ -1,3 +1,3 @@
-import { a } from "./modules/test";
+import { envConfig } from "./config/env";
 
-console.log(a);
+console.log(envConfig.PORT);
