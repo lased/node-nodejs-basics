@@ -1,8 +1,9 @@
 import { createServer } from "http";
 
 import { BaseError, ServerInternalError } from "../Errors";
-import { MethodType, RoutesType } from "./Server.types";
+import { RoutesType } from "../Router/Router.types";
 import { IRequest } from "./Server.interfaces";
+import { MethodType } from "./Server.types";
 import { Router } from "../Router/Router";
 
 const Routes = {} as RoutesType;
@@ -40,10 +41,10 @@ export const Server = () => {
           res.statusCode = error.code;
           message = error.message;
         } else {
-          const { code, message: mesg } = new ServerInternalError();
+          const { code, message: msg } = new ServerInternalError();
 
           res.statusCode = code;
-          message = mesg;
+          message = msg;
         }
 
         result = { message };

@@ -1,8 +1,10 @@
 import { ServerResponse } from "http";
 
-import { MethodType, RoutesType } from "../Server/Server.types";
 import { IRequest } from "../Server/Server.interfaces";
+import { MethodType } from "../Server/Server.types";
 import { queryParams, trimSlash } from "../string";
+import { MESSAGES } from "./Router.constants";
+import { RoutesType } from "./Router.types";
 import { NotFoundError } from "../Errors";
 
 export const Router =
@@ -42,7 +44,7 @@ export const Router =
     });
 
     if (!routes[method] || !routePath) {
-      throw new NotFoundError("Route not found");
+      throw new NotFoundError(MESSAGES.NOT_FOUND);
     }
 
     req.params = { ...queryParams(query || ""), ...params };

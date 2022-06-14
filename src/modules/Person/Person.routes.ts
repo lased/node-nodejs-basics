@@ -1,4 +1,4 @@
-import { RoutesType } from "../../utils/Server/Server.types";
+import { RoutesType } from "../../utils/Router/Router.types";
 import {
   createPerson,
   deletePerson,
