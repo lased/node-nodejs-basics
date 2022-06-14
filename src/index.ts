@@ -1,13 +1,11 @@
-import { createServer } from "http";
-
 import { envConfig } from "./config/env";
-import { userRoutes } from "./modules/Users";
+import { PersonRoutes } from "./modules/Person";
 import Logger from "./utils/Logger";
 import { Server } from "./utils/Server/Server";
 
 const server = Server();
 
-server.registerRoutes(userRoutes);
+server.registerRoutes(PersonRoutes);
 // server.register(userRoutes);
 
 // app.use("api/users", userRouter);

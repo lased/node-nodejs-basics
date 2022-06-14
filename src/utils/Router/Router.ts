@@ -1,12 +1,14 @@
-import { CallbackType, MethodType, RoutesType } from "../Server/Server.types";
-import { BadRequestError } from "../Errors";
-import { trimSlash } from "../string";
+import { ServerResponse } from "http";
+
+import { MethodType, RoutesType } from "../Server/Server.types";
+import { IRequest } from "../Server/Server.interfaces";
+import { queryParams, trimSlash } from "../string";
+import { NotFoundError } from "../Errors";
 
 export const Router =
-  (routes: RoutesType): CallbackType =>
-  (req, res) => {
+  (routes: RoutesType) => (req: IRequest, res: ServerResponse) => {
     const method = req.method as MethodType;
-    const endpoint = trimSlash(req.url || "");
+    const [endpoint, query] = trimSlash(req.url || "").split("?");
     let params = {} as Record<string, string>;
     const routePath = Object.keys(routes[method]).find((path) => {
       const pathArray = path.split("/");
@@ -40,8 +42,10 @@ export const Router =
     });
 
     if (!routes[method] || !routePath) {
-      throw new BadRequestError("Route not found");
+      throw new NotFoundError("Route not found");
     }
 
-    routes[method][routePath](req, res);
+    req.params = { ...queryParams(query || ""), ...params };
+
+    return routes[method][routePath](req, res);
   };
