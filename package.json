@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "This repository is the part of nodejs-assignments https://github.com/AlreadyBored/nodejs-assignments",
   "scripts": {
-    "start": "npm run build && cross-env NODE_ENV=production node dist/index.js",
-    "serve": "nodemon src/index.ts",
+    "start:prod": "npm run build && cross-env NODE_ENV=production node dist/index.js",
+    "start:dev": "nodemon src/index.ts",
     "build": "tsc"
   },
   "devDependencies": {
