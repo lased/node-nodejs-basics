@@ -16,7 +16,7 @@ const create = (person: IPerson) => {
 const update = (id: string, person: Partial<IPerson>) => {
   const personIndex = list.findIndex((psn) => psn.id === id);
 
-  if (personIndex !== -1) {
+  if (personIndex === -1) {
     return null;
   }
 
@@ -25,13 +25,13 @@ const update = (id: string, person: Partial<IPerson>) => {
   return list[personIndex];
 };
 const remove = (id: string) => {
-  const personIndex = list.findIndex((psn) => psn.id === id);
+  const personIndex = list.findIndex((person) => person.id === id);
 
   if (personIndex === -1) {
     return null;
   }
 
-  list = list.filter((person) => person.id === id);
+  list = list.filter((person) => person.id !== id);
 
   return true;
 };

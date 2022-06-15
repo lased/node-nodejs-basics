@@ -4,6 +4,13 @@ import { RulesType, ValidationType } from "./Validate.types";
 export const Validate = (dto: Record<string, any>, rules: RulesType) => {
   const validate: ValidationType = { isValid: true };
 
+  if (typeof dto !== "object") {
+    validate.isValid = false;
+    validate.error = MESSAGES.DTO_ERROR;
+
+    return validate;
+  }
+
   for (const key in rules) {
     const rulesByKey = rules[key];
     const value = dto[key];
@@ -23,7 +30,7 @@ export const Validate = (dto: Record<string, any>, rules: RulesType) => {
     } else if (rulesByKey.array) {
       const isArray = Array.isArray(value);
       const isValidArray = isArray
-        ? value.every((item) => typeof item === rulesByKey.array)
+        ? (value as any[]).every((item) => typeof item === rulesByKey.array)
         : false;
 
       if (!isValidArray) {
