@@ -34,12 +34,13 @@ export const Router =
   (routes: RoutesType) => (req: IRequest, res: ServerResponse) => {
     const [reqUrl, _] = trimSlash(req.url || "").split("?");
     const method = req.method as MethodType;
+    const routesByMethod = routes[method];
 
-    if (!routes[method]) {
+    if (!routesByMethod) {
       throw new NotFoundError(MESSAGES.NOT_FOUND);
     }
 
-    const routePath = Object.keys(routes[method]).find((url) =>
+    const routePath = Object.keys(routesByMethod).find((url) =>
       compareUrl(url, reqUrl)
     );
 
@@ -49,5 +50,5 @@ export const Router =
 
     req.params = parseParams(routePath, reqUrl);
 
-    return routes[method][routePath](req, res);
+    return routesByMethod[routePath](req, res);
   };

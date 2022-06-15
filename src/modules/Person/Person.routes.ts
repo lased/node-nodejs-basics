@@ -7,7 +7,7 @@ import {
   updatePerson,
 } from "./person.controller";
 
-const PersonRoutes = {
+const PersonRoutes: RoutesType = {
   DELETE: {
     "api/person/:id": deletePerson,
   },
@@ -21,6 +21,6 @@ const PersonRoutes = {
   PUT: {
     "api/person/:id": updatePerson,
   },
-} as RoutesType;
+};
 
 export default PersonRoutes;

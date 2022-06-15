@@ -1,37 +1,15 @@
 import { createServer } from "http";
 
 import { BaseError, ServerInternalError } from "../Errors";
-import { MethodType, MiddlewareCallbackType } from "./Server.types";
+import { MiddlewareCallbackType } from "./Server.types";
 import { RoutesType } from "../Router/Router.types";
-import { Router } from "../Router/Router";
 import { IRequest } from "./Server.interfaces";
+import { Router } from "../Router/Router";
 
 const queue = [] as (MiddlewareCallbackType | RoutesType)[];
-const Routes = {} as RoutesType;
-let RoutesIndex: number;
 
-const registerRoutes = (routes: RoutesType) => {
-  if (RoutesIndex === undefined) {
-    RoutesIndex = queue.findIndex((item) => typeof item !== "function");
-
-    if (RoutesIndex === -1) {
-      queue.push(Routes);
-      RoutesIndex = queue.length - 1;
-    }
-  }
-
-  for (const key in routes) {
-    const method = key as MethodType;
-
-    if (Routes[method]) {
-      Routes[method] = {};
-    }
-
-    Routes[method] = { ...Routes[method], ...routes[method] };
-  }
-};
-const registerMiddleware = (callback: MiddlewareCallbackType) => {
-  queue.push(callback);
+const use = (entry: MiddlewareCallbackType | RoutesType) => {
+  queue.push(entry);
 };
 
 export const Server = () => {
@@ -56,7 +34,8 @@ export const Server = () => {
           });
           isCalledMiddleware = true;
         } else {
-          result = Router(Routes)(newReq, newRes);
+          result = Router(item)(newReq, newRes);
+          newRes.statusCode = 200;
         }
       } catch (error) {
         let message;
@@ -84,5 +63,5 @@ export const Server = () => {
     runMiddleware();
   });
 
-  return { registerMiddleware, registerRoutes, listen: http.listen.bind(http) };
+  return { use, listen: http.listen.bind(http) };
 };

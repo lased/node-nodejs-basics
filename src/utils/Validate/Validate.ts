@@ -1,3 +1,4 @@
+import MESSAGES from "./Validate.constants";
 import { RulesType, ValidationType } from "./Validate.types";
 
 export const Validate = (dto: Record<string, any>, rules: RulesType) => {
@@ -9,15 +10,16 @@ export const Validate = (dto: Record<string, any>, rules: RulesType) => {
     let error;
 
     if (!rulesByKey.required && !value) {
-      break;
-    } else if (rulesByKey.required && value === undefined) {
-      error = `'${key}' must be required`;
+      continue;
+    }
+    if (rulesByKey.required && value === undefined) {
+      error = MESSAGES.REQUIRED(key);
     } else if (rulesByKey.number && typeof value !== "number") {
-      error = `'${key}' must be a number`;
+      error = MESSAGES.NUMBER(key);
     } else if (rulesByKey.boolean && typeof value !== "boolean") {
-      error = `'${key}' must be boolean`;
+      error = MESSAGES.BOOLEAN(key);
     } else if (rulesByKey.string && typeof value !== "string") {
-      error = `'${key}' must be a string`;
+      error = MESSAGES.STRING(key);
     } else if (rulesByKey.array) {
       const isArray = Array.isArray(value);
       const isValidArray = isArray
@@ -25,7 +27,7 @@ export const Validate = (dto: Record<string, any>, rules: RulesType) => {
         : false;
 
       if (!isValidArray) {
-        error = `'${key}' must be an array of ${rulesByKey.array}`;
+        error = MESSAGES.ARRAY(key, rulesByKey.array);
       }
     }
 
