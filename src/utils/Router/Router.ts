@@ -2,52 +2,52 @@ import { ServerResponse } from "http";
 
 import { IRequest } from "../Server/Server.interfaces";
 import { MethodType } from "../Server/Server.types";
-import { queryParams, trimSlash } from "../string";
 import { MESSAGES } from "./Router.constants";
 import { RoutesType } from "./Router.types";
 import { NotFoundError } from "../Errors";
+import { trimSlash } from "../String";
+
+const compareUrl = (url: string, reqUrl: string): boolean => {
+  const reqUrlArray = reqUrl.split("/");
+  const urlArray = url.split("/");
+
+  if (urlArray.length !== reqUrlArray.length) {
+    return false;
+  }
+
+  return urlArray.every(
+    (partUrl, index) =>
+      partUrl === reqUrlArray[index] || partUrl.startsWith(":")
+  );
+};
+const parseParams = (url: string, reqUrl: string) => {
+  const reqUrlArray = reqUrl.split("/");
+  const urlArray = url.split("/");
+
+  return urlArray.reduce(
+    (acc, param, index) => ({ ...acc, [param.slice(1)]: reqUrlArray[index] }),
+    {}
+  );
+};
 
 export const Router =
   (routes: RoutesType) => (req: IRequest, res: ServerResponse) => {
+    const [reqUrl, _] = trimSlash(req.url || "").split("?");
     const method = req.method as MethodType;
-    const [endpoint, query] = trimSlash(req.url || "").split("?");
-    let params = {} as Record<string, string>;
-    const routePath = Object.keys(routes[method]).find((path) => {
-      const pathArray = path.split("/");
-      const endpointArray = endpoint.split("/");
 
-      if (pathArray.length !== endpointArray.length) {
-        return false;
-      }
-
-      const isFound = pathArray.every((part, index) => {
-        if (part === endpointArray[index]) {
-          return true;
-        }
-
-        const isParam = part.startsWith(":");
-
-        if (!isParam) {
-          return false;
-        }
-
-        params[part.slice(1)] = endpointArray[index];
-
-        return true;
-      });
-
-      if (!isFound) {
-        params = {};
-      }
-
-      return isFound;
-    });
-
-    if (!routes[method] || !routePath) {
+    if (!routes[method]) {
       throw new NotFoundError(MESSAGES.NOT_FOUND);
     }
 
-    req.params = { ...queryParams(query || ""), ...params };
+    const routePath = Object.keys(routes[method]).find((url) =>
+      compareUrl(url, reqUrl)
+    );
+
+    if (!routePath) {
+      throw new NotFoundError(MESSAGES.NOT_FOUND);
+    }
+
+    req.params = parseParams(routePath, reqUrl);
 
     return routes[method][routePath](req, res);
   };

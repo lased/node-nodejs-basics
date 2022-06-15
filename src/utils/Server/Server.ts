@@ -1,14 +1,25 @@
 import { createServer } from "http";
 
 import { BaseError, ServerInternalError } from "../Errors";
+import { MethodType, MiddlewareCallbackType } from "./Server.types";
 import { RoutesType } from "../Router/Router.types";
-import { IRequest } from "./Server.interfaces";
-import { MethodType } from "./Server.types";
 import { Router } from "../Router/Router";
+import { IRequest } from "./Server.interfaces";
 
+const queue = [] as (MiddlewareCallbackType | RoutesType)[];
 const Routes = {} as RoutesType;
+let RoutesIndex: number;
 
 const registerRoutes = (routes: RoutesType) => {
+  if (RoutesIndex === undefined) {
+    RoutesIndex = queue.findIndex((item) => typeof item !== "function");
+
+    if (RoutesIndex === -1) {
+      queue.push(Routes);
+      RoutesIndex = queue.length - 1;
+    }
+  }
+
   for (const key in routes) {
     const method = key as MethodType;
 
@@ -19,46 +30,59 @@ const registerRoutes = (routes: RoutesType) => {
     Routes[method] = { ...Routes[method], ...routes[method] };
   }
 };
+const registerMiddleware = (callback: MiddlewareCallbackType) => {
+  queue.push(callback);
+};
 
 export const Server = () => {
   const http = createServer((req, res) => {
-    let result;
-    let body = "";
+    let newReq = req as IRequest;
+    let newRes = res;
+    let result: any;
 
     res.setHeader("Content-Type", "application/json");
-    req.on("data", (chunk) => (body += chunk));
-    req.on("end", () => {
-      try {
-        const newReq = { ...req } as IRequest;
 
-        body = body.trim();
-        newReq.body = body ? JSON.parse(body) : {};
-        result = Router(Routes)(newReq, res);
+    const runMiddleware = (index = 0) => {
+      const isLast = queue.length - 1 === index;
+      let isCalledMiddleware = false;
+
+      try {
+        const item = queue[index];
+        const isFunction = typeof item === "function";
+
+        if (isFunction) {
+          item(newReq, newRes, () => {
+            !isLast && runMiddleware(index + 1);
+          });
+          isCalledMiddleware = true;
+        } else {
+          result = Router(Routes)(newReq, newRes);
+        }
       } catch (error) {
         let message;
 
         if (error instanceof BaseError) {
-          res.statusCode = error.code;
+          newRes.statusCode = error.code;
           message = error.message;
         } else {
           const { code, message: msg } = new ServerInternalError();
 
-          res.statusCode = code;
+          newRes.statusCode = code;
           message = msg;
         }
 
         result = { message };
+      } finally {
+        if (isLast) {
+          newRes.end(JSON.stringify(result));
+        } else {
+          !isCalledMiddleware && runMiddleware(index + 1);
+        }
       }
+    };
 
-      res.end(JSON.stringify(result));
-    });
-    req.on("error", () => {
-      const { code, message } = new ServerInternalError();
-
-      res.statusCode = code;
-      res.end(JSON.stringify({ message }));
-    });
+    runMiddleware();
   });
 
-  return { registerRoutes, listen: http.listen.bind(http) };
+  return { registerMiddleware, registerRoutes, listen: http.listen.bind(http) };
 };
