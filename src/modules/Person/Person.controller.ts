@@ -1,7 +1,7 @@
 import { v4, validate as validateUUID } from "uuid";
-import { BadRequestError, NotFoundError } from "../../utils/Errors";
 
 import { create, getAll, getById, remove, update } from "./Person.service";
+import { BadRequestError, NotFoundError } from "../../utils/Errors";
 import { CallbackType } from "../../utils/Server/Server.types";
 import { Validate } from "../../utils/Validate/Validate";
 import { MESSAGES } from "./Person.constants";
@@ -9,7 +9,9 @@ import { Person } from "./Person.model";
 
 export const createPerson: CallbackType<Person> = (req, res) => {
   const id = v4();
-  const validate = Validate(req.body, {
+  const body = new Person(req.body);
+
+  const validate = Validate(body, {
     username: { required: true, string: true },
     age: { required: true, number: true },
     hobbies: { required: true, array: "string" },
@@ -21,7 +23,7 @@ export const createPerson: CallbackType<Person> = (req, res) => {
 
   res.statusCode = 201;
 
-  return create({ ...req.body, id });
+  return create({ ...body, id });
 };
 export const getByIdPerson: CallbackType<Person> = (req) => {
   const id = req.params.id;
@@ -41,7 +43,8 @@ export const getByIdPerson: CallbackType<Person> = (req) => {
 export const getPerson: CallbackType<Person[]> = () => getAll();
 export const updatePerson: CallbackType<Person> = (req) => {
   const id = req.params.id;
-  const validate = Validate(req.body, {
+  const body = new Person(req.body);
+  const validate = Validate(body, {
     username: { string: true },
     age: { number: true },
     hobbies: { array: "string" },
@@ -54,7 +57,7 @@ export const updatePerson: CallbackType<Person> = (req) => {
     throw new BadRequestError(validate.error);
   }
 
-  const updatedPerson = update(id, req.body);
+  const updatedPerson = update(id, body);
 
   if (!updatedPerson) {
     throw new NotFoundError(MESSAGES.NOT_FOUND);

@@ -20,5 +20,12 @@ if (cluster.isPrimary) {
     startWorker();
   }
 } else {
-  import("./index");
+  import("./main").then((imprt) => {
+    const app = imprt.default;
+    const workerId = cluster.worker?.id || 0;
+
+    app.listen(3000 + workerId, () => {
+      console.log(`SERVER ${workerId} - ${3000 + workerId}:`);
+    });
+  });
 }

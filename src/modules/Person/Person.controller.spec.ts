@@ -30,7 +30,6 @@ describe("Testing person controller", () => {
       expect(() => createPerson(req, res)).toThrowError(message);
     };
 
-    BadRequestFn(undefined, VALIDATE_MESSAGES.DTO_ERROR);
     BadRequestFn({}, VALIDATE_MESSAGES.REQUIRED("username"));
     BadRequestFn({ username: 1 }, VALIDATE_MESSAGES.STRING("username"));
     BadRequestFn({ username: "test" }, VALIDATE_MESSAGES.REQUIRED("age"));
@@ -81,7 +80,6 @@ describe("Testing person controller", () => {
     req.params = { id: 1 };
     BadRequestFn(undefined, MESSAGES.ID_NOT_VALID);
     req.params = { id: v4() };
-    BadRequestFn(undefined, VALIDATE_MESSAGES.DTO_ERROR);
     BadRequestFn({ username: 1 }, VALIDATE_MESSAGES.STRING("username"));
     BadRequestFn(
       { username: "test", age: "12" },
@@ -117,14 +115,15 @@ describe("Testing person controller", () => {
     expect(getPerson(req, res)).toHaveLength(0);
   });
   it("random actions 1", () => {
+    const toBeBody = { username: "test", age: 2, hobbies: ["test"] };
+
     req.body = { username: "test", age: 2, hobbies: ["test"], other: null };
-    expect(createPerson(req, res)).toMatchObject(req.body);
+    expect(createPerson(req, res)).toMatchObject(toBeBody);
     expect(res.statusCode).toBe(201);
     req.body = {
       username: "test 2",
       age: 11,
       hobbies: ["test", "test"],
-      other: 2,
     };
     expect(createPerson(req, res)).toMatchObject(req.body);
     expect(res.statusCode).toBe(201);
@@ -146,7 +145,7 @@ describe("Testing person controller", () => {
   });
   it("random actions 2", () => {
     expect(getPerson(req, res)).toHaveLength(0);
-    req.body = { username: "test", age: 2, hobbies: ["test"], other: null };
+    req.body = { username: "test", age: 2, hobbies: ["test"] };
 
     const createdPerson = createPerson(req, res);
 

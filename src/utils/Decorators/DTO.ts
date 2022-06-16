@@ -40,6 +40,12 @@ export function DTO<T extends { new (...args: any[]): {} }>(constructor: T) {
 
           this[key] = options[key];
         }
+      } else {
+        for (const key in this) {
+          if (this[key] === undefined) {
+            delete this[key];
+          }
+        }
       }
     }
   };

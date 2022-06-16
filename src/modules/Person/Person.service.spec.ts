@@ -1,24 +1,24 @@
 import { v4 } from "uuid";
 
 import { create, remove, getAll, getById, update } from "./Person.service";
-import { IPerson } from "./Person.model";
+import { Person } from "./Person.model";
 
-const person: IPerson = {
+const person = new Person({
   id: v4(),
   age: 3,
   username: "test",
   hobbies: ["test"],
-};
+});
 
 describe("Testing person service", () => {
   it("create", () => {
     const createdPerson = create(person);
 
     expect(createdPerson).toEqual(person);
-    expect(createdPerson.hobbies.length).toBe(1);
+    expect(createdPerson.hobbies!.length).toBe(1);
   });
   it("get by valid id", () => {
-    expect(getById(person.id)).toEqual(person);
+    expect(getById(person.id!)).toEqual(person);
   });
   it("get by invalid id", () => {
     expect(getById("none")).toBe(null);
@@ -26,7 +26,7 @@ describe("Testing person service", () => {
   it("valid update", () => {
     const updatedPerson = { hobbies: ["test 1", "test 2"], age: 1 };
 
-    expect(update(person.id, updatedPerson)).toEqual({
+    expect(update(person.id!, updatedPerson)).toEqual({
       ...person,
       ...updatedPerson,
     });
@@ -46,7 +46,7 @@ describe("Testing person service", () => {
     expect(getAll().length).toBe(2);
   });
   it("valid remove", () => {
-    expect(remove(person.id)).toBe(true);
+    expect(remove(person.id!)).toBe(true);
     expect(getAll().length).toBe(1);
   });
 });

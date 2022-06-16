@@ -1,11 +1,9 @@
-import { ServerResponse } from "node:http";
-
-import { IRequest } from "./Server.interfaces";
+import { IRequest, IResponse } from "./Server.interfaces";
 
 export type MethodType = "GET" | "POST" | "PUT" | "DELETE";
-export type CallbackType<T = void> = (req: IRequest, res: ServerResponse) => T;
+export type CallbackType<T = void> = (req: IRequest, res: IResponse) => T;
 export type MiddlewareCallbackType = (
   req: IRequest,
-  res: ServerResponse,
+  res: IResponse,
   next: () => void
 ) => void;

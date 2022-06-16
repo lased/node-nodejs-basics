@@ -1,5 +1,5 @@
-import MESSAGES from "./Validate.constants";
 import { RulesType, ValidationType } from "./Validate.types";
+import MESSAGES from "./Validate.constants";
 
 export const Validate = (dto: Record<string, any>, rules: RulesType) => {
   const validate: ValidationType = { isValid: true };

@@ -34,8 +34,8 @@ export const Server = () => {
           });
           isCalledMiddleware = true;
         } else {
-          result = Router(item)(newReq, newRes);
           newRes.statusCode = 200;
+          result = Router(item)(newReq, newRes);
         }
       } catch (error) {
         let message;
