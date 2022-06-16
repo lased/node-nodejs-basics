@@ -9,6 +9,7 @@
     "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
+    "experimentalDecorators": true
   },
   "include": ["src/**/*"],
   "exclude": [

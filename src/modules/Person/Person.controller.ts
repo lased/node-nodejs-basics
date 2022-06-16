@@ -5,9 +5,9 @@ import { create, getAll, getById, remove, update } from "./Person.service";
 import { CallbackType } from "../../utils/Server/Server.types";
 import { Validate } from "../../utils/Validate/Validate";
 import { MESSAGES } from "./Person.constants";
-import { IPerson } from "./Person.model";
+import { Person } from "./Person.model";
 
-export const createPerson: CallbackType<IPerson> = (req, res) => {
+export const createPerson: CallbackType<Person> = (req, res) => {
   const id = v4();
   const validate = Validate(req.body, {
     username: { required: true, string: true },
@@ -23,7 +23,7 @@ export const createPerson: CallbackType<IPerson> = (req, res) => {
 
   return create({ ...req.body, id });
 };
-export const getByIdPerson: CallbackType<IPerson> = (req) => {
+export const getByIdPerson: CallbackType<Person> = (req) => {
   const id = req.params.id;
 
   if (!validateUUID(id)) {
@@ -38,8 +38,8 @@ export const getByIdPerson: CallbackType<IPerson> = (req) => {
 
   return person;
 };
-export const getPerson: CallbackType<IPerson[]> = () => getAll();
-export const updatePerson: CallbackType<IPerson> = (req) => {
+export const getPerson: CallbackType<Person[]> = () => getAll();
+export const updatePerson: CallbackType<Person> = (req) => {
   const id = req.params.id;
   const validate = Validate(req.body, {
     username: { string: true },

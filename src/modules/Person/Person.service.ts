@@ -1,19 +1,19 @@
-import { IPerson } from "./Person.model";
+import { Person } from "./Person.model";
 
-let list: IPerson[] = [];
+let list: Person[] = [];
 
-const getAll = () => list;
-const getById = (id: string) => {
+export const getAll = () => list;
+export const getById = (id: string) => {
   const person = list.find((person) => person.id === id);
 
   return person || null;
 };
-const create = (person: IPerson) => {
+export const create = (person: Person) => {
   list.push(person);
 
   return person;
 };
-const update = (id: string, person: Partial<IPerson>) => {
+export const update = (id: string, person: Partial<Person>) => {
   const personIndex = list.findIndex((psn) => psn.id === id);
 
   if (personIndex === -1) {
@@ -24,7 +24,7 @@ const update = (id: string, person: Partial<IPerson>) => {
 
   return list[personIndex];
 };
-const remove = (id: string) => {
+export const remove = (id: string) => {
   const personIndex = list.findIndex((person) => person.id === id);
 
   if (personIndex === -1) {
@@ -35,5 +35,3 @@ const remove = (id: string) => {
 
   return true;
 };
-
-export { getById, getAll, create, update, remove };

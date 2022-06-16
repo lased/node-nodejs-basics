@@ -1,20 +1,11 @@
-export interface IPerson {
-  id: string;
-  username: string;
-  age: number;
-  hobbies: string[];
-}
+import { DTO } from "../../utils/Decorators/DTO";
 
+@DTO
 export class Person {
-  id: string;
-  username: string;
-  age: number;
-  hobbies: string[];
+  id?: string = undefined;
+  username?: string = undefined;
+  age?: number = undefined;
+  hobbies?: string[] = undefined;
 
-  constructor(dto: Person | Exclude<Person, "id">) {
-    this.id = dto.id;
-    this.username = dto.username;
-    this.age = dto.age;
-    this.hobbies = dto.hobbies;
-  }
+  constructor(dto: Person) {}
 }
