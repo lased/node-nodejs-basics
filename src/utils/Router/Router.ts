@@ -41,7 +41,7 @@ export const Router =
     }
 
     const routePath = Object.keys(routesByMethod).find((url) =>
-      compareUrl(url, reqUrl)
+      compareUrl(trimSlash(url), reqUrl)
     );
 
     if (!routePath) {

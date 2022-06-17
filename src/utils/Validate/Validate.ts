@@ -16,7 +16,7 @@ export const Validate = (dto: Record<string, any>, rules: RulesType) => {
     const value = dto[key];
     let error;
 
-    if (!rulesByKey.required && !value) {
+    if (!rulesByKey.required && value === undefined) {
       continue;
     }
     if (rulesByKey.required && value === undefined) {

@@ -1,6 +1,9 @@
 import cluster from "node:cluster";
 import { cpus } from "node:os";
 
+import { envConfig } from "./config/env";
+import app from "./main";
+
 const startWorker = () => {
   const worker = cluster.fork();
 
@@ -19,13 +22,17 @@ if (cluster.isPrimary) {
   for (let index = 0; index < cpusCount; index++) {
     startWorker();
   }
-} else {
-  import("./main").then((imprt) => {
-    const app = imprt.default;
-    const workerId = cluster.worker?.id || 0;
 
-    app.listen(3000 + workerId, () => {
-      console.log(`SERVER ${workerId} - ${3000 + workerId}:`);
-    });
+  console.info("========================================");
+  console.info(`Server running on port ${envConfig.PORT}`);
+  console.info("========================================");
+} else {
+  const workerId = cluster.worker?.id || 0;
+
+  app.use((req, res) => {
+    console.info(
+      `SERVER ${workerId}: ${res.statusCode} ${req.method} - ${req.url}`
+    );
   });
+  app.listen(envConfig.PORT);
 }
