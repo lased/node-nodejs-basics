@@ -52,7 +52,7 @@ export const Server = () => {
 
         result = { message };
       } finally {
-        if (isLast) {
+        if (isLast && !newRes.writableEnded) {
           newRes.end(JSON.stringify(result));
         } else {
           !isCalledMiddleware && runMiddleware(index + 1);

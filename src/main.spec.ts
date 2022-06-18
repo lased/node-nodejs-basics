@@ -1,8 +1,9 @@
-import { Server as NativeServer, get, request } from "http";
+import { Server as NativeServer, request } from "http";
 import { v4 } from "uuid";
 
-import { envConfig } from "./config/env";
 import { Person } from "./modules/Person/Person.model";
+import { envConfig } from "./config/env";
+import app from "./main";
 
 describe("Integration tests", () => {
   const options = {
@@ -14,9 +15,7 @@ describe("Integration tests", () => {
   let person: Person;
 
   beforeAll((done) => {
-    import("./main").then(
-      (imprt) => ((server = imprt.default.listen(envConfig.PORT)), done())
-    );
+    server = app.listen(envConfig.PORT, done);
   });
   afterAll(() => server.close());
   beforeEach(() => (body = ""));
