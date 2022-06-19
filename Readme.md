@@ -1,35 +1,27 @@
-# File Manager
+# CRUD API
 
-Run script `npm run start -- --username=your_username`
+> Note: before using this application you need to create a `.env` file
 
-## Navigation & working directory (nwd)
+## Scripts
 
-- Go upper from current directory: `up`;
-- Go to dedicated folder from current directory: `cd ./folder`, `cd "d:/Document and Settings"`;
-- List all files and folder in current directory: `ls`.
+- `npm run start:multi` - run application in cluster mode;
+- `npm run start:prod` - run application in production mode;
+- `npm run start:dev` - run application in development mode;
+- `npm run test` - run application tests.
 
-## Basic operations with files
+## Endpoints
 
-- Read file and print it's content in console: `cat file.txt`, `cat d:/file.txt`;
-- Create empty file in current working directory: `add file.txt`, `add "file with space.txt"`;
-- Rename file: `rn d:/file.txt newFile.txt`;
-- Copy file: `cp d:/file.txt c:/users/user`, `cp file.txt c:/users/user`;
-- Move file: `mv d:/file.txt c:/users/user`, `mv file.txt ./folder`;
-- Delete file: `rm d:/file.txt`, `rm file.txt`.
+- **GET** `/api/person` is used to get all persons;
+- **GET** `/api/person/${personId}` is used to get person by id;
+- **POST** `/api/person` is used to create record about new person and store it in database;
+- **PUT** `/api/person/{personId}` is used to update existing person;
+- **DELETE** `/api/person/${personId}` is used to delete existing person from database.
 
-## Operating system info
+## Model
 
-- Get EOL (default system End-Of-Line): `os --EOL`;
-- Get host machine CPUs info: `os --cpus`;
-- Get home directory: `os --homedir`;
-- Get current system user name: `os --username`;
-- Get CPU architecture for which Node.js binary has compiled^ `os --architecture`.
+Persons are stored as `objects` that have following properties:
 
-## Hash calculation
-
-- Calculate hash for file and print it into console: `hash d:/file.txt`, `hash file.txt`.
-
-## Compress and decompress operations
-
-- Compress file (using Brotli algorithm): `compress d:/file.txt file.br`;
-- Decompress file (using Brotli algorithm): `decompress file.br d:/file.txt`.
+- `id` — unique identifier (`string`, `uuid`) generated on server side;
+- `username` — user's name (`string`, **required**);
+- `age` — user's age (`number`, **required**);
+- `hobbies` — user's hobbies (`array` of `strings` or empty `array`, **required**).

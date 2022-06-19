@@ -5,12 +5,18 @@ const db = {} as { list: Person[] };
 let _list: typeof db.list = [];
 
 if (cluster.isPrimary) {
-  cluster.on("message", (_, list) => {
-    console.log(list);
+  let lastList: typeof db.list = [];
 
+  cluster.on("online", (worker) => {
+    worker?.send(lastList);
+  });
+  cluster.on("message", (fromWorker, list) => {
     Object.values(cluster.workers!).forEach((worker) => {
-      worker?.send(list);
+      if (fromWorker.id !== worker?.id) {
+        worker?.send(list);
+      }
     });
+    lastList = list;
   });
 }
 if (cluster.isWorker) {
@@ -22,6 +28,7 @@ if (cluster.isWorker) {
   Object.defineProperty(db, "list", {
     set(list) {
       worker.send(list);
+      _list = list;
     },
     get() {
       return _list;
@@ -49,7 +56,13 @@ export const update = (id: string, person: Partial<Person>) => {
     return null;
   }
 
-  db.list[personIndex] = { ...db.list[personIndex], ...person };
+  db.list = db.list.map((prsn, index) => {
+    if (index === personIndex) {
+      return { ...prsn, ...person };
+    }
+
+    return prsn;
+  });
 
   return db.list[personIndex];
 };
