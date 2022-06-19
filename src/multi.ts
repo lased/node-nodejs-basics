@@ -31,7 +31,7 @@ if (cluster.isPrimary) {
 
   app.use((req, res) => {
     console.info(
-      `SERVER ${workerId}: ${res.statusCode} ${req.method} - ${req.url}`
+      `SERVER ${workerId} - ${process.pid}: ${res.statusCode} ${req.method} - ${req.url}`
     );
   });
   app.listen(envConfig.PORT);
