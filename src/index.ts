@@ -1,10 +1,21 @@
-import { envConfig } from "./config/env";
-import Logger from "./utils/Logger";
-import app from "./main";
+import { WebSocketServer } from "ws";
 
-app.use(Logger);
-app.listen(envConfig.PORT, () => {
+const PORT = Number(process.env.PORT) || 6000;
+
+const wsServer = new WebSocketServer({
+  port: PORT,
+});
+
+wsServer.on("listening", () => {
   console.info("========================================");
-  console.info(`Server running on port ${envConfig.PORT}`);
+  console.info(`Server running on port ${PORT}`);
   console.info("========================================");
+});
+
+wsServer.on("connection", (ws) => {
+  ws.on("message", (data) => {
+    console.log("received: %s", data);
+  });
+
+  ws.send("something");
 });
