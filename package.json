@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "This repository is the part of nodejs-assignments https://github.com/AlreadyBored/nodejs-assignments",
   "scripts": {
-    "start:front": "node public/index.js",
     "start:prod": "npm run build && npm run prod",
     "start:dev": "nodemon src/index.ts",
-    "prod": "cross-env PORT=7000 node dist/index.js",
+    "prod": "node dist/index.js",
     "build": "tsc",
     "test": "jest"
   },
