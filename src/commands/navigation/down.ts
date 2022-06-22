@@ -1,12 +1,10 @@
 import robot from "robotjs";
 
-import { CommandResultType, PositionType } from "../../wsServer.types";
+import { CommandResultType } from "../../wsServer.types";
 
-export const mouseDown = (
-  position: PositionType,
-  bias: string
-): CommandResultType => {
+export const mouseDown = (bias: string): CommandResultType => {
   const { height } = robot.getScreenSize();
+  const position = robot.getMousePos();
   const newPosition = { ...position };
 
   newPosition.y += +bias;

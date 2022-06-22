@@ -5,4 +5,4 @@ export type PositionType = {
 export type CommandResultType = {
   position?: PositionType;
   data?: string;
-};
+} | void;

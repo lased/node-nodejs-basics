@@ -3,22 +3,17 @@ import robot from "robotjs";
 
 import commands from "./commands";
 
-const position = { x: 0, y: 0 };
-
 export const connection = (ws: WebSocket) => {
-  ws.on("message", async (data: Buffer) => {
+  ws.on("message", (data: Buffer) => {
     try {
       const [command, ...args] = data.toString().split(" ");
       const result = commands[command as keyof typeof commands](
-        position,
-        ...(args as [any])
+        ...(args as [any, any])
       );
       let response = `${command} ${args.join(" ")}`;
 
       if (result?.position) {
-        position.x = result.position.x;
-        position.y = result.position.y;
-        robot.moveMouse(position.x, position.y);
+        robot.moveMouse(result.position.x, result.position.y);
       }
       if (result?.data) {
         response = result.data;

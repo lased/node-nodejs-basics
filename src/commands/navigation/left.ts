@@ -1,9 +1,9 @@
-import { CommandResultType, PositionType } from "../../wsServer.types";
+import robot from "robotjs";
 
-export const mouseLeft = (
-  position: PositionType,
-  bias: string
-): CommandResultType => {
+import { CommandResultType } from "../../wsServer.types";
+
+export const mouseLeft = (bias: string): CommandResultType => {
+  const position = robot.getMousePos();
   const newPosition = { ...position };
 
   newPosition.x += -+bias;
