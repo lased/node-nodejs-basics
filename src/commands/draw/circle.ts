@@ -2,7 +2,7 @@ import robot from "robotjs";
 
 import { CommandResultType } from "../../wsServer.types";
 
-export const drawCircle = (radius: string): CommandResultType => {
+export const drawCircle = async (radius: string): CommandResultType => {
   const position = robot.getMousePos();
 
   robot.mouseToggle("down");

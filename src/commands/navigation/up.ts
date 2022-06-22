@@ -2,7 +2,7 @@ import robot from "robotjs";
 
 import { CommandResultType } from "../../wsServer.types";
 
-export const mouseUp = (bias: string): CommandResultType => {
+export const mouseUp = async (bias: string): CommandResultType => {
   const position = robot.getMousePos();
   const newPosition = { ...position };
 

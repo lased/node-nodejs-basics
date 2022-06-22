@@ -4,12 +4,13 @@ import robot from "robotjs";
 import commands from "./commands";
 
 export const connection = (ws: WebSocket) => {
-  ws.on("message", (data: Buffer) => {
+  ws.on("message", async (data: Buffer) => {
     try {
       const [command, ...args] = data.toString().split(" ");
-      const result = commands[command as keyof typeof commands](
+      const result = await commands[command as keyof typeof commands](
         ...(args as [any, any])
       );
+
       let response = `${command} ${args.join(" ")}`;
 
       if (result?.position) {
@@ -20,8 +21,10 @@ export const connection = (ws: WebSocket) => {
       }
 
       ws.send(response);
-    } catch {
-      ws.send("Invalid_command");
+    } catch (e) {
+      console.log(e);
+
+      ws.send("Invalid_command_or_server_error");
     }
   });
 };
