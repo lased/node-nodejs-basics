@@ -9,7 +9,6 @@ export const drawRect = async (
   const { x, y } = robot.getMousePos();
 
   robot.mouseToggle("down");
-  robot.mouseToggle("down");
   robot.moveMouseSmooth(x + +width, y);
   robot.moveMouseSmooth(x + +width, y + +height);
   robot.moveMouseSmooth(x, y + +height);
