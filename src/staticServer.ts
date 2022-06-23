@@ -14,10 +14,10 @@ const httpServer = http.createServer(function (req, res) {
 
     res.writeHead(200);
     stream.pipe(res);
-    stream.on('error', (error) => {
+    stream.on("error", (error) => {
       res.writeHead(404);
       res.end(JSON.stringify(error));
-    })
+    });
   } catch (error) {
     res.writeHead(404);
     res.end(JSON.stringify(error));
@@ -27,5 +27,4 @@ const httpServer = http.createServer(function (req, res) {
 httpServer.listen(HTTP_PORT, () => {
   console.info("========================================");
   console.info(`Static server running on port ${HTTP_PORT}`);
-  console.info("========================================");
 });

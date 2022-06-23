@@ -7,10 +7,8 @@ const wsServer = new WebSocketServer({
   port: PORT,
 });
 
-
 wsServer.on("connection", connection);
 wsServer.on("listening", () => {
-  console.info("========================================");
   console.info(`Websocket server running on port ${PORT}`);
-  console.info("========================================");
+  console.info("========================================\n");
 });

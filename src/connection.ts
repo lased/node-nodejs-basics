@@ -1,10 +1,23 @@
-import { WebSocket } from "ws";
+import { createWebSocketStream, WebSocket } from "ws";
 import robot from "robotjs";
 
 import commands from "./commands";
 
+const info = (text: string) => {
+  console.info("========================================");
+  console.info(`${text} Total - ${counter}`);
+  console.info("========================================");
+};
+let counter = 0;
+
 export const connection = (ws: WebSocket) => {
-  ws.on("message", async (data: Buffer) => {
+  const duplex = createWebSocketStream(ws, {
+    encoding: "utf8",
+    decodeStrings: false,
+  });
+
+  duplex.on("data", async (data: Buffer) => {
+    console.info(`\nReceived: ${data}\0`);
     try {
       const [command, ...args] = data.toString().split(" ");
       const result = await commands[command as keyof typeof commands](
@@ -18,13 +31,19 @@ export const connection = (ws: WebSocket) => {
       }
       if (result?.data) {
         response = result.data;
+        console.info(`Result: ${response}\0`);
       }
 
-      ws.send(response);
-    } catch (e) {
-      console.log(e);
-
-      ws.send("Invalid_command_or_server_error");
+      duplex.write(response);
+    } catch {
+      duplex.write("Invalid_command_or_server_error");
     }
   });
+  ws.on("close", () => {
+    info("User disconnected.");
+    duplex.destroy();
+    counter--;
+  });
+  counter++;
+  info("User connected.");
 };
