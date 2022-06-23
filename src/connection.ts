@@ -17,7 +17,7 @@ export const connection = (ws: WebSocket) => {
   });
 
   duplex.on("data", async (data: Buffer) => {
-    console.info(`\nReceived: ${data}\0`);
+    console.info(`\nReceived: ${data}`);
     try {
       const [command, ...args] = data.toString().split(" ");
       const result = await commands[command as keyof typeof commands](
@@ -31,10 +31,10 @@ export const connection = (ws: WebSocket) => {
       }
       if (result?.data) {
         response = result.data;
-        console.info(`Result: ${response}\0`);
+        console.info(`Result: ${response}`);
       }
 
-      duplex.write(response);
+      duplex.write(response + " \0");
     } catch {
       duplex.write("Invalid_command_or_server_error");
     }
