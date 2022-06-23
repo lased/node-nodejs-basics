@@ -1,16 +1,18 @@
 import robot from "robotjs";
 
 import { CommandResultType } from "../../wsServer.types";
-import { drawLine } from "./line";
 
 export const drawRect = async (
   width: string,
   height: string
 ): CommandResultType => {
+  const { x, y } = robot.getMousePos();
+
   robot.mouseToggle("down");
-  drawLine(1, 0, +width, +height);
-  drawLine(0, 1, +width, +height);
-  drawLine(-1, 0, +width, +height);
-  drawLine(0, -1, +width, +height);
+  robot.mouseToggle("down");
+  robot.moveMouseSmooth(x + +width, y);
+  robot.moveMouseSmooth(x + +width, y + +height);
+  robot.moveMouseSmooth(x, y + +height);
+  robot.moveMouseSmooth(x, y);
   robot.mouseToggle("up");
 };

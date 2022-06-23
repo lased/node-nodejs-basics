@@ -1,4 +1,3 @@
-import { Buffer } from "buffer";
 import robot from "robotjs";
 import jimp from "jimp";
 
@@ -28,7 +27,7 @@ export const screenshot = async (): CommandResultType => {
 
   img.bitmap.data = bitMap.image;
 
-  const base64 = await img.getBufferAsync(jimp.MIME_PNG);
+  const buffer = await img.getBufferAsync(jimp.MIME_PNG);
 
-  return { data: `prnt_scrn ${base64.toString("base64")}` };
+  return { data: `prnt_scrn ${buffer.toString("base64")} \0` };
 };
