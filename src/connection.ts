@@ -34,7 +34,7 @@ export const connection = (ws: WebSocket) => {
         console.info(`Result: ${response}`);
       }
 
-      duplex.write(response + " \0");
+      duplex.write(response);
     } catch {
       duplex.write("Invalid_command_or_server_error");
     }
