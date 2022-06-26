@@ -28,3 +28,5 @@ httpServer.listen(HTTP_PORT, () => {
   console.info("========================================");
   console.info(`Static server running on port ${HTTP_PORT}`);
 });
+
+export default httpServer;

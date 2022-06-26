@@ -34,10 +34,10 @@ export const connection = (ws: WebSocket) => {
         response = result.data;
       }
 
+      duplex.write((response || data) + " \0");
       console.info(
         `Result: ${response ? response : command + " completed successfully"}`
       );
-      duplex.write(response || command);
     } catch {
       console.info("Result: Error");
       console.info(`Result: ${command} ended with an error`);

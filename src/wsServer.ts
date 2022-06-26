@@ -12,3 +12,5 @@ wsServer.on("listening", () => {
   console.info(`Websocket server running on port ${PORT}`);
   console.info("========================================\n");
 });
+
+export default wsServer

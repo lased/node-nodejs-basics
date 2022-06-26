@@ -24,8 +24,14 @@ export const screenshot = async (): CommandResultType => {
 
   const bitMap = robot.screen.capture(x - size, y - size, size * 2, size * 2);
   const img = new jimp(size * 2, size * 2);
+  let pos = 0;
 
-  img.bitmap.data = bitMap.image;
+  img.scan(0, 0, img.bitmap.width, img.bitmap.height, (_, __, idx) => {
+    img.bitmap.data[idx + 2] = bitMap.image.readUInt8(pos++);
+    img.bitmap.data[idx + 1] = bitMap.image.readUInt8(pos++);
+    img.bitmap.data[idx + 0] = bitMap.image.readUInt8(pos++);
+    img.bitmap.data[idx + 3] = bitMap.image.readUInt8(pos++);
+  });
 
   const buffer = await img.getBufferAsync(jimp.MIME_PNG);
 
