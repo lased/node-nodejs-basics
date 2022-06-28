@@ -9,15 +9,14 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.42",
-    "@types/ws": "^8.5.3",
     "nodemon": "^2.0.16",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.3"
   },
   "dependencies": {
+    "apollo-server": "^3.9.0",
     "cross-env": "^7.0.3",
-    "jimp": "^0.16.1",
-    "robotjs": "^0.6.0",
-    "ws": "^8.8.0"
+    "dotenv": "^16.0.1",
+    "graphql": "^16.5.0"
   }
 }
