@@ -1,18 +1,21 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "Node16",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
     "outDir": "./dist",
-    "esModuleInterop": true,
-    "strict": true,
-    "noImplicitAny": true,
+    "baseUrl": "./",
+    "incremental": true,
     "skipLibCheck": true,
-    "experimentalDecorators": true
-  },
-  "include": ["src/**/*"],
-  "exclude": [
-    "node_modules"
-  ]
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  }
 }
