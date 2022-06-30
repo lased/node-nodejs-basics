@@ -1,10 +1,9 @@
 import dataSources from "./datasources";
-import resolvers from "./resolvers";
 
-export type ContexType = {
+export type ContextType = {
   dataSources: typeof dataSources;
 };
 export type ResolverType = Record<
   string,
-  Record<string, (parent: any, args: any, context: ContexType) => any>
+  Record<string, (parent: any, args: any, context: ContextType) => any>
 >;

@@ -1,7 +1,6 @@
-import { gql } from "apollo-server";
+import Artists from "./modules/artists/artists.schema";
+import Users from "./modules/users/users.schema";
 
-import Artist from "./modules/artists/artists.schema";
+const typeDefs = [Artists, Users];
 
-export default gql`
-  ${Artist}
-`;
+export default typeDefs;

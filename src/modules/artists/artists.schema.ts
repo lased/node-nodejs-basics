@@ -2,7 +2,7 @@ import { gql } from "apollo-server";
 
 export default gql`
   type Artist {
-    _id: ID!
+    id: ID!
     firstName: String
     secondName: String
     middleName: String
@@ -12,7 +12,10 @@ export default gql`
     bands: [ID]
     instruments: [ID]
   }
-  type Query {
+  type ArtistsQuery {
     all: [Artist]!
+  }
+  type Query {
+    artists: ArtistsQuery
   }
 `;

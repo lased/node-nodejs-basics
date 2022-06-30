@@ -1,7 +1,7 @@
 import { ResolverType } from "../../resolvers.types";
 
 const resolver: ResolverType = {
-  Query: {
+  ArtistsQuery: {
     all: (_, __, { dataSources }) => dataSources.artistsAPI.getArtists(),
   },
 };
