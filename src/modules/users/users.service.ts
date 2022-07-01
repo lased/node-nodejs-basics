@@ -1,0 +1,36 @@
+import axios, { AxiosInstance } from 'axios';
+import { Injectable } from '@nestjs/common';
+
+import { CreateUserInput } from './dto/create-user.input';
+import { UserResponse } from './user.interfaces';
+
+@Injectable()
+export class UsersService {
+  private baseURL = 'http://localhost:3004/v1/users';
+  private instance: AxiosInstance;
+
+  constructor() {
+    this.instance = axios.create({ baseURL: this.baseURL });
+  }
+
+  async jwt(email: string, password: string) {
+    const res = await this.instance.post<{ jwt: string }>(`/login`, {
+      email,
+      password,
+    });
+
+    return res.data.jwt;
+  }
+
+  async getById(id: string) {
+    const res = await this.instance.get<UserResponse>(`/${id}`);
+
+    return res.data;
+  }
+
+  async register(user: CreateUserInput) {
+    const res = await this.instance.post<UserResponse>(`/register`, user);
+
+    return res.data;
+  }
+}

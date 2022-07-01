@@ -6,8 +6,9 @@ import { IncomingMessage } from 'http';
 import { ParamsType } from 'src/shared/pagination/pagination.types';
 import { buildQueryParams } from 'src/shared/buildQueryParams';
 import { UpdateArtistInput } from './dto/update-artist.input';
-import { CreateArtistInput } from './dto/create-artist.dto';
+import { CreateArtistInput } from './dto/create-artist.input';
 import { Artist, ArtistsPagination } from './artist.model';
+import { ArtistResponse } from './artist.interfaces';
 
 @Injectable()
 export class ArtistsService {
@@ -28,7 +29,7 @@ export class ArtistsService {
   }
 
   async getById(id: string) {
-    const res = await this.instance.get<Artist>(`/${id}`);
+    const res = await this.instance.get<ArtistResponse>(`/${id}`);
 
     return res.data;
   }
@@ -41,13 +42,13 @@ export class ArtistsService {
   }
 
   async create(data: CreateArtistInput) {
-    const res = await this.instance.post<Artist>(`/`, data);
+    const res = await this.instance.post<ArtistResponse>(`/`, data);
 
     return res.data;
   }
 
   async update(id: string, data: UpdateArtistInput) {
-    const res = await this.instance.put<Artist>(`/${id}`, data);
+    const res = await this.instance.put<ArtistResponse>(`/${id}`, data);
 
     return res.data;
   }

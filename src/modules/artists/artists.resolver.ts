@@ -9,9 +9,10 @@ import {
 
 import { Artist, ArtistsPagination, DeletedArtist } from './artist.model';
 import { UpdateArtistInput } from './dto/update-artist.input';
-import { CreateArtistInput } from './dto/create-artist.dto';
+import { CreateArtistInput } from './dto/create-artist.input';
 import { ArtistsService } from './artists.service';
 import { ArtistsArgs } from './dto/artists.args';
+import { ArtistResponse } from './artist.interfaces';
 
 @Resolver(() => Artist)
 export class ArtistsResolver {
@@ -50,7 +51,7 @@ export class ArtistsResolver {
   }
 
   @ResolveField()
-  async id(@Parent() artist: any) {
+  async id(@Parent() artist: ArtistResponse) {
     return artist._id;
   }
 }
