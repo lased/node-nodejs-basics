@@ -33,21 +33,21 @@ export class BaseArtist {
 
 @ObjectType()
 export class ArtistsPagination extends Pagination {
-  @Field(() => [Artist])
+  @Field(() => [Artist], { nullable: true })
   items: ArtistResponse[];
 }
 
 @ObjectType()
 export class Artist extends BaseArtist {
-  @Field(() => String, { nullable: false })
+  @Field()
   id: string;
 }
 
 @ObjectType()
 export class DeletedArtist {
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   deletedCount: number;
 
-  @Field()
+  @Field(() => Boolean, { nullable: true })
   acknowledged: boolean;
 }

@@ -8,6 +8,7 @@ import axios from 'axios';
 import { ArtistsModule } from './modules/artists/artists.module';
 import { UsersModule } from './modules/users/users.module';
 import { GenresModule } from './modules/genres/genres.module';
+import { BandsModule } from './modules/bands/bands.module';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -34,6 +35,7 @@ const isProd = process.env.NODE_ENV === 'production';
     ArtistsModule,
     UsersModule,
     GenresModule,
+    BandsModule,
   ],
 })
 export class AppModule {}

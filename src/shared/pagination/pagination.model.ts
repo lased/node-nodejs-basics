@@ -1,13 +1,17 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 
-@ObjectType()
-export class Pagination {
-  @Field(() => Int)
+@ObjectType({ isAbstract: true })
+@InputType({ isAbstract: true })
+export class BasePagination {
+  @Field(() => Int, { nullable: true })
   offset: number;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   limit: number;
+}
 
-  @Field(() => Int)
+@ObjectType()
+export class Pagination extends BasePagination {
+  @Field(() => Int, { nullable: true })
   total: number;
 }

@@ -1,10 +1,6 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+
+import { BasePagination } from './pagination.model';
 
 @InputType()
-export class PaginationInput {
-  @Field(() => Int, { nullable: true })
-  offset: number;
-
-  @Field(() => Int, { nullable: true })
-  limit: number;
-}
+export class PaginationInput extends BasePagination {}

@@ -9,10 +9,10 @@ export class BaseUser {
   @Field(() => String, { nullable: true })
   lastName: string;
 
-  @Field(() => String, { nullable: true })
+  @Field()
   password: string;
 
-  @Field(() => String, { nullable: true })
+  @Field()
   email: string;
 }
 

@@ -6,7 +6,7 @@ import { GenreResponse } from './genre.interfaces';
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
 export class BaseGenre {
-  @Field(() => String, { nullable: true })
+  @Field(() => String, { nullable: false })
   name: string;
 
   @Field(() => String, { nullable: true })
@@ -21,21 +21,21 @@ export class BaseGenre {
 
 @ObjectType()
 export class GenresPagination extends Pagination {
-  @Field(() => [Genre])
+  @Field(() => [Genre], { nullable: true })
   items: GenreResponse[];
 }
 
 @ObjectType()
 export class Genre extends BaseGenre {
-  @Field(() => String, { nullable: false })
+  @Field()
   id: string;
 }
 
 @ObjectType()
 export class DeletedGenre {
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   deletedCount: number;
 
-  @Field()
+  @Field(() => Boolean, { nullable: true })
   acknowledged: boolean;
 }
