@@ -5,15 +5,15 @@ import { IncomingMessage } from 'http';
 
 import { ParamsType } from 'src/shared/pagination/pagination.types';
 import { buildQueryParams } from 'src/shared/buildQueryParams';
-import { FilterBandsInput } from './dto/filter-bands.input';
-import { UpdateBandInput } from './dto/update-band.input';
-import { CreateBandInput } from './dto/create-band.input';
-import { BandResponse } from './band.interfaces';
-import { BandsPagination } from './band.model';
+import { UpdateTrackInput } from './dto/update-track.input';
+import { CreateTrackInput } from './dto/create-track.input';
+import { TracksPagination } from './track.model';
+import { TrackResponse } from './track.interfaces';
+import { FilterTracksInput } from './dto/filter-tracks.input';
 
 @Injectable()
-export class BandsService {
-  private baseURL = 'http://localhost:3003/v1/bands';
+export class TracksService {
+  private baseURL = 'http://localhost:3006/v1/tracks';
   private instance: AxiosInstance;
 
   constructor(@Inject(CONTEXT) { req: request }: { req: IncomingMessage }) {
@@ -30,32 +30,36 @@ export class BandsService {
   }
 
   async getById(id: string) {
-    const res = await this.instance.get<BandResponse>(`/${id}`);
+    const res = await this.instance.get<TrackResponse>(`/${id}`);
 
     return res.data;
   }
 
-  async getAll(params: ParamsType<FilterBandsInput>) {
+  async getAll(params: ParamsType<FilterTracksInput>) {
     const search = buildQueryParams(params);
-    const res = await this.instance.get<BandsPagination>(`/?${search}`);
+    const res = await this.instance.get<TracksPagination>(`/?${search}`);
 
     return res.data;
   }
 
-  async create(data: CreateBandInput) {
-    const { genres, ...rest } = data;
-    const res = await this.instance.post<BandResponse>(`/`, {
+  async create(data: CreateTrackInput) {
+    const { genres, bands, artists, ...rest } = data;
+    const res = await this.instance.post<TrackResponse>(`/`, {
       ...rest,
+      bandsIds: bands,
+      artistsIds: artists,
       genresIds: genres,
     });
 
     return res.data;
   }
 
-  async update(id: string, data: UpdateBandInput) {
-    const { genres, ...rest } = data;
-    const res = await this.instance.put<BandResponse>(`/${id}`, {
+  async update(id: string, data: UpdateTrackInput) {
+    const { genres, bands, artists, ...rest } = data;
+    const res = await this.instance.put<TrackResponse>(`/${id}`, {
       ...rest,
+      bandsIds: bands,
+      artistsIds: artists,
       genresIds: genres,
     });
 

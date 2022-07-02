@@ -5,6 +5,9 @@ import { BaseBand } from '../band.model';
 
 @InputType()
 export class CreateBandInput extends BaseBand {
+  @Field()
+  name: string;
+
   @Field(() => [MemberInput], { nullable: true })
   members: MemberInput[];
 }

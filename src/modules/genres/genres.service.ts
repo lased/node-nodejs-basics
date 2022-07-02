@@ -5,10 +5,11 @@ import { IncomingMessage } from 'http';
 
 import { ParamsType } from 'src/shared/pagination/pagination.types';
 import { buildQueryParams } from 'src/shared/buildQueryParams';
+import { FilterGenresInput } from './dto/filter-genres.input';
 import { UpdateGenreInput } from './dto/update-genre.input';
 import { CreateGenreInput } from './dto/create-genre.input';
-import { Genre, GenresPagination } from './genre.model';
 import { GenreResponse } from './genre.interfaces';
+import { GenresPagination } from './genre.model';
 
 @Injectable()
 export class GenresService {
@@ -34,7 +35,7 @@ export class GenresService {
     return res.data;
   }
 
-  async getAll(params: ParamsType<Genre>) {
+  async getAll(params: ParamsType<FilterGenresInput>) {
     const search = buildQueryParams(params);
     const res = await this.instance.get<GenresPagination>(`/?${search}`);
 

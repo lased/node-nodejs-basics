@@ -1,5 +1,6 @@
 import {
   Args,
+  ID,
   Mutation,
   Parent,
   Query,
@@ -10,13 +11,18 @@ import {
 import { Artist, ArtistsPagination, DeletedArtist } from './artist.model';
 import { UpdateArtistInput } from './dto/update-artist.input';
 import { CreateArtistInput } from './dto/create-artist.input';
+import { BandsService } from '../bands/bands.service';
+import { ArtistResponse } from './artist.interfaces';
 import { ArtistsService } from './artists.service';
 import { ArtistsArgs } from './dto/artists.args';
-import { ArtistResponse } from './artist.interfaces';
+import { Band } from '../bands/band.model';
 
 @Resolver(() => Artist)
 export class ArtistsResolver {
-  constructor(private artistsService: ArtistsService) {}
+  constructor(
+    private artistsService: ArtistsService,
+    private bandsService: BandsService,
+  ) {}
 
   @Query(() => Artist)
   artist(@Args('id') id: string) {
@@ -53,5 +59,20 @@ export class ArtistsResolver {
   @ResolveField()
   async id(@Parent() artist: ArtistResponse) {
     return artist._id;
+  }
+
+  @ResolveField(() => [Band])
+  async bands(@Parent() artist: ArtistResponse) {
+    const promises = [];
+
+    artist.bandsIds.forEach((id) => {
+      promises.push(() => this.bandsService.getById(id));
+    });
+
+    const result = await Promise.allSettled(promises.map((fn) => fn()));
+
+    return result
+      .filter((item) => item.status === 'fulfilled')
+      .map((item: PromiseFulfilledResult<any>) => item.value);
   }
 }

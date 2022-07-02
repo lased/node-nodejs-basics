@@ -9,10 +9,10 @@ export class BaseUser {
   @Field(() => String, { nullable: true })
   lastName: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
   password: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
   email: string;
 }
 
@@ -20,4 +20,10 @@ export class BaseUser {
 export class User extends BaseUser {
   @Field()
   id: string;
+
+  @Field()
+  password: string;
+
+  @Field()
+  email: string;
 }

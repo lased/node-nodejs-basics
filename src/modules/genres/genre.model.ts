@@ -6,7 +6,7 @@ import { GenreResponse } from './genre.interfaces';
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
 export class BaseGenre {
-  @Field(() => String, { nullable: false })
+  @Field(() => String, { nullable: true })
   name: string;
 
   @Field(() => String, { nullable: true })
@@ -29,6 +29,9 @@ export class GenresPagination extends Pagination {
 export class Genre extends BaseGenre {
   @Field()
   id: string;
+
+  @Field()
+  name: string;
 }
 
 @ObjectType()

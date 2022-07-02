@@ -1,6 +1,9 @@
-import { InputType } from '@nestjs/graphql';
+import { InputType, PartialType } from '@nestjs/graphql';
 
-import { BaseArtist } from '../artist.model';
+import { CreateArtistInput } from './create-artist.input';
 
 @InputType()
-export class FilterArtistsInput extends BaseArtist {}
+export class FilterArtistsInput extends PartialType(
+  CreateArtistInput,
+  InputType,
+) {}
