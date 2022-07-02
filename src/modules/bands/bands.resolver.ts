@@ -7,16 +7,21 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 
-import { Band, BandsPagination, DeletedBand, Member } from './band.model';
+import { Band, BandsPagination, DeletedBand } from './band.model';
 import { UpdateBandInput } from './dto/update-band.input';
 import { CreateBandInput } from './dto/create-band.input';
-import { BandsService } from './bands.service';
-import { BandsArgs } from './dto/bands.args';
+import { GenresService } from '../genres/genres.service';
 import { BandResponse } from './band.interfaces';
+import { BandsService } from './bands.service';
+import { Genre } from '../genres/genre.model';
+import { BandsArgs } from './dto/bands.args';
 
 @Resolver(() => Band)
 export class BandsResolver {
-  constructor(private bandsService: BandsService) {}
+  constructor(
+    private bandsService: BandsService,
+    private genresService: GenresService,
+  ) {}
 
   @Query(() => Band)
   band(@Args('id') id: string) {
@@ -55,8 +60,16 @@ export class BandsResolver {
     return band._id;
   }
 
-  @ResolveField(() => [String])
-  genres(@Parent() band: BandResponse) {
-    return band.genresIds;
+  @ResolveField(() => [Genre])
+  async genres(@Parent() band: BandResponse) {
+    const promises = [];
+
+    band.genresIds.forEach((id) => {
+      promises.push(() => this.genresService.getById(id));
+    });
+
+    return (await Promise.allSettled(promises.map((fn) => fn())))
+      .filter((item) => item.status === 'fulfilled')
+      .map((item: PromiseFulfilledResult<any>) => item.value);
   }
 }

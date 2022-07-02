@@ -5,5 +5,6 @@ import { GenresService } from './genres.service';
 
 @Module({
   providers: [GenresService, GenresResolver],
+  exports: [GenresService],
 })
 export class GenresModule {}

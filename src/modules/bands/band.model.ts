@@ -2,6 +2,7 @@ import { Field, ID, InputType, Int, ObjectType } from '@nestjs/graphql';
 
 import { Pagination } from 'src/shared/pagination/pagination.model';
 import { BandResponse } from './band.interfaces';
+import { Genre } from '../genres/genre.model';
 
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
@@ -48,6 +49,9 @@ export class Band extends BaseBand {
 
   @Field(() => [Member], { nullable: true })
   members: Member[];
+
+  @Field(() => [Genre], { nullable: true })
+  genres: string[];
 }
 
 @ObjectType()
