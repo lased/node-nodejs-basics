@@ -1,10 +1,11 @@
-import { envConfig } from "./config/env";
-import Logger from "./utils/Logger";
-import app from "./main";
+import httpServer from "./staticServer";
+import wsServer from "./wsServer";
 
-app.use(Logger);
-app.listen(envConfig.PORT, () => {
-  console.info("========================================");
-  console.info(`Server running on port ${envConfig.PORT}`);
-  console.info("========================================");
+process.on("SIGINT", () => {
+  console.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  console.info("Closing websocket and static server...");
+  console.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  httpServer.close();
+  wsServer.close();
+  process.exit(0);
 });
