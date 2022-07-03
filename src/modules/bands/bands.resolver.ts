@@ -16,6 +16,8 @@ import { BandResponse } from './band.interfaces';
 import { BandsService } from './bands.service';
 import { Genre } from '../genres/genre.model';
 import { BandsArgs } from './dto/bands.args';
+import { asyncQueries } from 'src/shared/asyncQueries';
+import { GenreResponse } from '../genres/genre.interfaces';
 
 @Resolver(() => Band)
 export class BandsResolver {
@@ -62,15 +64,9 @@ export class BandsResolver {
   }
 
   @ResolveField(() => [Genre])
-  async genres(@Parent() band: BandResponse) {
-    const promises = [];
-
-    band.genresIds.forEach((id) => {
-      promises.push(() => this.genresService.getById(id));
-    });
-
-    return (await Promise.allSettled(promises.map((fn) => fn())))
-      .filter((item) => item.status === 'fulfilled')
-      .map((item: PromiseFulfilledResult<any>) => item.value);
+  genres(@Parent() band: BandResponse) {
+    return asyncQueries<GenreResponse>(band.genresIds, (id) =>
+      this.genresService.getById(id),
+    );
   }
 }

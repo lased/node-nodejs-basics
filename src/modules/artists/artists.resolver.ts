@@ -16,6 +16,8 @@ import { ArtistResponse } from './artist.interfaces';
 import { ArtistsService } from './artists.service';
 import { ArtistsArgs } from './dto/artists.args';
 import { Band } from '../bands/band.model';
+import { BandResponse } from '../bands/band.interfaces';
+import { asyncQueries } from 'src/shared/asyncQueries';
 
 @Resolver(() => Artist)
 export class ArtistsResolver {
@@ -62,17 +64,9 @@ export class ArtistsResolver {
   }
 
   @ResolveField(() => [Band])
-  async bands(@Parent() artist: ArtistResponse) {
-    const promises = [];
-
-    artist.bandsIds.forEach((id) => {
-      promises.push(() => this.bandsService.getById(id));
-    });
-
-    const result = await Promise.allSettled(promises.map((fn) => fn()));
-
-    return result
-      .filter((item) => item.status === 'fulfilled')
-      .map((item: PromiseFulfilledResult<any>) => item.value);
+  bands(@Parent() artist: ArtistResponse) {
+    return asyncQueries<BandResponse>(artist.bandsIds, (id) =>
+      this.bandsService.getById(id),
+    );
   }
 }

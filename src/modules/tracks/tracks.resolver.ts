@@ -19,6 +19,10 @@ import { ArtistsService } from '../artists/artists.service';
 import { BandsService } from '../bands/bands.service';
 import { Band } from '../bands/band.model';
 import { Artist } from '../artists/artist.model';
+import { asyncQueries } from 'src/shared/asyncQueries';
+import { GenreResponse } from '../genres/genre.interfaces';
+import { BandResponse } from '../bands/band.interfaces';
+import { ArtistResponse } from '../artists/artist.interfaces';
 
 @Resolver(() => Track)
 export class TracksResolver {
@@ -67,47 +71,23 @@ export class TracksResolver {
   }
 
   @ResolveField(() => [Genre])
-  async genres(@Parent() track: TrackResponse) {
-    const promises = [];
-
-    track.genresIds.forEach((id) => {
-      promises.push(() => this.genresService.getById(id));
-    });
-
-    const result = await Promise.allSettled(promises.map((fn) => fn()));
-
-    return result
-      .filter((item) => item.status === 'fulfilled')
-      .map((item: PromiseFulfilledResult<any>) => item.value);
+  genres(@Parent() track: TrackResponse) {
+    return asyncQueries<GenreResponse>(track.genresIds, (id) =>
+      this.genresService.getById(id),
+    );
   }
 
   @ResolveField(() => [Band])
   async bands(@Parent() track: TrackResponse) {
-    const promises = [];
-
-    track.bandsIds.forEach((id) => {
-      promises.push(() => this.bandsService.getById(id));
-    });
-
-    const result = await Promise.allSettled(promises.map((fn) => fn()));
-
-    return result
-      .filter((item) => item.status === 'fulfilled')
-      .map((item: PromiseFulfilledResult<any>) => item.value);
+    return asyncQueries<BandResponse>(track.bandsIds, (id) =>
+      this.bandsService.getById(id),
+    );
   }
 
   @ResolveField(() => [Artist])
   async artists(@Parent() track: TrackResponse) {
-    const promises = [];
-
-    track.artistsIds.forEach((id) => {
-      promises.push(() => this.artistsService.getById(id));
-    });
-
-    const result = await Promise.allSettled(promises.map((fn) => fn()));
-
-    return result
-      .filter((item) => item.status === 'fulfilled')
-      .map((item: PromiseFulfilledResult<any>) => item.value);
+    return asyncQueries<ArtistResponse>(track.artistsIds, (id) =>
+      this.artistsService.getById(id),
+    );
   }
 }
