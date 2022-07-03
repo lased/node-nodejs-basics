@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 
 import { MemberInput } from './member.input';
 import { BaseBand } from '../band.model';
@@ -10,4 +10,7 @@ export class CreateBandInput extends BaseBand {
 
   @Field(() => [MemberInput], { nullable: true })
   members: MemberInput[];
+
+  @Field(() => [ID], { nullable: true })
+  genres: string[];
 }

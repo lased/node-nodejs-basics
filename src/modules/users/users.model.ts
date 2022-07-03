@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
@@ -18,7 +18,7 @@ export class BaseUser {
 
 @ObjectType()
 export class User extends BaseUser {
-  @Field()
+  @Field(() => ID)
   id: string;
 
   @Field()

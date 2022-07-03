@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { Injectable } from '@nestjs/common';
 
@@ -6,10 +7,11 @@ import { UserResponse } from './user.interfaces';
 
 @Injectable()
 export class UsersService {
-  private baseURL = 'http://localhost:3004/v1/users';
+  private baseURL;
   private instance: AxiosInstance;
 
-  constructor() {
+  constructor(private configService: ConfigService) {
+    this.baseURL = this.configService.get('USERS_API');
     this.instance = axios.create({ baseURL: this.baseURL });
   }
 

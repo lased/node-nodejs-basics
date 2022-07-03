@@ -26,9 +26,6 @@ export class BaseBand {
   @Field(() => String, { nullable: true })
   website: string;
 
-  @Field(() => [ID], { nullable: true })
-  genres: string[];
-
   @Field(() => String, { nullable: true })
   name: string;
 }
@@ -44,11 +41,14 @@ export class Member extends BaseMember {}
 
 @ObjectType()
 export class Band extends BaseBand {
-  @Field()
+  @Field(() => ID)
   id: string;
 
   @Field(() => [Member], { nullable: true })
   members: Member[];
+
+  @Field(() => [Genre], { nullable: true })
+  genres: Genre[];
 }
 
 @ObjectType()

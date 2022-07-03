@@ -5,12 +5,16 @@ export const asyncQueries = async <T = any>(
   const promises = [];
 
   list.forEach((item) => {
-    promises.push(callback(item));
+    promises.push(() => callback(item));
   });
 
   const result = await Promise.allSettled(promises.map((fn) => fn()));
 
-  return result
-    .filter((item) => item.status === 'fulfilled')
-    .map((item: PromiseFulfilledResult<T>) => item.value);
+  return result.map((item: PromiseSettledResult<T>) => {
+    if (item.status === 'fulfilled') {
+      return item.value;
+    }
+
+    return item.reason;
+  });
 };

@@ -1,8 +1,8 @@
 import { Field, ID, InputType, Int, ObjectType } from '@nestjs/graphql';
 
 import { Pagination } from 'src/shared/pagination/pagination.model';
-import { Band } from '../bands/band.model';
 import { ArtistResponse } from './artist.interfaces';
+import { Band } from '../bands/band.model';
 
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
@@ -37,7 +37,7 @@ export class ArtistsPagination extends Pagination {
 
 @ObjectType()
 export class Artist extends BaseArtist {
-  @Field()
+  @Field(() => ID)
   id: string;
 
   @Field(() => [Band], { nullable: true })

@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { CONTEXT } from '@nestjs/graphql';
 import { IncomingMessage } from 'http';
@@ -13,10 +14,14 @@ import { BandsPagination } from './band.model';
 
 @Injectable()
 export class BandsService {
-  private baseURL = 'http://localhost:3003/v1/bands';
+  private baseURL;
   private instance: AxiosInstance;
 
-  constructor(@Inject(CONTEXT) { req: request }: { req: IncomingMessage }) {
+  constructor(
+    @Inject(CONTEXT) { req: request }: { req: IncomingMessage },
+    private configService: ConfigService,
+  ) {
+    this.baseURL = this.configService.get('BANDS_API');
     this.instance = axios.create({ baseURL: this.baseURL });
     this.instance.interceptors.request.use((req) => {
       const receivedAuth = request.headers?.authorization;
@@ -36,7 +41,15 @@ export class BandsService {
   }
 
   async getAll(params: ParamsType<FilterBandsInput>) {
-    const search = buildQueryParams(params);
+    const genres = params.filter?.genres
+      ? { genresIds: params.filter?.genres }
+      : {};
+    delete params.filter.genres;
+
+    const search = buildQueryParams({
+      ...params,
+      filter: { ...params.filter, ...genres },
+    });
     const res = await this.instance.get<BandsPagination>(`/?${search}`);
 
     return res.data;

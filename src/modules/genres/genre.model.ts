@@ -1,4 +1,4 @@
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType, Int, ObjectType } from '@nestjs/graphql';
 
 import { Pagination } from 'src/shared/pagination/pagination.model';
 import { GenreResponse } from './genre.interfaces';
@@ -27,11 +27,8 @@ export class GenresPagination extends Pagination {
 
 @ObjectType()
 export class Genre extends BaseGenre {
-  @Field()
+  @Field(() => ID)
   id: string;
-
-  @Field()
-  name: string;
 }
 
 @ObjectType()

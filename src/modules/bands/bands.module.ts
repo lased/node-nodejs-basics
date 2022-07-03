@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 
 import { GenresModule } from '../genres/genres.module';
@@ -6,7 +7,7 @@ import { BandsService } from './bands.service';
 
 @Module({
   imports: [GenresModule],
-  providers: [BandsService, BandsResolver],
+  providers: [BandsService, BandsResolver, ConfigService],
   exports: [BandsService],
 })
 export class BandsModule {}
