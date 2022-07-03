@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "Node16",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules"
+  ]
+}

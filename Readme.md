@@ -1,35 +1,63 @@
-# File Manager
+# CRUD API
 
-Run script `npm run start -- --username=your_username`
+> Note: before using this application you need to create a `.env` file
 
-## Navigation & working directory (nwd)
+## Scripts
 
-- Go upper from current directory: `up`;
-- Go to dedicated folder from current directory: `cd ./folder`, `cd "d:/Document and Settings"`;
-- List all files and folder in current directory: `ls`.
+- `npm run start:multi` - run application in cluster mode;
+- `npm run start:prod` - run application in production mode;
+- `npm run start:dev` - run application in development mode;
+- `npm run test` - run application tests.
 
-## Basic operations with files
+## Endpoints
 
-- Read file and print it's content in console: `cat file.txt`, `cat d:/file.txt`;
-- Create empty file in current working directory: `add file.txt`, `add "file with space.txt"`;
-- Rename file: `rn d:/file.txt newFile.txt`;
-- Copy file: `cp d:/file.txt c:/users/user`, `cp file.txt c:/users/user`;
-- Move file: `mv d:/file.txt c:/users/user`, `mv file.txt ./folder`;
-- Delete file: `rm d:/file.txt`, `rm file.txt`.
+- **GET** `/api/person` is used to get all persons;
+- **GET** `/api/person/${personId}` is used to get person by id;
+- **POST** `/api/person` is used to create record about new person and store it in database;
+- **PUT** `/api/person/{personId}` is used to update existing person;
+- **DELETE** `/api/person/${personId}` is used to delete existing person from database.
 
-## Operating system info
+## Model
 
-- Get EOL (default system End-Of-Line): `os --EOL`;
-- Get host machine CPUs info: `os --cpus`;
-- Get home directory: `os --homedir`;
-- Get current system user name: `os --username`;
-- Get CPU architecture for which Node.js binary has compiled^ `os --architecture`.
+Persons are stored as `objects` that have following properties:
 
-## Hash calculation
+- `id` — unique identifier (`string`, `uuid`) generated on server side;
+- `username` — user's name (`string`, **required**);
+- `age` — user's age (`number`, **required**);
+- `hobbies` — user's hobbies (`array` of `strings` or empty `array`, **required**).
 
-- Calculate hash for file and print it into console: `hash d:/file.txt`, `hash file.txt`.
+## Architecture
 
-## Compress and decompress operations
+### How does it work?
 
-- Compress file (using Brotli algorithm): `compress d:/file.txt file.br`;
-- Decompress file (using Brotli algorithm): `decompress file.br d:/file.txt`.
+The application can have many middleware and routes. The application passes through the handler in turn:
+- **routes** - returns the **result**;
+- **middleware** - runs the **next()** function to transfer control further.
+
+![Диаграмма без названия](https://user-images.githubusercontent.com/20574545/174485003-ae8de369-9233-47e4-a602-044cebf65056.jpg)
+
+**Examples:**
+```js
+// Example person routes
+const PersonRoutes = {
+  GET: {
+    "api/person": (req, res) => {...},
+    "api/person/:id": (req, res) => {...},
+  },
+  POST: {
+    "api/person": (req, res) => {...},
+  },
+};
+
+// Example a middleware
+const Logger = (req, res, next) => {
+  ...
+  next();
+};
+```
+
+### How does cluster work?
+
+A **worker** working with a database, when the database is changed, the **worker** sends the modified list to the **main** process, and the **main** process sends the changes to **other workers**.
+
+![Диаграмма без названия](https://user-images.githubusercontent.com/20574545/174484459-d7e631bf-492e-4180-8799-6070bb3a57d6.jpg)
