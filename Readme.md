@@ -1,8 +1,17 @@
+## Table of Contents
+
+- [Users](#Users)
+- [Genres](#Genres)
+- [Bands](#Bands)
+- [Artists](#Artists)
+
+<a name="Users"></a>
+
 ### Users
 
 Type of `User`:
 
-```js
+```graphql
 type User {
   firstName: String
   lastName: String
@@ -16,12 +25,9 @@ type User {
 
 1. Get `jwt` token:
 
-```js
+```graphql
 query {
-  jwt(
-    email: "test@test.com",
-    password: "1234567"
-  )
+  jwt(email: "test@test.ru", password: "11111111")
 }
 ```
 
@@ -37,7 +43,7 @@ query {
 
 2. Get user by id:
 
-```js
+```graphql
 query {
   user(id: "62c195b0214b0af8f7b9f090") {
     id
@@ -67,7 +73,7 @@ query {
 
 3. Register user:
 
-```js
+```graphql
 input CreateUserInput {
   firstName: String!
   lastName: String!
@@ -84,7 +90,6 @@ mutation Register($user: CreateUserInput!) {
     password
   }
 }
-
 ```
 
 **Result:**
@@ -103,11 +108,13 @@ mutation Register($user: CreateUserInput!) {
 }
 ```
 
+<a name="Genres"></a>
+
 ### Genres
 
 Type of `Genre`:
 
-```js
+```graphql
 type Genre {
   name: String
   description: String
@@ -121,9 +128,9 @@ type Genre {
 
 1. Get genre by id:
 
-```js
+```graphql
 query {
-  genre(id: "62c19cf148b226b718b95280"){
+  genre(id: "62c19cf148b226b718b95280") {
     id
     name
     description
@@ -147,7 +154,7 @@ query {
 
 2. Get genres:
 
-```js
+```graphql
 input PaginationInput {
   offset: Int
   limit: Int
@@ -166,10 +173,7 @@ type GenresPagination {
   items: [Genre!]
 }
 
-query Genres(
-    $pagination: PaginationInput,
-    $filter: FilterGenresInput
-  ) {
+query Genres($pagination: PaginationInput, $filter: FilterGenresInput) {
   genres(pagination: $pagination, filter: $filter) {
     items {
       id
@@ -206,7 +210,7 @@ query Genres(
 
 3. Create genre:
 
-```js
+```graphql
 input CreateGenreInput {
   name: String!
   description: String
@@ -239,7 +243,7 @@ mutation CreateGenre($genre: CreateGenreInput!) {
 
 4. Update genre by id:
 
-```js
+```graphql
 input UpdateGenreInput {
   name: String
   description: String
@@ -272,7 +276,7 @@ mutation UpdateGenre($genre: UpdateGenreInput!) {
 
 5. Delete genre by id:
 
-```js
+```graphql
 type DeletedGenre {
   deletedCount: Int
   acknowledged: Boolean
@@ -299,11 +303,13 @@ mutation {
 }
 ```
 
+<a name="Bands"></a>
+
 ### Bands
 
 Type of `Band`:
 
-```js
+```graphql
 type Band {
   origin: String
   website: String
@@ -318,9 +324,9 @@ type Band {
 
 1. Get band by id:
 
-```js
+```graphql
 query {
-  band(id: "62c1abdfde5f2ee1604227fd"){
+  band(id: "62c1abdfde5f2ee1604227fd") {
     id
     name
     origin
@@ -354,7 +360,7 @@ query {
 
 2. Get bands:
 
-```js
+```graphql
 input PaginationInput {
   offset: Int
   limit: Int
@@ -379,10 +385,7 @@ type BandsPagination {
   items: [Band!]
 }
 
-query Bands(
-    $pagination: PaginationInput,
-    $filter: FilterBandsInput
-  ) {
+query Bands($pagination: PaginationInput, $filter: FilterBandsInput) {
   bands(pagination: $pagination, filter: $filter) {
     items {
       id
@@ -453,7 +456,7 @@ query Bands(
 
 3. Create band:
 
-```js
+```graphql
 input CreateBandInput {
   origin: String
   website: String
@@ -513,7 +516,7 @@ mutation CreateBand($band: CreateBandInput!) {
 
 4. Update band by id:
 
-```js
+```graphql
 input UpdateBandInput {
   origin: String
   website: String
@@ -569,12 +572,11 @@ mutation UpdateBand($band: UpdateBandInput!) {
 
 5. Delete band by id:
 
-```js
+```graphql
 type DeletedBand {
   deletedCount: Int
   acknowledged: Boolean
 }
-
 
 mutation {
   deleteBand(id: "62c01ee75fbda9213016d780") {
@@ -590,6 +592,315 @@ mutation {
 {
   "data": {
     "deleteBand": {
+      "deletedCount": 1,
+      "acknowledged": true
+    }
+  }
+}
+```
+
+<a name="Artists"></a>
+
+### Artists
+
+Type of `Artist`:
+
+```graphql
+type Artist {
+  firstName: String
+  secondName: String
+  middleName: String
+  birthDate: String
+  birthPlace: String
+  country: String
+  instruments: [String!]
+  id: ID!
+  bands: [Band!]
+}
+```
+
+#### Available queries:
+
+1. Get artist by id:
+
+```graphql
+query {
+  artist(id: "62c2aa0a1c2b4d4f39aac7c2") {
+    id
+    firstName
+    secondName
+    country
+    instruments
+    bands {
+      name
+      genres {
+        name
+      }
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "artist": {
+      "id": "62c2aa0a1c2b4d4f39aac7c2",
+      "firstName": "Artist 1",
+      "secondName": "Artist 1",
+      "country": "country 1",
+      "instruments": ["guitar"],
+      "bands": [
+        {
+          "name": "band 1",
+          "genres": [
+            {
+              "name": "genre 1"
+            },
+            {
+              "name": "genre 2"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+2. Get artists:
+
+```graphql
+input PaginationInput {
+  offset: Int
+  limit: Int
+}
+input FilterArtistsInput {
+  firstName: String
+  secondName: String
+  middleName: String
+  birthDate: String
+  birthPlace: String
+  country: String
+  instruments: [String!]
+  bands: [ID!]
+}
+
+type ArtistsPagination {
+  offset: Int
+  limit: Int
+  total: Int
+  items: [Artist!]
+}
+
+query Artists($pagination: PaginationInput, $filter: FilterArtistsInput) {
+  artists(pagination: $pagination, filter: $filter) {
+    items {
+      id
+      bands {
+        id
+        name
+        genres {
+          name
+        }
+      }
+      firstName
+      secondName
+      instruments
+    }
+    limit
+    offset
+    total
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "artists": {
+      "items": [
+        {
+          "id": "62c2a9cd1c2b4d4f39aac7c0",
+          "bands": [],
+          "firstName": "Artist 2",
+          "secondName": "Artist 2",
+          "instruments": ["guitar"]
+        },
+        {
+          "id": "62c2aa0a1c2b4d4f39aac7c2",
+          "bands": [
+            {
+              "id": "62c2a3f8d819749065a71e75",
+              "name": "band 1",
+              "genres": [
+                {
+                  "name": "genre 1"
+                },
+                {
+                  "name": "genre 2"
+                }
+              ]
+            }
+          ],
+          "firstName": "Artist 1",
+          "secondName": "Artist 1",
+          "instruments": ["guitar"]
+        }
+      ],
+      "limit": 2,
+      "offset": 0,
+      "total": 2
+    }
+  }
+}
+```
+
+3. Create artist:
+
+```graphql
+input CreateArtistInput {
+  firstName: String!
+  secondName: String!
+  middleName: String
+  birthDate: String
+  birthPlace: String
+  country: String!
+  instruments: [String!]
+  bands: [ID!]
+}
+
+mutation CreateArtist($artist: CreateArtistInput!) {
+  createArtist(artist: $artist) {
+    id
+    birthDate
+    firstName
+    secondName
+    country
+    instruments
+    bands {
+      id
+      name
+      genres {
+        id
+        name
+      }
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "createArtist": {
+      "id": "62c2aa0a1c2b4d4f39aac7c2",
+      "birthDate": null,
+      "firstName": "Artist 1",
+      "secondName": "Artist 1",
+      "country": "country 1",
+      "instruments": ["guitar"],
+      "bands": [
+        {
+          "id": "62c2a3f8d819749065a71e75",
+          "name": "band 1",
+          "genres": [
+            {
+              "id": "62c2a0042e7bb3fe5f043c28",
+              "name": "genre 1"
+            },
+            {
+              "id": "62c2a0092e7bb3fe5f043c2a",
+              "name": "genre 2"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+4. Update artist by id:
+
+```graphql
+input UpdateArtistInput {
+  firstName: String
+  secondName: String
+  middleName: String
+  birthDate: String
+  birthPlace: String
+  country: String
+  instruments: [String!]
+  bands: [ID!]
+}
+
+mutation UpdateArtist($artist: UpdateArtistInput!) {
+  updateArtist(id: "62c2a9cd1c2b4d4f39aac7c0", artist: $artist) {
+    id
+    birthDate
+    firstName
+    secondName
+    country
+    instruments
+    bands {
+      id
+      name
+      genres {
+        id
+        name
+      }
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "updateArtist": {
+      "id": "62c2a9cd1c2b4d4f39aac7c0",
+      "birthDate": null,
+      "firstName": "Artist 2",
+      "secondName": "Artist 2",
+      "country": "country 1",
+      "instruments": ["guitar"],
+      "bands": []
+    }
+  }
+}
+```
+
+5. Delete artist by id:
+
+```graphql
+type DeletedArtist {
+  deletedCount: Int
+  acknowledged: Boolean
+}
+
+mutation {
+  deleteArtist(id: "62c2ab0c1c2b4d4f39aac7c7") {
+    deletedCount
+    acknowledged
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "deleteArtist": {
       "deletedCount": 1,
       "acknowledged": true
     }

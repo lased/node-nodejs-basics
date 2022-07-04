@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 
 import { ArtistsResolver } from './artists.resolver';
@@ -6,7 +7,7 @@ import { ArtistsService } from './artists.service';
 
 @Module({
   imports: [BandsModule],
-  providers: [ArtistsService, ArtistsResolver],
+  providers: [ArtistsService, ArtistsResolver, ConfigService],
   exports: [ArtistsService],
 })
 export class ArtistsModule {}

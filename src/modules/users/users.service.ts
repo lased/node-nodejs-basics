@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { Injectable } from '@nestjs/common';
+import { GraphQLError } from 'graphql';
 
 import { CreateUserInput } from './dto/create-user.input';
 import { UserResponse } from './user.interfaces';
@@ -20,6 +21,10 @@ export class UsersService {
       email,
       password,
     });
+
+    if (!res.data.jwt) {
+      throw new GraphQLError('Login or password is invalid');
+    }
 
     return res.data.jwt;
   }

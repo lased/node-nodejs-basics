@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { CONTEXT } from '@nestjs/graphql';
 import { IncomingMessage } from 'http';
@@ -13,10 +14,14 @@ import { ArtistsPagination } from './artist.model';
 
 @Injectable()
 export class ArtistsService {
-  private baseURL = 'http://localhost:3002/v1/artists';
+  private baseURL;
   private instance: AxiosInstance;
 
-  constructor(@Inject(CONTEXT) { req: request }: { req: IncomingMessage }) {
+  constructor(
+    @Inject(CONTEXT) { req: request }: { req: IncomingMessage },
+    private configService: ConfigService,
+  ) {
+    this.baseURL = this.configService.get('ARTISTS_API');
     this.instance = axios.create({ baseURL: this.baseURL });
     this.instance.interceptors.request.use((req) => {
       const receivedAuth = request.headers?.authorization;
