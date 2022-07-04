@@ -1009,7 +1009,7 @@ type Track {
 
 ```graphql
 query {
-  track(id: "62c2cf7c37e6b15b766e68ff"){
+  track(id: "62c2cf7c37e6b15b766e68ff") {
     id
     title
     album {
@@ -1112,10 +1112,7 @@ type TracksPagination {
   items: [Track!]
 }
 
-query Tracks(
-    $pagination: PaginationInput, 
-    $filter: FilterTracksInput
-  ) {
+query Tracks($pagination: PaginationInput, $filter: FilterTracksInput) {
   tracks(pagination: $pagination, filter: $filter) {
     items {
       id
@@ -1140,7 +1137,6 @@ query Tracks(
       genres {
         name
       }
-      
     }
     limit
     offset
@@ -1453,3 +1449,392 @@ mutation {
 
 </details><br>
 
+<a name="Albums"></a>
+
+### Albums
+
+Type of `Album`:
+
+```graphql
+type Album {
+  released: Int
+  image: String
+  name: String
+  id: ID!
+  artists: [Artist!]
+  bands: [Band!]
+  tracks: [Track!]
+  genres: [Genre!]
+}
+```
+
+#### Available queries:
+
+1. Get album by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+query {
+  album(id: "62c2c7b9b9764a772348cea8"){
+    id
+    artists {
+      firstName
+      country
+    }
+    bands {
+      name
+      genres {
+        name
+      }
+    }
+    genres {
+      name
+    }
+    tracks {
+      title
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "album": {
+      "id": "62c2c7b9b9764a772348cea8",
+      "artists": [
+        {
+          "firstName": "Artist 1",
+          "country": "country 1"
+        }
+      ],
+      "bands": [
+        {
+          "name": "band 2",
+          "genres": [
+            {
+              "name": "genre 1"
+            }
+          ]
+        }
+      ],
+      "genres": [
+        {
+          "name": "genre 1"
+        }
+      ],
+      "tracks": [
+        {
+          "title": "Track 1"
+        },
+        {
+          "title": "Track 2"
+        }
+      ]
+    }
+  }
+}
+```
+
+</details><br>
+
+2. Get albums:
+<details>
+  <summary>Details</summary>
+
+```graphql
+input PaginationInput {
+  offset: Int
+  limit: Int
+}
+input FilterAlbumsInput {
+  released: Int
+  image: String
+  name: String
+  artists: [ID!]
+  bands: [ID!]
+  tracks: [ID!]
+  genres: [ID!]
+}
+
+type AlbumsPagination {
+  offset: Int
+  limit: Int
+  total: Int
+  items: [Album!]
+}
+
+query Albums(
+    $pagination: PaginationInput, 
+    $filter: FilterAlbumsInput
+  ) {
+  albums(pagination: $pagination, filter: $filter) {
+    items {
+      id
+      artists {
+        firstName
+        country
+      }
+      bands {
+        name
+        genres {
+          name
+        }
+      }
+      genres {
+        name
+      }
+      tracks {
+        title
+      }
+    }
+    limit
+    offset
+    total
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "albums": {
+      "items": [
+        {
+          "id": "62c2c7b9b9764a772348cea8",
+          "artists": [
+            {
+              "firstName": "Artist 1",
+              "country": "country 1"
+            }
+          ],
+          "bands": [
+            {
+              "name": "band 2",
+              "genres": [
+                {
+                  "name": "genre 1"
+                }
+              ]
+            }
+          ],
+          "genres": [
+            {
+              "name": "genre 1"
+            }
+          ],
+          "tracks": [
+            {
+              "title": "Track 1"
+            },
+            {
+              "title": "Track 2"
+            }
+          ]
+        }
+      ],
+      "limit": 2,
+      "offset": 0,
+      "total": 1
+    }
+  }
+}
+```
+
+</details><br>
+
+3. Create album:
+<details>
+  <summary>Details</summary>
+
+```graphql
+input CreateAlbumInput {
+  released: Int
+  image: String
+  name: String!
+  artists: [ID!]
+  bands: [ID!]
+  tracks: [ID!]
+  genres: [ID!]
+}
+
+mutation CreateAlbum($album: CreateAlbumInput!) {
+  createAlbum(album: $album) {
+    id
+    name
+    artists {
+      firstName
+      bands {
+        name
+      }
+    }
+    bands {
+      name
+    }
+    tracks {
+      id
+      title
+    }
+    genres {
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "createAlbum": {
+      "id": "62c3216dad374391f63833a0",
+      "name": "Album 2",
+      "artists": [
+        {
+          "firstName": "Artist 1",
+          "bands": [
+            {
+              "name": "band 1"
+            }
+          ]
+        }
+      ],
+      "bands": [
+        {
+          "name": "band 2"
+        }
+      ],
+      "tracks": [],
+      "genres": [
+        {
+          "name": "genre 1"
+        }
+      ]
+    }
+  }
+}
+```
+
+</details><br>
+
+4. Update album by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+input UpdateAlbumInput {
+  released: Int
+  image: String
+  name: String
+  artists: [ID!]
+  bands: [ID!]
+  tracks: [ID!]
+  genres: [ID!]
+}
+
+mutation UpdateAlbum($album: UpdateAlbumInput!) {
+  updateAlbum(id: "62c2c7b9b9764a772348cea8", album: $album) {
+		id
+    name
+    bands {
+      name
+      genres {
+        name
+      }
+    }
+    artists {
+      firstName
+      secondName
+    }
+    genres {
+      name
+    }
+    tracks {
+      title
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "updateAlbum": {
+      "id": "62c2c7b9b9764a772348cea8",
+      "name": "Album 1",
+      "bands": [
+        {
+          "name": "band 2",
+          "genres": [
+            {
+              "name": "genre 1"
+            }
+          ]
+        }
+      ],
+      "artists": [
+        {
+          "firstName": "Artist 1",
+          "secondName": "Artist 1"
+        }
+      ],
+      "genres": [
+        {
+          "name": "genre 1"
+        }
+      ],
+      "tracks": [
+        {
+          "title": "Track 1"
+        },
+        {
+          "title": "Track 2"
+        }
+      ]
+    }
+  }
+}
+```
+
+</details><br>
+
+5. Delete album by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+type DeletedAlbum {
+  deletedCount: Int
+  acknowledged: Boolean
+}
+
+mutation {
+  deleteAlbum(id: "62c3216dad374391f63833a0") {
+    deletedCount
+    acknowledged
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "deleteAlbum": {
+      "deletedCount": 1,
+      "acknowledged": true
+    }
+  }
+}
+```
+
+</details><br>

@@ -46,7 +46,30 @@ export class AlbumsService {
   }
 
   async getAll(params: ParamsType<FilterAlbumsInput>) {
-    const search = buildQueryParams(params);
+    const { tracks, bands, artists, genres } = params.filter;
+    const filter: Partial<AlbumResponse> = {};
+
+    if (tracks) {
+      filter.trackIds = tracks;
+      delete params.filter.tracks;
+    }
+    if (bands) {
+      filter.bandsIds = bands;
+      delete params.filter.bands;
+    }
+    if (artists) {
+      filter.artistsIds = artists;
+      delete params.filter.artists;
+    }
+    if (genres) {
+      filter.genresIds = genres;
+      delete params.filter.genres;
+    }
+
+    const search = buildQueryParams({
+      ...params,
+      filter: { ...params.filter, ...filter },
+    });
     const res = await this.instance.get<AlbumsPagination>(`/?${search}`);
 
     return res.data;
