@@ -6,8 +6,9 @@ import { BaseTrack } from '../track.model';
 export class CreateTrackInput extends BaseTrack {
   @Field()
   title: string;
-  // @Field(() => Album)
-  // albums: string;
+
+  @Field(() => ID, { nullable: true })
+  album: string;
 
   @Field(() => [ID], { nullable: true })
   bands: string[];

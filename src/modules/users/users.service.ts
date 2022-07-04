@@ -32,6 +32,10 @@ export class UsersService {
   async getById(id: string) {
     const res = await this.instance.get<UserResponse>(`/${id}`);
 
+    if (!res.data) {
+      throw new GraphQLError('User not found');
+    }
+
     return res.data;
   }
 

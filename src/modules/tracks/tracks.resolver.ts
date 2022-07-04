@@ -8,21 +8,23 @@ import {
 } from '@nestjs/graphql';
 
 import { Track, TracksPagination, DeletedTrack } from './track.model';
+import { ArtistResponse } from '../artists/artist.interfaces';
 import { UpdateTrackInput } from './dto/update-track.input';
 import { CreateTrackInput } from './dto/create-track.input';
-import { GenresService } from '../genres/genres.service';
-import { TrackResponse } from './track.interfaces';
-import { TracksService } from './tracks.service';
-import { Genre } from '../genres/genre.model';
-import { TracksArgs } from './dto/tracks.args';
 import { ArtistsService } from '../artists/artists.service';
-import { BandsService } from '../bands/bands.service';
-import { Band } from '../bands/band.model';
-import { Artist } from '../artists/artist.model';
-import { asyncQueries } from 'src/shared/asyncQueries';
 import { GenreResponse } from '../genres/genre.interfaces';
+import { GenresService } from '../genres/genres.service';
+import { AlbumsService } from '../albums/albums.service';
 import { BandResponse } from '../bands/band.interfaces';
-import { ArtistResponse } from '../artists/artist.interfaces';
+import { asyncQueries } from 'src/shared/asyncQueries';
+import { BandsService } from '../bands/bands.service';
+import { TrackResponse } from './track.interfaces';
+import { Artist } from '../artists/artist.model';
+import { TracksService } from './tracks.service';
+import { TracksArgs } from './dto/tracks.args';
+import { Genre } from '../genres/genre.model';
+import { Album } from '../albums/album.model';
+import { Band } from '../bands/band.model';
 
 @Resolver(() => Track)
 export class TracksResolver {
@@ -31,6 +33,7 @@ export class TracksResolver {
     private tracksService: TracksService,
     private genresService: GenresService,
     private bandsService: BandsService,
+    private albumsService: AlbumsService,
   ) {}
 
   @Query(() => Track)
@@ -78,16 +81,21 @@ export class TracksResolver {
   }
 
   @ResolveField(() => [Band])
-  async bands(@Parent() track: TrackResponse) {
+  bands(@Parent() track: TrackResponse) {
     return asyncQueries<BandResponse>(track.bandsIds, (id) =>
       this.bandsService.getById(id),
     );
   }
 
   @ResolveField(() => [Artist])
-  async artists(@Parent() track: TrackResponse) {
+  artists(@Parent() track: TrackResponse) {
     return asyncQueries<ArtistResponse>(track.artistsIds, (id) =>
       this.artistsService.getById(id),
     );
+  }
+
+  @ResolveField(() => [Album])
+  album(@Parent() track: TrackResponse) {
+    return this.albumsService.getById(track.albumId);
   }
 }

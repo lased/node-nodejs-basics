@@ -59,7 +59,7 @@ export class ArtistsResolver {
   }
 
   @ResolveField()
-  async id(@Parent() artist: ArtistResponse) {
+  id(@Parent() artist: ArtistResponse) {
     return artist._id;
   }
 

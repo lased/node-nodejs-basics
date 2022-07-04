@@ -51,7 +51,7 @@ export class GenresResolver {
   }
 
   @ResolveField()
-  async id(@Parent() genre: GenreResponse) {
+  id(@Parent() genre: GenreResponse) {
     return genre._id;
   }
 }

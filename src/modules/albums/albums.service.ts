@@ -1,7 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { CONTEXT } from '@nestjs/graphql';
 import { IncomingMessage } from 'http';
+import { GraphQLError } from 'graphql';
 
 import { ParamsType } from 'src/shared/pagination/pagination.types';
 import { buildQueryParams } from 'src/shared/buildQueryParams';
@@ -13,10 +15,14 @@ import { AlbumsPagination } from './album.model';
 
 @Injectable()
 export class AlbumsService {
-  private baseURL = 'http://localhost:3003/v1/bands';
+  private baseURL;
   private instance: AxiosInstance;
 
-  constructor(@Inject(CONTEXT) { req: request }: { req: IncomingMessage }) {
+  constructor(
+    @Inject(CONTEXT) { req: request }: { req: IncomingMessage },
+    private configService: ConfigService,
+  ) {
+    this.baseURL = this.configService.get('ALBUMS_API');
     this.instance = axios.create({ baseURL: this.baseURL });
     this.instance.interceptors.request.use((req) => {
       const receivedAuth = request.headers?.authorization;
@@ -31,6 +37,10 @@ export class AlbumsService {
 
   async getById(id: string) {
     const res = await this.instance.get<AlbumResponse>(`/${id}`);
+
+    if (!res.data) {
+      throw new GraphQLError('Album not found');
+    }
 
     return res.data;
   }

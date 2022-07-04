@@ -4,6 +4,8 @@
 - [Genres](#Genres)
 - [Bands](#Bands)
 - [Artists](#Artists)
+- [Tracks](#Tracks)
+- [Albums](#Albums)
 
 <a name="Users"></a>
 
@@ -24,6 +26,8 @@ type User {
 #### Available queries:
 
 1. Get `jwt` token:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 query {
@@ -41,7 +45,11 @@ query {
 }
 ```
 
+</details><br>
+
 2. Get user by id:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 query {
@@ -71,7 +79,11 @@ query {
 }
 ```
 
+</details><br>
+
 3. Register user:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 input CreateUserInput {
@@ -108,6 +120,8 @@ mutation Register($user: CreateUserInput!) {
 }
 ```
 
+</details><br>
+
 <a name="Genres"></a>
 
 ### Genres
@@ -127,6 +141,8 @@ type Genre {
 #### Available queries:
 
 1. Get genre by id:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 query {
@@ -152,7 +168,11 @@ query {
 }
 ```
 
+</details><br>
+
 2. Get genres:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 input PaginationInput {
@@ -208,7 +228,11 @@ query Genres($pagination: PaginationInput, $filter: FilterGenresInput) {
 }
 ```
 
+</details><br>
+
 3. Create genre:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 input CreateGenreInput {
@@ -241,7 +265,11 @@ mutation CreateGenre($genre: CreateGenreInput!) {
 }
 ```
 
+</details><br>
+
 4. Update genre by id:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 input UpdateGenreInput {
@@ -274,7 +302,11 @@ mutation UpdateGenre($genre: UpdateGenreInput!) {
 }
 ```
 
+</details><br>
+
 5. Delete genre by id:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 type DeletedGenre {
@@ -303,6 +335,8 @@ mutation {
 }
 ```
 
+</details><br>
+
 <a name="Bands"></a>
 
 ### Bands
@@ -323,6 +357,8 @@ type Band {
 #### Available queries:
 
 1. Get band by id:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 query {
@@ -358,7 +394,11 @@ query {
 }
 ```
 
+</details><br>
+
 2. Get bands:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 input PaginationInput {
@@ -454,7 +494,11 @@ query Bands($pagination: PaginationInput, $filter: FilterBandsInput) {
 }
 ```
 
+</details><br>
+
 3. Create band:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 input CreateBandInput {
@@ -514,7 +558,11 @@ mutation CreateBand($band: CreateBandInput!) {
 }
 ```
 
+</details><br>
+
 4. Update band by id:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 input UpdateBandInput {
@@ -570,7 +618,11 @@ mutation UpdateBand($band: UpdateBandInput!) {
 }
 ```
 
+</details><br>
+
 5. Delete band by id:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 type DeletedBand {
@@ -599,6 +651,8 @@ mutation {
 }
 ```
 
+</details><br>
+
 <a name="Artists"></a>
 
 ### Artists
@@ -622,6 +676,8 @@ type Artist {
 #### Available queries:
 
 1. Get artist by id:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 query {
@@ -670,7 +726,11 @@ query {
 }
 ```
 
+</details><br>
+
 2. Get artists:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 input PaginationInput {
@@ -760,7 +820,11 @@ query Artists($pagination: PaginationInput, $filter: FilterArtistsInput) {
 }
 ```
 
+</details><br>
+
 3. Create artist:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 input CreateArtistInput {
@@ -827,7 +891,11 @@ mutation CreateArtist($artist: CreateArtistInput!) {
 }
 ```
 
+</details><br>
+
 4. Update artist by id:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 input UpdateArtistInput {
@@ -879,7 +947,11 @@ mutation UpdateArtist($artist: UpdateArtistInput!) {
 }
 ```
 
+</details><br>
+
 5. Delete artist by id:
+<details>
+  <summary>Details</summary>
 
 ```graphql
 type DeletedArtist {
@@ -907,3 +979,477 @@ mutation {
   }
 }
 ```
+
+</details><br>
+
+<a name="Tracks"></a>
+
+### Tracks
+
+Type of `Track`:
+
+```graphql
+type Track {
+  title: String!
+  duration: Int
+  released: Int
+  id: ID!
+  album: Album
+  bands: [Band!]
+  artists: [Artist!]
+  genres: [Genre!]
+}
+```
+
+#### Available queries:
+
+1. Get track by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+query {
+  track(id: "62c2cf7c37e6b15b766e68ff"){
+    id
+    title
+    album {
+      name
+      genres {
+        name
+      }
+    }
+    artists {
+      firstName
+      country
+    }
+    bands {
+      name
+      genres {
+        name
+      }
+    }
+    genres {
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "track": {
+      "id": "62c2cf7c37e6b15b766e68ff",
+      "title": "Track 1",
+      "album": {
+        "name": "Album 1",
+        "genres": [
+          {
+            "name": "genre 1"
+          }
+        ]
+      },
+      "artists": [
+        {
+          "firstName": "Artist 1",
+          "country": "country 1"
+        },
+        {
+          "firstName": "Artist 2",
+          "country": "country 1"
+        }
+      ],
+      "bands": [
+        {
+          "name": "band 1",
+          "genres": [
+            {
+              "name": "genre 1"
+            },
+            {
+              "name": "genre 2"
+            }
+          ]
+        }
+      ],
+      "genres": [
+        {
+          "name": "genre 1"
+        }
+      ]
+    }
+  }
+}
+```
+
+</details><br>
+
+2. Get tracks:
+<details>
+  <summary>Details</summary>
+
+```graphql
+input PaginationInput {
+  offset: Int
+  limit: Int
+}
+input FilterTracksInput {
+  title: String
+  duration: Int
+  released: Int
+  album: ID
+  bands: [ID!]
+  artists: [ID!]
+  genres: [ID!]
+}
+
+type TracksPagination {
+  offset: Int
+  limit: Int
+  total: Int
+  items: [Track!]
+}
+
+query Tracks(
+    $pagination: PaginationInput, 
+    $filter: FilterTracksInput
+  ) {
+  tracks(pagination: $pagination, filter: $filter) {
+    items {
+      id
+      album {
+        name
+        genres {
+          name
+        }
+      }
+      bands {
+        id
+        name
+        genres {
+          name
+        }
+      }
+      title
+      artists {
+        firstName
+        country
+      }
+      genres {
+        name
+      }
+      
+    }
+    limit
+    offset
+    total
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "tracks": {
+      "items": [
+        {
+          "id": "62c2cf7c37e6b15b766e68ff",
+          "album": {
+            "name": "Album 1",
+            "genres": [
+              {
+                "name": "genre 1"
+              }
+            ]
+          },
+          "bands": [
+            {
+              "id": "62c2a3f8d819749065a71e75",
+              "name": "band 1",
+              "genres": [
+                {
+                  "name": "genre 1"
+                },
+                {
+                  "name": "genre 2"
+                }
+              ]
+            }
+          ],
+          "title": "Track 1",
+          "artists": [
+            {
+              "firstName": "Artist 1",
+              "country": "country 1"
+            },
+            {
+              "firstName": "Artist 2",
+              "country": "country 1"
+            }
+          ],
+          "genres": [
+            {
+              "name": "genre 1"
+            }
+          ]
+        },
+        {
+          "id": "62c2d3f737e6b15b766e6906",
+          "album": {
+            "name": "Album 1",
+            "genres": [
+              {
+                "name": "genre 1"
+              }
+            ]
+          },
+          "bands": [
+            {
+              "id": "62c2a3f8d819749065a71e75",
+              "name": "band 1",
+              "genres": [
+                {
+                  "name": "genre 1"
+                },
+                {
+                  "name": "genre 2"
+                }
+              ]
+            }
+          ],
+          "title": "Track 2",
+          "artists": [
+            {
+              "firstName": "Artist 1",
+              "country": "country 1"
+            }
+          ],
+          "genres": [
+            {
+              "name": "genre 1"
+            }
+          ]
+        }
+      ],
+      "limit": 2,
+      "offset": 0,
+      "total": 2
+    }
+  }
+}
+```
+
+</details><br>
+
+3. Create track:
+<details>
+  <summary>Details</summary>
+
+```graphql
+input CreateTrackInput {
+  title: String!
+  duration: Int
+  released: Int
+  album: [ID!]
+  bands: [ID!]
+  artists: [ID!]
+  genres: [ID!]
+}
+
+mutation CreateTrack($track: CreateTrackInput!) {
+  createTrack(track: $track) {
+    id
+    title
+    album {
+      name
+      genres {
+        name
+      }
+    }
+    artists {
+      firstName
+      country
+    }
+    bands {
+      name
+      genres {
+        name
+      }
+    }
+    genres {
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "createTrack": {
+      "id": "62c2c98437e6b15b766e68f1",
+      "title": "Track 1",
+      "album": null,
+      "artists": [
+        {
+          "firstName": "Artist 1",
+          "country": "country 1"
+        },
+        {
+          "firstName": "Artist 2",
+          "country": "country 1"
+        }
+      ],
+      "bands": [
+        {
+          "name": "band 1",
+          "genres": [
+            {
+              "name": "genre 1"
+            },
+            {
+              "name": "genre 2"
+            }
+          ]
+        }
+      ],
+      "genres": [
+        {
+          "name": "genre 1"
+        }
+      ]
+    }
+  }
+}
+```
+
+</details><br>
+
+4. Update track by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+input UpdateTrackInput {
+  title: String
+  duration: Int
+  released: Int
+  album: ID
+  bands: [ID!]
+  artists: [ID!]
+  genres: [ID!]
+}
+
+mutation UpdateTrack($track: UpdateTrackInput!) {
+  updateTrack(id: "62c2d3f737e6b15b766e6906", track: $track) {
+    id
+    title
+    album {
+      name
+      genres {
+        name
+      }
+    }
+    artists {
+      firstName
+      country
+    }
+    bands {
+      name
+      genres {
+        name
+      }
+    }
+    genres {
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "updateTrack": {
+      "id": "62c2d3f737e6b15b766e6906",
+      "title": "Track 2",
+      "album": {
+        "name": "Album 1",
+        "genres": [
+          {
+            "name": "genre 1"
+          }
+        ]
+      },
+      "artists": [
+        {
+          "firstName": "Artist 1",
+          "country": "country 1"
+        }
+      ],
+      "bands": [
+        {
+          "name": "band 1",
+          "genres": [
+            {
+              "name": "genre 1"
+            },
+            {
+              "name": "genre 2"
+            }
+          ]
+        }
+      ],
+      "genres": [
+        {
+          "name": "genre 1"
+        }
+      ]
+    }
+  }
+}
+```
+
+</details><br>
+
+5. Delete track by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+type DeletedTrack {
+  deletedCount: Int
+  acknowledged: Boolean
+}
+
+mutation {
+  deleteTrack(id: "62c2c98437e6b15b766e68f1") {
+    deletedCount
+    acknowledged
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "deleteTrack": {
+      "deletedCount": 1,
+      "acknowledged": true
+    }
+  }
+}
+```
+
+</details><br>
+

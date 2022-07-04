@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { CONTEXT } from '@nestjs/graphql';
 import { IncomingMessage } from 'http';
+import { GraphQLError } from 'graphql';
 
 import { ParamsType } from 'src/shared/pagination/pagination.types';
 import { buildQueryParams } from 'src/shared/buildQueryParams';
@@ -36,6 +37,10 @@ export class BandsService {
 
   async getById(id: string) {
     const res = await this.instance.get<BandResponse>(`/${id}`);
+
+    if (!res.data) {
+      throw new GraphQLError('Band not found');
+    }
 
     return res.data;
   }

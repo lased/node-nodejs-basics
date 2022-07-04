@@ -1,10 +1,11 @@
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType, Int, ObjectType } from '@nestjs/graphql';
 
 import { Pagination } from 'src/shared/pagination/pagination.model';
 import { TrackResponse } from './track.interfaces';
+import { Artist } from '../artists/artist.model';
+import { Album } from '../albums/album.model';
 import { Genre } from '../genres/genre.model';
 import { Band } from '../bands/band.model';
-import { Artist } from '../artists/artist.model';
 
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
@@ -27,11 +28,11 @@ export class TracksPagination extends Pagination {
 
 @ObjectType()
 export class Track extends BaseTrack {
-  @Field()
+  @Field(() => ID)
   id: string;
 
-  // @Field(() => Album)
-  // albums: string;
+  @Field(() => Album, { nullable: true })
+  album: Album;
 
   @Field(() => [Band], { nullable: true })
   bands: Band[];

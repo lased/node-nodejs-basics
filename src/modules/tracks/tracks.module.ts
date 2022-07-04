@@ -1,14 +1,23 @@
 import { Module } from '@nestjs/common';
-import { ArtistsModule } from '../artists/artists.module';
-import { BandsModule } from '../bands/bands.module';
+import { ConfigService } from '@nestjs/config';
 
-import { GenresModule } from '../genres/genres.module';
+import { ArtistsService } from '../artists/artists.service';
+import { AlbumsService } from '../albums/albums.service';
+import { GenresService } from '../genres/genres.service';
+import { BandsService } from '../bands/bands.service';
 import { TracksResolver } from './tracks.resolver';
 import { TracksService } from './tracks.service';
 
 @Module({
-  imports: [GenresModule, ArtistsModule, BandsModule],
-  providers: [TracksService, TracksResolver],
+  providers: [
+    TracksService,
+    TracksResolver,
+    ConfigService,
+    AlbumsService,
+    GenresService,
+    ArtistsService,
+    BandsService,
+  ],
   exports: [TracksService],
 })
 export class TracksModule {}
