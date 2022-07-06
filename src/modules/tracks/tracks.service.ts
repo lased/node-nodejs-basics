@@ -15,7 +15,7 @@ import { TracksPagination } from './track.model';
 
 @Injectable()
 export class TracksService {
-  private baseURL = 'http://localhost:3006/v1/tracks';
+  private baseURL;
   private instance: AxiosInstance;
 
   constructor(

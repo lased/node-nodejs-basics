@@ -5,12 +5,13 @@ import { Module } from '@nestjs/common';
 import { GraphQLError } from 'graphql';
 import axios from 'axios';
 
+import { FavouritesModule } from './modules/favourites/favourites.module';
 import { ArtistsModule } from './modules/artists/artists.module';
-import { UsersModule } from './modules/users/users.module';
 import { GenresModule } from './modules/genres/genres.module';
-import { BandsModule } from './modules/bands/bands.module';
 import { TracksModule } from './modules/tracks/tracks.module';
 import { AlbumsModule } from './modules/albums/albums.module';
+import { UsersModule } from './modules/users/users.module';
+import { BandsModule } from './modules/bands/bands.module';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -40,6 +41,7 @@ const isProd = process.env.NODE_ENV === 'production';
     BandsModule,
     TracksModule,
     AlbumsModule,
+    FavouritesModule,
   ],
 })
 export class AppModule {}

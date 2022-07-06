@@ -49,7 +49,7 @@ export class ArtistsService {
     const bands = params.filter?.bands
       ? { bandsIds: params.filter?.bands }
       : {};
-    delete params.filter.bands;
+    delete params.filter?.bands;
 
     const search = buildQueryParams({
       ...params,

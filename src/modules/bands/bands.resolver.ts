@@ -1,6 +1,5 @@
 import {
   Args,
-  ID,
   Mutation,
   Parent,
   Query,
@@ -9,21 +8,22 @@ import {
 } from '@nestjs/graphql';
 
 import { Band, BandsPagination, DeletedBand } from './band.model';
+import { ArtistsService } from '../artists/artists.service';
+import { GenreResponse } from '../genres/genre.interfaces';
 import { UpdateBandInput } from './dto/update-band.input';
 import { CreateBandInput } from './dto/create-band.input';
 import { GenresService } from '../genres/genres.service';
+import { asyncQueries } from 'src/shared/asyncQueries';
 import { BandResponse } from './band.interfaces';
 import { BandsService } from './bands.service';
 import { Genre } from '../genres/genre.model';
 import { BandsArgs } from './dto/bands.args';
-import { asyncQueries } from 'src/shared/asyncQueries';
-import { GenreResponse } from '../genres/genre.interfaces';
 
 @Resolver(() => Band)
 export class BandsResolver {
   constructor(
-    private bandsService: BandsService,
     private genresService: GenresService,
+    private bandsService: BandsService,
   ) {}
 
   @Query(() => Band)

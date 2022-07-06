@@ -3,14 +3,12 @@ import { Field, ID, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { Pagination } from 'src/shared/pagination/pagination.model';
 import { BandResponse } from './band.interfaces';
 import { Genre } from '../genres/genre.model';
+import { Artist } from '../artists/artist.model';
 
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
 export class BaseMember {
   @Field(() => String, { nullable: false })
-  artist: string;
-
-  @Field(() => String, { nullable: true })
   instrument: string;
 
   @Field(() => [String], { nullable: true })
@@ -37,7 +35,10 @@ export class BandsPagination extends Pagination {
 }
 
 @ObjectType()
-export class Member extends BaseMember {}
+export class Member extends BaseMember {
+  @Field(() => Artist)
+  artist: Artist;
+}
 
 @ObjectType()
 export class Band extends BaseBand {

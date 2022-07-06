@@ -352,6 +352,11 @@ type Band {
   members: [Member!]
   genres: [Genre!]
 }
+type Member {
+  instrument: String!
+  years: [String!]
+  artist: Artist!
+}
 ```
 
 #### Available queries:
@@ -406,15 +411,14 @@ input PaginationInput {
   limit: Int
 }
 input MemberInput {
-  artist: String!
-  instrument: String
+  instrument: String!
   years: [String!]
+  artist: ID!
 }
 input FilterBandsInput {
   origin: String
   website: String
   name: String
-  members: [MemberInput!]
   genres: [ID!]
 }
 
@@ -435,7 +439,10 @@ query Bands($pagination: PaginationInput, $filter: FilterBandsInput) {
         name
       }
       members {
-        artist
+        artist {
+          id
+          firstName
+        }
         instrument
       }
     }
@@ -454,41 +461,58 @@ query Bands($pagination: PaginationInput, $filter: FilterBandsInput) {
     "bands": {
       "items": [
         {
-          "id": "62c1aac8de5f2ee1604227f7",
-          "name": "test",
+          "id": "62c2a3f8d819749065a71e75",
+          "name": "band 1",
           "genres": [
             {
-              "id": "62bed935f2fa3d1152b5c273",
+              "id": "62c2a0042e7bb3fe5f043c28",
               "name": "genre 1"
+            },
+            {
+              "id": "62c2a0092e7bb3fe5f043c2a",
+              "name": "genre 2"
             }
           ],
           "members": [
             {
-              "artist": "artist 1",
+              "artist": {
+                "id": "62c2a9cd1c2b4d4f39aac7c0",
+                "firstName": "Artist 2"
+              },
+              "instrument": "guitar"
+            },
+            {
+              "artist": {
+                "id": "62c2aa0a1c2b4d4f39aac7c2",
+                "firstName": "Artist 1"
+              },
               "instrument": "guitar"
             }
           ]
         },
         {
-          "id": "62c1abc9de5f2ee1604227fb",
-          "name": "test",
+          "id": "62c2a400d819749065a71e77",
+          "name": "band 2",
           "genres": [
             {
-              "id": "62bed935f2fa3d1152b5c273",
+              "id": "62c2a0042e7bb3fe5f043c28",
               "name": "genre 1"
             }
           ],
           "members": [
             {
-              "artist": "artist 1",
+              "artist": {
+                "id": "62c2aa0a1c2b4d4f39aac7c2",
+                "firstName": "Artist 1"
+              },
               "instrument": "guitar"
             }
           ]
         }
       ],
-      "limit": 2,
+      "limit": 5,
       "offset": 0,
-      "total": 3
+      "total": 2
     }
   }
 }
@@ -501,6 +525,11 @@ query Bands($pagination: PaginationInput, $filter: FilterBandsInput) {
   <summary>Details</summary>
 
 ```graphql
+input MemberInput {
+  instrument: String!
+  years: [String!]
+  artist: ID!
+}
 input CreateBandInput {
   origin: String
   website: String
@@ -514,7 +543,10 @@ mutation CreateBand($band: CreateBandInput!) {
     id
     name
     members {
-      artist
+      artist {
+        id
+        firstName
+      }
       instrument
     }
     genres {
@@ -531,26 +563,21 @@ mutation CreateBand($band: CreateBandInput!) {
 {
   "data": {
     "createBand": {
-      "id": "62c1abdfde5f2ee1604227fd",
-      "name": "test",
+      "id": "62c588c40ddeb9c6b2e6fc0a",
+      "name": "Band 3",
       "members": [
         {
-          "artist": "artist 1",
-          "instrument": "guitar"
-        },
-        {
-          "artist": "artist 2",
-          "instrument": "guitar"
+          "artist": {
+            "id": "62c2a9cd1c2b4d4f39aac7c0",
+            "firstName": "Artist 2"
+          },
+          "instrument": "Bass"
         }
       ],
       "genres": [
         {
-          "id": "62bed935f2fa3d1152b5c273",
+          "id": "62c2a0042e7bb3fe5f043c28",
           "name": "genre 1"
-        },
-        {
-          "id": "62bed935f2fa3d1152b5c283",
-          "name": "genre 2"
         }
       ]
     }
@@ -565,6 +592,11 @@ mutation CreateBand($band: CreateBandInput!) {
   <summary>Details</summary>
 
 ```graphql
+input MemberInput {
+  instrument: String!
+  years: [String!]
+  artist: ID!
+}
 input UpdateBandInput {
   origin: String
   website: String
@@ -574,11 +606,14 @@ input UpdateBandInput {
 }
 
 mutation UpdateBand($band: UpdateBandInput!) {
-  updateBand(id: "62c1abdfde5f2ee1604227fd", band: $band) {
+  updateBand(id: "62c588c40ddeb9c6b2e6fc0a", band: $band) {
     id
     name
     members {
-      artist
+      artist {
+        id
+        firstName
+      }
       instrument
     }
     genres {
@@ -595,22 +630,28 @@ mutation UpdateBand($band: UpdateBandInput!) {
 {
   "data": {
     "updateBand": {
-      "id": "62c1abdfde5f2ee1604227fd",
-      "name": "new name",
+      "id": "62c588c40ddeb9c6b2e6fc0a",
+      "name": "Band 3",
       "members": [
         {
-          "artist": "artist 1",
+          "artist": {
+            "id": "62c2aa0a1c2b4d4f39aac7c2",
+            "firstName": "Artist 1"
+          },
           "instrument": "guitar"
         },
         {
-          "artist": "artist 2",
-          "instrument": "guitar"
+          "artist": {
+            "id": "62c2a9cd1c2b4d4f39aac7c0",
+            "firstName": "Artist 2"
+          },
+          "instrument": "Bass"
         }
       ],
       "genres": [
         {
-          "id": "62bed935f2fa3d1152b5c273",
-          "name": "asd"
+          "id": "62c2a0042e7bb3fe5f043c28",
+          "name": "genre 1"
         }
       ]
     }
@@ -1476,7 +1517,7 @@ type Album {
 
 ```graphql
 query {
-  album(id: "62c2c7b9b9764a772348cea8"){
+  album(id: "62c2c7b9b9764a772348cea8") {
     id
     artists {
       firstName
@@ -1567,10 +1608,7 @@ type AlbumsPagination {
   items: [Album!]
 }
 
-query Albums(
-    $pagination: PaginationInput, 
-    $filter: FilterAlbumsInput
-  ) {
+query Albums($pagination: PaginationInput, $filter: FilterAlbumsInput) {
   albums(pagination: $pagination, filter: $filter) {
     items {
       id
@@ -1740,7 +1778,7 @@ input UpdateAlbumInput {
 
 mutation UpdateAlbum($album: UpdateAlbumInput!) {
   updateAlbum(id: "62c2c7b9b9764a772348cea8", album: $album) {
-		id
+    id
     name
     bands {
       name
