@@ -1,3 +1,5 @@
+**Connect to GraphQL (dev mode):** `http://localhost:8000/graphql`
+
 ## Table of Contents
 
 - [Users](#Users)
@@ -6,6 +8,7 @@
 - [Artists](#Artists)
 - [Tracks](#Tracks)
 - [Albums](#Albums)
+- [Favourites](#Favourites)
 
 <a name="Users"></a>
 
@@ -1870,6 +1873,505 @@ mutation {
     "deleteAlbum": {
       "deletedCount": 1,
       "acknowledged": true
+    }
+  }
+}
+```
+
+</details><br>
+
+<a name="Favourites"></a>
+
+### Favourites
+
+Type of `Favourites`:
+
+```graphql
+type Favourites {
+  id: ID!
+  user: User
+  bands: [Band!]
+  artists: [Artist!]
+  genres: [Genre!]
+  tracks: [Track!]
+}
+```
+
+#### Available queries:
+
+1. Add track to favourites by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+mutation {
+  addTrackToFavourites(id: "62c2cf7c37e6b15b766e68ff") {
+    user {
+      firstName
+    }
+    tracks {
+      id
+      title
+    }
+    bands {
+      id
+      name
+    }
+    artists {
+      id
+      firstName
+    }
+    genres {
+      id
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "addTrackToFavourites": {
+      "user": {
+        "firstName": "test"
+      },
+      "tracks": [
+        {
+          "id": "62c2cf7c37e6b15b766e68ff",
+          "title": "Track 1"
+        }
+      ],
+      "bands": [],
+      "artists": [],
+      "genres": []
+    }
+  }
+}
+```
+
+</details><br>
+
+2. Add band to favourites by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+mutation {
+  addBandToFavourites(id: "62c2a400d819749065a71e77") {
+    user {
+      firstName
+    }
+    tracks {
+      id
+      title
+    }
+    bands {
+      id
+      name
+    }
+    artists {
+      id
+      firstName
+    }
+    genres {
+      id
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "addBandToFavourites": {
+      "user": {
+        "firstName": "test"
+      },
+      "tracks": [
+        {
+          "id": "62c2cf7c37e6b15b766e68ff",
+          "title": "Track 1"
+        }
+      ],
+      "bands": [
+        {
+          "id": "62c2a400d819749065a71e77",
+          "name": "band 2"
+        }
+      ],
+      "artists": [],
+      "genres": []
+    }
+  }
+}
+```
+
+</details><br>
+
+3. Add artist to favourites by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+mutation {
+  addArtistToFavourites(id: "62c2a9cd1c2b4d4f39aac7c0") {
+    user {
+      firstName
+    }
+    tracks {
+      id
+      title
+    }
+    bands {
+      id
+      name
+    }
+    artists {
+      id
+      firstName
+    }
+    genres {
+      id
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "addArtistToFavourites": {
+      "user": {
+        "firstName": "test"
+      },
+      "tracks": [
+        {
+          "id": "62c2cf7c37e6b15b766e68ff",
+          "title": "Track 1"
+        }
+      ],
+      "bands": [
+        {
+          "id": "62c2a400d819749065a71e77",
+          "name": "band 2"
+        }
+      ],
+      "artists": [
+        {
+          "id": "62c2a9cd1c2b4d4f39aac7c0",
+          "firstName": "Artist 2"
+        }
+      ],
+      "genres": []
+    }
+  }
+}
+```
+
+</details><br>
+
+4. Add genre to favourites by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+mutation {
+  addGenreToFavourites(id: "62c2a0042e7bb3fe5f043c28") {
+    user {
+      firstName
+    }
+    tracks {
+      id
+      title
+    }
+    bands {
+      id
+      name
+    }
+    artists {
+      id
+      firstName
+    }
+    genres {
+      id
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "addGenreToFavourites": {
+      "user": {
+        "firstName": "test"
+      },
+      "tracks": [
+        {
+          "id": "62c2cf7c37e6b15b766e68ff",
+          "title": "Track 1"
+        }
+      ],
+      "bands": [
+        {
+          "id": "62c2a400d819749065a71e77",
+          "name": "band 2"
+        }
+      ],
+      "artists": [
+        {
+          "id": "62c2a9cd1c2b4d4f39aac7c0",
+          "firstName": "Artist 2"
+        }
+      ],
+      "genres": [
+        {
+          "id": "62c2a0042e7bb3fe5f043c28",
+          "name": "genre 1"
+        }
+      ]
+    }
+  }
+}
+```
+
+</details><br>
+
+5. Remove track from favourites by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+mutation {
+  removeTrackToFavourites(id: "62c2cf7c37e6b15b766e68ff") {
+    user {
+      firstName
+    }
+    tracks {
+      id
+      title
+    }
+    bands {
+      id
+      name
+    }
+    artists {
+      id
+      firstName
+    }
+    genres {
+      id
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "removeTrackToFavourites": {
+      "user": {
+        "firstName": "test"
+      },
+      "tracks": [],
+      "bands": [
+        {
+          "id": "62c2a400d819749065a71e77",
+          "name": "band 2"
+        }
+      ],
+      "artists": [
+        {
+          "id": "62c2a9cd1c2b4d4f39aac7c0",
+          "firstName": "Artist 2"
+        }
+      ],
+      "genres": [
+        {
+          "id": "62c2a0042e7bb3fe5f043c28",
+          "name": "genre 1"
+        }
+      ]
+    }
+  }
+}
+```
+
+</details><br>
+
+6. Remove genre from favourites by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+mutation {
+  removeGenreToFavourites(id: "62c2a0042e7bb3fe5f043c28") {
+    user {
+      firstName
+    }
+    tracks {
+      id
+      title
+    }
+    bands {
+      id
+      name
+    }
+    artists {
+      id
+      firstName
+    }
+    genres {
+      id
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "removeGenreToFavourites": {
+      "user": {
+        "firstName": "test"
+      },
+      "tracks": [],
+      "bands": [
+        {
+          "id": "62c2a400d819749065a71e77",
+          "name": "band 2"
+        }
+      ],
+      "artists": [
+        {
+          "id": "62c2a9cd1c2b4d4f39aac7c0",
+          "firstName": "Artist 2"
+        }
+      ],
+      "genres": []
+    }
+  }
+}
+```
+
+</details><br>
+
+7. Remove artist from favourites by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+mutation {
+  removeArtistToFavourites(id: "62c2a9cd1c2b4d4f39aac7c0") {
+    user {
+      firstName
+    }
+    tracks {
+      id
+      title
+    }
+    bands {
+      id
+      name
+    }
+    artists {
+      id
+      firstName
+    }
+    genres {
+      id
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "removeArtistToFavourites": {
+      "user": {
+        "firstName": "test"
+      },
+      "tracks": [],
+      "bands": [
+        {
+          "id": "62c2a400d819749065a71e77",
+          "name": "band 2"
+        }
+      ],
+      "artists": [],
+      "genres": []
+    }
+  }
+}
+```
+
+</details><br>
+
+8. Remove band from favourites by id:
+<details>
+  <summary>Details</summary>
+
+```graphql
+mutation {
+  removeBandToFavourites(id: "62c2a400d819749065a71e77") {
+    user {
+      firstName
+    }
+    tracks {
+      id
+      title
+    }
+    bands {
+      id
+      name
+    }
+    artists {
+      id
+      firstName
+    }
+    genres {
+      id
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "removeBandToFavourites": {
+      "user": {
+        "firstName": "test"
+      },
+      "tracks": [],
+      "bands": [],
+      "artists": [],
+      "genres": []
     }
   }
 }

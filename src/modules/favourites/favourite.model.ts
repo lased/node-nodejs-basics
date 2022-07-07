@@ -7,7 +7,7 @@ import { User } from '../users/users.model';
 import { Band } from '../bands/band.model';
 
 @ObjectType()
-export class Favourite {
+export class Favourites {
   @Field(() => ID)
   id: string;
 

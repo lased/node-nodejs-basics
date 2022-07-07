@@ -1,4 +1,4 @@
-export interface FavouriteResponse {
+export interface FavouritesResponse {
   _id: string;
   userId: string;
   bandsIds: string[];

@@ -3,9 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { CONTEXT } from '@nestjs/graphql';
 import { IncomingMessage } from 'http';
-import { GraphQLError } from 'graphql';
 
-import { FavouriteResponse } from './favourite.interfaces';
+import { FavouritesResponse } from './favourite.interfaces';
 import { FavouriteType } from './dto/favourite.types';
 
 @Injectable()
@@ -31,17 +30,11 @@ export class FavouritesService {
   }
 
   async favourites() {
-    const res = await this.instance.get<FavouriteResponse>(`/`);
-
-    if (!res.data) {
-      throw new GraphQLError('Favourites not found');
-    }
-
-    return res.data;
+    const res = await this.instance.get<FavouritesResponse>(`/`);
   }
 
   async add(type: FavouriteType, id: string) {
-    const res = await this.instance.put<FavouriteResponse>(`/add`, {
+    const res = await this.instance.put<FavouritesResponse>(`/add`, {
       id,
       type,
     });
@@ -50,7 +43,7 @@ export class FavouritesService {
   }
 
   async remove(type: FavouriteType, id: string) {
-    const res = await this.instance.put<FavouriteResponse>(`/remove`, {
+    const res = await this.instance.put<FavouritesResponse>(`/remove`, {
       id,
       type,
     });

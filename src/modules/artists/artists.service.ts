@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { CONTEXT } from '@nestjs/graphql';
 import { IncomingMessage } from 'http';
-import { GraphQLError } from 'graphql';
 
 import { ParamsType } from 'src/shared/pagination/pagination.types';
 import { FilterArtistsInput } from './dto/filter-artists.input';
@@ -38,11 +37,7 @@ export class ArtistsService {
   async getById(id: string) {
     const res = await this.instance.get<ArtistResponse>(`/${id}`);
 
-    if (!res.data) {
-      throw new GraphQLError('Artist not found');
-    }
-
-    return res.data;
+    return res.data || null;
   }
 
   async getAll(params: ParamsType<FilterArtistsInput>) {

@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { CONTEXT } from '@nestjs/graphql';
 import { IncomingMessage } from 'http';
-import { GraphQLError } from 'graphql';
 
 import { ParamsType } from 'src/shared/pagination/pagination.types';
 import { buildQueryParams } from 'src/shared/buildQueryParams';
@@ -38,11 +37,7 @@ export class GenresService {
   async getById(id: string) {
     const res = await this.instance.get<GenreResponse>(`/${id}`);
 
-    if (!res.data) {
-      throw new GraphQLError('Genre not found');
-    }
-
-    return res.data;
+    return res.data || null;
   }
 
   async getAll(params: ParamsType<FilterGenresInput>) {

@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { CONTEXT } from '@nestjs/graphql';
 import { IncomingMessage } from 'http';
-import { GraphQLError } from 'graphql';
 
 import { ParamsType } from 'src/shared/pagination/pagination.types';
 import { buildQueryParams } from 'src/shared/buildQueryParams';
@@ -38,31 +37,26 @@ export class TracksService {
   async getById(id: string) {
     const res = await this.instance.get<TrackResponse>(`/${id}`);
 
-    if (!res.data) {
-      throw new GraphQLError('Track not found');
-    }
-
-    return res.data;
+    return res.data || null;
   }
 
   async getAll(params: ParamsType<FilterTracksInput>) {
-    const { album, bands, artists, genres } = params.filter;
     const filter: Partial<TrackResponse> = {};
 
-    if (album) {
-      filter.albumId = album;
+    if (params.filter?.album) {
+      filter.albumId = params.filter.album;
       delete params.filter.album;
     }
-    if (bands) {
-      filter.bandsIds = bands;
+    if (params.filter?.bands) {
+      filter.bandsIds = params.filter.bands;
       delete params.filter.bands;
     }
-    if (artists) {
-      filter.artistsIds = artists;
+    if (params.filter?.artists) {
+      filter.artistsIds = params.filter.artists;
       delete params.filter.artists;
     }
-    if (genres) {
-      filter.genresIds = genres;
+    if (params.filter?.genres) {
+      filter.genresIds = params.filter.genres;
       delete params.filter.genres;
     }
 

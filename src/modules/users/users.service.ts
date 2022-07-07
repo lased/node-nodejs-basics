@@ -1,7 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { Injectable } from '@nestjs/common';
-import { GraphQLError } from 'graphql';
 
 import { CreateUserInput } from './dto/create-user.input';
 import { UserResponse } from './user.interfaces';
@@ -22,21 +21,13 @@ export class UsersService {
       password,
     });
 
-    if (!res.data.jwt) {
-      throw new GraphQLError('Login or password is invalid');
-    }
-
-    return res.data.jwt;
+    return res.data.jwt || null;
   }
 
   async getById(id: string) {
     const res = await this.instance.get<UserResponse>(`/${id}`);
 
-    if (!res.data) {
-      throw new GraphQLError('User not found');
-    }
-
-    return res.data;
+    return res.data || null;
   }
 
   async register(user: CreateUserInput) {
