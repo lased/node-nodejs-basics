@@ -14,5 +14,5 @@ export class CreateArtistInput extends BaseArtist {
   country: string;
 
   @Field(() => [ID], { nullable: true })
-  bands: string[];
+  bandsIds: string[];
 }

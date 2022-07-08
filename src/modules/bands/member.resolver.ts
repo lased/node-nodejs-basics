@@ -1,9 +1,9 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 
-import { Member } from './band.model';
 import { ArtistsService } from '../artists/artists.service';
 import { MemberInput } from './dto/member.input';
 import { Artist } from '../artists/artist.model';
+import { Member } from './band.model';
 
 @Resolver(() => Member)
 export class MemberResolver {
@@ -11,6 +11,6 @@ export class MemberResolver {
 
   @ResolveField(() => Artist)
   artist(@Parent() member: MemberInput) {
-    return this.artistsService.getById(member.artist);
+    return this.artistsService.getById(member.artistId);
   }
 }

@@ -356,9 +356,9 @@ type Band {
   genres: [Genre!]
 }
 type Member {
-  instrument: String!
+  instrument: String
   years: [String!]
-  artist: Artist!
+  artist: Artist
 }
 ```
 
@@ -414,15 +414,15 @@ input PaginationInput {
   limit: Int
 }
 input MemberInput {
-  instrument: String!
-  years: [String!]
-  artist: ID!
+  instrument: String
+  years: [Int!]
+  artistId: ID!
 }
 input FilterBandsInput {
   origin: String
   website: String
   name: String
-  genres: [ID!]
+  genresIds: [ID!]
 }
 
 type BandsPagination {
@@ -529,16 +529,16 @@ query Bands($pagination: PaginationInput, $filter: FilterBandsInput) {
 
 ```graphql
 input MemberInput {
-  instrument: String!
-  years: [String!]
-  artist: ID!
+  instrument: String
+  years: [Int!]
+  artistId: ID!
 }
 input CreateBandInput {
   origin: String
   website: String
   name: String!
   members: [MemberInput!]
-  genres: [ID!]
+  genresIds: [ID!]
 }
 
 mutation CreateBand($band: CreateBandInput!) {
@@ -596,16 +596,16 @@ mutation CreateBand($band: CreateBandInput!) {
 
 ```graphql
 input MemberInput {
-  instrument: String!
-  years: [String!]
-  artist: ID!
+  instrument: String
+  years: [Int!]
+  artistId: ID!
 }
 input UpdateBandInput {
   origin: String
   website: String
   name: String
   members: [MemberInput!]
-  genres: [ID!]
+  genresIds: [ID!]
 }
 
 mutation UpdateBand($band: UpdateBandInput!) {
@@ -789,7 +789,7 @@ input FilterArtistsInput {
   birthPlace: String
   country: String
   instruments: [String!]
-  bands: [ID!]
+  bandsIds: [ID!]
 }
 
 type ArtistsPagination {
@@ -879,7 +879,7 @@ input CreateArtistInput {
   birthPlace: String
   country: String!
   instruments: [String!]
-  bands: [ID!]
+  bandsIds: [ID!]
 }
 
 mutation CreateArtist($artist: CreateArtistInput!) {
@@ -950,7 +950,7 @@ input UpdateArtistInput {
   birthPlace: String
   country: String
   instruments: [String!]
-  bands: [ID!]
+  bandsIds: [ID!]
 }
 
 mutation UpdateArtist($artist: UpdateArtistInput!) {
@@ -1143,10 +1143,10 @@ input FilterTracksInput {
   title: String
   duration: Int
   released: Int
-  album: ID
-  bands: [ID!]
-  artists: [ID!]
-  genres: [ID!]
+  albumId: ID
+  bandsIds: [ID!]
+  artistsIds: [ID!]
+  genresIds: [ID!]
 }
 
 type TracksPagination {
@@ -1294,10 +1294,10 @@ input CreateTrackInput {
   title: String!
   duration: Int
   released: Int
-  album: [ID!]
-  bands: [ID!]
-  artists: [ID!]
-  genres: [ID!]
+  albumId: ID
+  bandsIds: [ID!]
+  artistsIds: [ID!]
+  genresIds: [ID!]
 }
 
 mutation CreateTrack($track: CreateTrackInput!) {
@@ -1380,10 +1380,10 @@ input UpdateTrackInput {
   title: String
   duration: Int
   released: Int
-  album: ID
-  bands: [ID!]
-  artists: [ID!]
-  genres: [ID!]
+  albumId: ID
+  bandsIds: [ID!]
+  artistsIds: [ID!]
+  genresIds: [ID!]
 }
 
 mutation UpdateTrack($track: UpdateTrackInput!) {
@@ -1598,10 +1598,10 @@ input FilterAlbumsInput {
   released: Int
   image: String
   name: String
-  artists: [ID!]
-  bands: [ID!]
-  tracks: [ID!]
-  genres: [ID!]
+  artistsIds: [ID!]
+  bandsIds: [ID!]
+  tracksIds: [ID!]
+  genresIds: [ID!]
 }
 
 type AlbumsPagination {
@@ -1698,10 +1698,10 @@ input CreateAlbumInput {
   released: Int
   image: String
   name: String!
-  artists: [ID!]
-  bands: [ID!]
-  tracks: [ID!]
-  genres: [ID!]
+  artistsIds: [ID!]
+  bandsIds: [ID!]
+  tracksIds: [ID!]
+  genresIds: [ID!]
 }
 
 mutation CreateAlbum($album: CreateAlbumInput!) {
@@ -1773,10 +1773,10 @@ input UpdateAlbumInput {
   released: Int
   image: String
   name: String
-  artists: [ID!]
-  bands: [ID!]
-  tracks: [ID!]
-  genres: [ID!]
+  artistsIds: [ID!]
+  bandsIds: [ID!]
+  tracksIds: [ID!]
+  genresIds: [ID!]
 }
 
 mutation UpdateAlbum($album: UpdateAlbumInput!) {

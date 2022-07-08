@@ -12,5 +12,5 @@ export class CreateBandInput extends BaseBand {
   members: MemberInput[];
 
   @Field(() => [ID], { nullable: true })
-  genres: string[];
+  genresIds: string[];
 }

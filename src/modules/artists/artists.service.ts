@@ -41,36 +41,20 @@ export class ArtistsService {
   }
 
   async getAll(params: ParamsType<FilterArtistsInput>) {
-    const bands = params.filter?.bands
-      ? { bandsIds: params.filter?.bands }
-      : {};
-    delete params.filter?.bands;
-
-    const search = buildQueryParams({
-      ...params,
-      filter: { ...params.filter, ...bands },
-    });
+    const search = buildQueryParams(params);
     const res = await this.instance.get<ArtistsPagination>(`/?${search}`);
 
     return res.data;
   }
 
   async create(data: CreateArtistInput) {
-    const { bands, ...rest } = data;
-    const res = await this.instance.post<ArtistResponse>(`/`, {
-      bandsIds: bands,
-      ...rest,
-    });
+    const res = await this.instance.post<ArtistResponse>(`/`, data);
 
     return res.data;
   }
 
   async update(id: string, data: UpdateArtistInput) {
-    const { bands, ...rest } = data;
-    const res = await this.instance.put<ArtistResponse>(`/${id}`, {
-      bandsIds: bands,
-      ...rest,
-    });
+    const res = await this.instance.put<ArtistResponse>(`/${id}`, data);
 
     return res.data;
   }

@@ -41,36 +41,20 @@ export class BandsService {
   }
 
   async getAll(params: ParamsType<FilterBandsInput>) {
-    const genres = params.filter?.genres
-      ? { genresIds: params.filter?.genres }
-      : {};
-    delete params.filter?.genres;
-
-    const search = buildQueryParams({
-      ...params,
-      filter: { ...params.filter, ...genres },
-    });
+    const search = buildQueryParams(params);
     const res = await this.instance.get<BandsPagination>(`/?${search}`);
 
     return res.data;
   }
 
   async create(data: CreateBandInput) {
-    const { genres, ...rest } = data;
-    const res = await this.instance.post<BandResponse>(`/`, {
-      ...rest,
-      genresIds: genres,
-    });
+    const res = await this.instance.post<BandResponse>(`/`, data);
 
     return res.data;
   }
 
   async update(id: string, data: UpdateBandInput) {
-    const { genres, ...rest } = data;
-    const res = await this.instance.put<BandResponse>(`/${id}`, {
-      ...rest,
-      genresIds: genres,
-    });
+    const res = await this.instance.put<BandResponse>(`/${id}`, data);
 
     return res.data;
   }

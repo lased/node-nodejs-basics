@@ -8,11 +8,11 @@ import { Artist } from '../artists/artist.model';
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
 export class BaseMember {
-  @Field(() => String, { nullable: false })
+  @Field(() => String, { nullable: true })
   instrument: string;
 
-  @Field(() => [String], { nullable: true })
-  years: string[];
+  @Field(() => [Int], { nullable: true })
+  years: number[];
 }
 
 @ObjectType({ isAbstract: true })
@@ -36,7 +36,7 @@ export class BandsPagination extends Pagination {
 
 @ObjectType()
 export class Member extends BaseMember {
-  @Field(() => Artist)
+  @Field(() => Artist, { nullable: true })
   artist: Artist;
 }
 

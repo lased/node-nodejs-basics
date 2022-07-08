@@ -5,5 +5,5 @@ import { BaseMember } from '../band.model';
 @InputType()
 export class MemberInput extends BaseMember {
   @Field(() => ID)
-  artist: string;
+  artistId: string;
 }

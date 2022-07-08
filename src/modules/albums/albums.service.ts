@@ -41,56 +41,20 @@ export class AlbumsService {
   }
 
   async getAll(params: ParamsType<FilterAlbumsInput>) {
-    const filter: Partial<AlbumResponse> = {};
-
-    if (params.filter?.tracks) {
-      filter.trackIds = params.filter.tracks;
-      delete params.filter.tracks;
-    }
-    if (params.filter?.bands) {
-      filter.bandsIds = params.filter.bands;
-      delete params.filter.bands;
-    }
-    if (params.filter?.artists) {
-      filter.artistsIds = params.filter.artists;
-      delete params.filter.artists;
-    }
-    if (params.filter?.genres) {
-      filter.genresIds = params.filter.genres;
-      delete params.filter.genres;
-    }
-
-    const search = buildQueryParams({
-      ...params,
-      filter: { ...params.filter, ...filter },
-    });
+    const search = buildQueryParams(params);
     const res = await this.instance.get<AlbumsPagination>(`/?${search}`);
 
     return res.data;
   }
 
   async create(data: CreateAlbumInput) {
-    const { genres, artists, bands, tracks, ...rest } = data;
-    const res = await this.instance.post<AlbumResponse>(`/`, {
-      ...rest,
-      artistsIds: artists,
-      bandsIds: bands,
-      trackIds: tracks,
-      genresIds: genres,
-    });
+    const res = await this.instance.post<AlbumResponse>(`/`, data);
 
     return res.data;
   }
 
   async update(id: string, data: UpdateAlbumInput) {
-    const { genres, artists, bands, tracks, ...rest } = data;
-    const res = await this.instance.put<AlbumResponse>(`/${id}`, {
-      ...rest,
-      artistsIds: artists,
-      bandsIds: bands,
-      trackIds: tracks,
-      genresIds: genres,
-    });
+    const res = await this.instance.put<AlbumResponse>(`/${id}`, data);
 
     return res.data;
   }
