@@ -1,3 +1,5 @@
+**How to run microservices read [Readme.md](https://github.com/lased/node-nodejs-basics/blob/feat-graphql/services/README.md)**
+
 **Connect to GraphQL (dev mode):** `http://localhost:8000/graphql`
 
 ## Table of Contents

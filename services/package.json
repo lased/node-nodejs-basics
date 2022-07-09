@@ -1,0 +1,49 @@
+{
+  "name": "musicify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "run-s install:artists install:genres install:bands install:tracks install:tracks install:users install:favourites install:albums",
+    "install:artists": "cd artists && npm i",
+    "install:genres": "cd genres && npm i",
+    "install:bands": "cd bands && npm i",
+    "install:tracks": "cd tracks && npm i",
+    "install:users": "cd users && npm i",
+    "install:favourites": "cd favourites && npm i",
+    "install:albums": "cd albums && npm i",
+    "run:artists:dev": "cd artists && npm run start:dev",
+    "run:genres:dev": "cd genres && npm run start:dev",
+    "run:bands:dev": "cd bands && npm run start:dev",
+    "run:tracks:dev": "cd tracks && npm run start:dev",
+    "run:users:dev": "cd users && npm run start:dev",
+    "run:favourites:dev": "cd favourites && npm run start:dev",
+    "run:albums:dev": "cd albums && npm run start:dev",
+    "run:artists": "cd artists && npm run start",
+    "run:genres": "cd genres && npm run start",
+    "run:bands": "cd bands && npm run start",
+    "run:tracks": "cd tracks && npm run start",
+    "run:users": "cd users && npm run start",
+    "run:favourites": "cd favourites && npm run start",
+    "run:albums": "cd albums && npm run start",
+    "run:artists:prod": "cd artists && npm run build && npm run start:prod",
+    "run:genres:prod": "cd genres && npm run build && npm run start:prod",
+    "run:bands:prod": "cd bands && npm run build && npm run start:prod",
+    "run:tracks:prod": "cd tracks && npm run build && npm run start:prod",
+    "run:users:prod": "cd users && npm run build && npm run start:prod",
+    "run:favourites:prod": "cd favourites && npm run build && npm run start:prod",
+    "run:albums:prod": "cd albums && npm run build && npm run start:prod",
+    "run:all:dev": "npm run kill && run-p run:artists:dev run:genres:dev run:bands:dev run:tracks:dev run:users:dev run:favourites:dev run:albums:dev",
+    "run:all": "npm run kill && run-p run:artists run:genres run:bands run:tracks run:users run:favourites run:albums",
+    "run:all:prod": "npm run kill && run-p run:artists:prod run:genres:prod run:bands:prod run:tracks:prod run:users:prod run:favourites:prod run:albums:prod",
+    "kill": "kill-port --port 3001,3002,3003,3004,3005,3006,3007"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "dependencies": {
+    "kill-port": "^2.0.1"
+  }
+}
