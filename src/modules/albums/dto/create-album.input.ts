@@ -14,7 +14,7 @@ export class CreateAlbumInput extends BaseAlbum {
   bandsIds: string[];
 
   @Field(() => [ID], { nullable: true })
-  tracksIds: string[];
+  trackIds: string[];
 
   @Field(() => [ID], { nullable: true })
   genresIds: string[];

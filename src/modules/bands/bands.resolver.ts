@@ -8,7 +8,6 @@ import {
 } from '@nestjs/graphql';
 
 import { Band, BandsPagination, DeletedBand } from './band.model';
-import { ArtistsService } from '../artists/artists.service';
 import { GenreResponse } from '../genres/genre.interfaces';
 import { UpdateBandInput } from './dto/update-band.input';
 import { CreateBandInput } from './dto/create-band.input';

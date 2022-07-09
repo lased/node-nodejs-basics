@@ -31,6 +31,8 @@ export class FavouritesService {
 
   async favourites() {
     const res = await this.instance.get<FavouritesResponse>(`/`);
+
+    return res.data;
   }
 
   async add(type: FavouriteType, id: string) {

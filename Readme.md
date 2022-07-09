@@ -1600,7 +1600,7 @@ input FilterAlbumsInput {
   name: String
   artistsIds: [ID!]
   bandsIds: [ID!]
-  tracksIds: [ID!]
+  trackIds: [ID!]
   genresIds: [ID!]
 }
 
@@ -1700,7 +1700,7 @@ input CreateAlbumInput {
   name: String!
   artistsIds: [ID!]
   bandsIds: [ID!]
-  tracksIds: [ID!]
+  trackIds: [ID!]
   genresIds: [ID!]
 }
 
@@ -1775,7 +1775,7 @@ input UpdateAlbumInput {
   name: String
   artistsIds: [ID!]
   bandsIds: [ID!]
-  tracksIds: [ID!]
+  trackIds: [ID!]
   genresIds: [ID!]
 }
 
@@ -1899,7 +1899,62 @@ type Favourites {
 
 #### Available queries:
 
-1. Add track to favourites by id:
+1. Get favourites:
+<details>
+  <summary>Details</summary>
+
+```graphql
+query {
+  favourites {
+    user {
+      firstName
+    }
+    tracks {
+      id
+      title
+    }
+    bands {
+      id
+      name
+    }
+    artists {
+      id
+      firstName
+    }
+    genres {
+      id
+      name
+    }
+  }
+}
+```
+
+**Result:**
+
+```json
+{
+  "data": {
+    "favourites": {
+      "user": {
+        "firstName": "test"
+      },
+      "tracks": [
+        {
+          "id": "62c990d1051779e017e5341a",
+          "title": "Track 1"
+        }
+      ],
+      "bands": [],
+      "artists": [],
+      "genres": []
+    }
+  }
+}
+```
+
+</details><br>
+
+2. Add track to favourites by id:
 <details>
   <summary>Details</summary>
 
@@ -1954,7 +2009,7 @@ mutation {
 
 </details><br>
 
-2. Add band to favourites by id:
+3. Add band to favourites by id:
 <details>
   <summary>Details</summary>
 
@@ -2014,7 +2069,7 @@ mutation {
 
 </details><br>
 
-3. Add artist to favourites by id:
+4. Add artist to favourites by id:
 <details>
   <summary>Details</summary>
 
@@ -2079,7 +2134,7 @@ mutation {
 
 </details><br>
 
-4. Add genre to favourites by id:
+5. Add genre to favourites by id:
 <details>
   <summary>Details</summary>
 
@@ -2149,7 +2204,7 @@ mutation {
 
 </details><br>
 
-5. Remove track from favourites by id:
+6. Remove track from favourites by id:
 <details>
   <summary>Details</summary>
 
@@ -2214,7 +2269,7 @@ mutation {
 
 </details><br>
 
-6. Remove genre from favourites by id:
+7. Remove genre from favourites by id:
 <details>
   <summary>Details</summary>
 
@@ -2274,7 +2329,7 @@ mutation {
 
 </details><br>
 
-7. Remove artist from favourites by id:
+8. Remove artist from favourites by id:
 <details>
   <summary>Details</summary>
 
@@ -2329,7 +2384,7 @@ mutation {
 
 </details><br>
 
-8. Remove band from favourites by id:
+9. Remove band from favourites by id:
 <details>
   <summary>Details</summary>
 

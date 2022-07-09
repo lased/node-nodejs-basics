@@ -96,6 +96,10 @@ export class TracksResolver {
 
   @ResolveField(() => [Album])
   album(@Parent() track: TrackResponse) {
+    if (!track.albumId) {
+      return null;
+    }
+
     return this.albumsService.getById(track.albumId);
   }
 }
