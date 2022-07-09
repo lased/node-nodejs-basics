@@ -1,0 +1,37 @@
+{
+  "activemq": {
+    "host": "amqppmb.burberry.corp",
+    "port": "61614",
+    "ssl": true,
+    "rejectUnauthorized": false,
+    "cert": "-----BEGIN CERTIFICATE-----\nMIIFSDCCBDCgAwIBAgIRAP2MrGrcTKbJ7JkYIa7/jW0wDQYJKoZIhvcNAQELBQAw\nejELMAkGA1UEBhMCR0IxDzANBgNVBAgTBkxvbmRvbjEPMA0GA1UEBxMGTG9uZG9u\nMRkwFwYDVQQKExBCdXJiZXJyeSBMaW1pdGVkMS4wLAYDVQQDEyVCdXJiZXJyeSBJ\nbnRlcm5hbCBJbnRlcm1lZGlhdGUgQ0EgUlNBMB4XDTIxMTExODAwMDAwMFoXDTIy\nMTExODIzNTk1OVowgbExCzAJBgNVBAYTAkdCMREwDwYDVQQREwhTVzFQIDJBVzEP\nMA0GA1UEBxMGTG9uZG9uMRgwFgYDVQQJEw9Ib3JzZWZlcnJ5IFJvYWQxGTAXBgNV\nBAkTEEhvcnNlZmVycnkgSG91c2UxGzAZBgNVBAoTEkJ1cmJlcnJ5IEdyb3VwIFBM\nQzEMMAoGA1UECxMDU1NMMR4wHAYDVQQDExVhbXFwcG1iLmJ1cmJlcnJ5LmNvcnAw\nggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDIZa1Akw5jWPeZ2NGaoVT8\nVt0DTpUFYG3c+8B19h3otPneZMLDU+AazhCBvw7AAgcvn52eOPNJT8zy03zamb7y\n95zDTaKBBmOnZ2kFQX1y2ayqTE/RYq6DsHqfl+QsOH7+mwysvFWtBhZUr+vd2VJA\nzE4qjYMwUD2cyQzdqpZ6K6zO2mj1/tRvVqOARRgMjpKDQfvQ593UeklVBfZ+7DxV\n1FfUYR3u/hr6wOFo8gMjW5yW1EcA5DHFHEIGGUHnjkT3byclD3e+6kvYCOt1sRT6\novbsLMndk89SEgZjk791lD0PR0Jul0vHBajU8wYok9E9fPm1DwORDfNO944CsRAh\nAgMBAAGjggGPMIIBizAfBgNVHSMEGDAWgBRhIoeTmVJIyuGkw494Z1TZn0D0OzAd\nBgNVHQ4EFgQUHS+4k4Dz57LkBNOrML9ZfPTt5SkwDgYDVR0PAQH/BAQDAgWgMAwG\nA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMFYGA1Ud\nHwRPME0wS6BJoEeGRWh0dHA6Ly9idXJiZXJyeS5jcmwuc2VjdGlnby5jb20vQnVy\nYmVycnlJbnRlcm5hbEludGVybWVkaWF0ZUNBUlNBLmNybDCBkQYIKwYBBQUHAQEE\ngYQwgYEwUQYIKwYBBQUHMAKGRWh0dHA6Ly9idXJiZXJyeS5jcnQuc2VjdGlnby5j\nb20vQnVyYmVycnlJbnRlcm5hbEludGVybWVkaWF0ZUNBUlNBLmNydDAsBggrBgEF\nBQcwAYYgaHR0cDovL2J1cmJlcnJ5Lm9jc3Auc2VjdGlnby5jb20wIAYDVR0RBBkw\nF4IVYW1xcHBtYi5idXJiZXJyeS5jb3JwMA0GCSqGSIb3DQEBCwUAA4IBAQBEfRz2\ninHxaVV7GhvtmJMOpBEYip4vD8fKGtFjWThzeN2Xd1MWyD7o/B4fwdNO793BM+ga\nZpDHaUpQYh+lf8QFIVV5xEQJ/YzAtTnoOeMVoviZ5EpfI0X+auRO+LAvdyOYwA+5\n2fQO/J6VVomexDUejomBUDtKLbowmMLMRBk8oWEazIS6ou3/mNKw6OgHkBTfYf4M\nu5Xdm+13WJT6pIQlS8rNPymHLhelPJcQSdDJ/shxZQzX+yuGK3Dnik+TwgCEu07s\nyKPKYgrVC2nbCGBs7mdz/qDtuYiktrZKkVpSITPb5fT2zCcwXFo/UIGlfcjJO5MZ\nJO/G9Wegy/QDq9tZ\n-----END CERTIFICATE-----",
+    "connectHeaders": {
+      "login": "comm_pp_producer",
+      "passcode": "LH881D419295",
+      "host": "/",
+      "heart-beat": "50000,50000"
+    }
+  },
+  "commercetools": {
+    "apiUrl": "https://api.europe-west1.gcp.commercetools.com",
+    "authUrl": "https://auth.europe-west1.gcp.commercetools.com",
+    "projectKey": "commerce-project-sandbox",
+    "clientId": "rFdDcylZ2yEi_9I_u6IIPBxI",
+    "clientSecret": "GGAi8zo0B37dy3r6aHXWJHehqnThYCKg",
+    "scopes": [
+      "view_orders",
+      "view_payments",
+      "view_states"
+    ]
+  },
+  "isReportSubmissionDisabled": false,
+  "trackingLink": "https://wwwapps.ups.com/WebTracking?tracknum=",
+  "trackingLinks": {
+    "ups": "https://wwwapps.ups.com/WebTracking?tracknum=",
+    "dpd": "https://www.dpd.co.uk/service/tracking?consignment="
+  },
+  "reportingQueue": "BUR.C360.QL.ORDER.COMMERCE",
+  "eventBridge": {
+    "isPublishingDisabled": false
+  }
+}
